@@ -71,9 +71,9 @@ void uwbRegisterListener(UWB_Message_Listener_t *listener);
 To send a packet, you only need to call the corresponding packet sending interface:
 
 ```C
-// Blocking
-int uwbSendPacket(UWB_Packet_t *packet);
 // Non-blocking
+int uwbSendPacket(UWB_Packet_t *packet);
+// Blocking
 int uwbSendPacketBlock(UWB_Packet_t *packet);
 ```
 
