@@ -13,7 +13,7 @@ Currently the protocol implementation is based on the DW3000 UWB chip, we implem
 
 The older implementation based on the DW1000 UWB chip (loco deck) can be found [here](https://github.com/SEU-NetSI/crazyflie-firmware/tree/archive/master/2022.05). Considering the older implementation is no longer actively maintained, we highly recommend you to upgrade `loco deck` to `adhoc deck`. The upgradation is very simple and straightforward, since the dw3000 and dw1000 chips are pin compatible, just replace the dw1000 chip on the loco deck with a dw3000 chip then you will get a brand new [adhoc deck](https://github.com/SEU-NetSI/crazyflie-firmware/assets/42486690/f0ec9681-9aff-4e16-8ad3-3da7a20e6b60).
 
-## Buiding and Flashing
+## Building and Flashing
 
 The compilation requirements and basic steps are the same as the official Crazyflie firmware, if you are new to Crazyflie, please refer to the [official documentation](https://github.com/bitcraze/crazyflie-firmware/blob/master/docs/building-and-flashing/build.md) for more details.
 
