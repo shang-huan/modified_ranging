@@ -40,7 +40,6 @@
 #include "ledseq.h"
 #include "pm.h"
 
-#include "config.h"
 #include "system.h"
 #include "platform.h"
 #include "storage.h"
@@ -56,6 +55,7 @@
 #include "console.h"
 #include "usblink.h"
 #include "mem.h"
+#include "crtp_mem.h"
 #include "proximity.h"
 #include "watchdog.h"
 #include "queuemonitor.h"
@@ -77,20 +77,13 @@
   #include "cpxlink.h"
 #endif
 
-#ifndef CONFIG_MOTORS_START_DISARMED
-#define ARM_INIT true
-#else
-#define ARM_INIT false
-#endif
-
 /* Private variable */
 static bool selftestPassed;
-static bool armed = ARM_INIT;
-static bool forceArm;
 static uint8_t dumpAssertInfo = 0;
 static bool isInit;
 
 static char nrf_version[16];
+static uint8_t testLogParam;
 
 STATIC_MEM_TASK_ALLOC(systemTask, SYSTEM_TASK_STACKSIZE);
 
@@ -184,7 +177,7 @@ void systemTask(void *arg)
   uart1Init(CONFIG_DEBUG_PRINT_ON_UART1_BAUDRATE);
 #endif
 
-  initUsecTimer();
+  usecTimerInit();
   i2cdevInit(I2C3_DEV);
   i2cdevInit(I2C1_DEV);
   passthroughInit();
@@ -208,6 +201,7 @@ void systemTask(void *arg)
   // This should probably be done later, but deckInit() takes a long time if this is done later.
   uartslkEnableIncoming();
 
+  memInit();
   deckInit();
   estimator = deckGetRequiredEstimator();
   stabilizerInit(estimator);
@@ -216,7 +210,7 @@ void systemTask(void *arg)
     platformSetLowInterferenceRadioMode();
   }
   soundInit();
-  memInit();
+  crtpMemInit();
 
 #ifdef PROXIMITY_ENABLED
   proximityInit();
@@ -276,6 +270,10 @@ void systemTask(void *arg)
   if (memTest() == false) {
     pass = false;
     DEBUG_PRINT("mem [FAIL]\n");
+  }
+  if (crtpMemTest() == false) {
+    pass = false;
+    DEBUG_PRINT("CRTP mem [FAIL]\n");
   }
   if (watchdogNormalStartTest() == false) {
     pass = false;
@@ -352,17 +350,6 @@ void systemWaitStart(void)
 
   xSemaphoreTake(canStartMutex, portMAX_DELAY);
   xSemaphoreGive(canStartMutex);
-}
-
-void systemSetArmed(bool val)
-{
-  armed = val;
-}
-
-bool systemIsArmed()
-{
-
-  return armed || forceArm;
 }
 
 void systemRequestShutdown()
@@ -459,14 +446,15 @@ PARAM_GROUP_START(system)
 PARAM_ADD_CORE(PARAM_INT8 | PARAM_RONLY, selftestPassed, &selftestPassed)
 
 /**
- * @brief Set to nonzero to force system to be armed
- */
-PARAM_ADD(PARAM_INT8 | PARAM_PERSISTENT, forceArm, &forceArm)
-
-/**
  * @brief Set to nonzero to trigger dump of assert information to the log.
  */
 PARAM_ADD(PARAM_UINT8, assertInfo, &dumpAssertInfo)
+
+/**
+ * @brief Test util for log and param. This param sets the value of the sys.testLogParam log variable.
+ *
+ */
+PARAM_ADD(PARAM_UINT8, testLogParam, &testLogParam)
 
 PARAM_GROUP_STOP(system)
 
@@ -475,7 +463,8 @@ PARAM_GROUP_STOP(system)
  */
 LOG_GROUP_START(sys)
 /**
- * @brief If zero, arming system is preventing motors to start
+ * @brief Test util for log and param. The value is set through the system.testLogParam parameter
  */
-LOG_ADD(LOG_INT8, armed, &armed)
+LOG_ADD(LOG_INT8, testLogParam, &testLogParam)
+
 LOG_GROUP_STOP(sys)

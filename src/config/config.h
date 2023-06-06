@@ -46,7 +46,7 @@
 #include "trace.h"
 #include "usec_time.h"
 
-#define PROTOCOL_VERSION 5
+#define PROTOCOL_VERSION 6
 
 #define CONFIG_BLOCK_ADDRESS    (2048 * (64-1))
 #define MCU_ID_ADDRESS          0x1FFF7A10
@@ -58,7 +58,7 @@
 #define FREERTOS_MCU_CLOCK_HZ   168000000
 
 #define configGENERATE_RUN_TIME_STATS 1
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() initUsecTimer()
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() usecTimerInit()
 #define portGET_RUN_TIME_COUNTER_VALUE() usecTimestamp()
 
 

@@ -47,3 +47,5 @@ build/
 **/*.cmd
 **/*.a
 *.elf
+
+tools/dependency/web/data.js

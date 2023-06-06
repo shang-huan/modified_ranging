@@ -27,6 +27,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define CPX_VERSION (0b00)
+
 // This enum is used to identify source and destination for CPX routing information
 typedef enum {
   CPX_T_STM32 = 1, // The STM in the Crazyflie
@@ -51,6 +53,7 @@ typedef struct {
   CPXTarget_t source;
   bool lastPacket;
   CPXFunction_t function;
+  uint8_t version;
 } CPXRouting_t;
 
 // This struct contains routing information in a packed format. This struct
@@ -61,7 +64,8 @@ typedef struct {
   CPXTarget_t source : 3;
   bool lastPacket : 1;
   bool reserved : 1;
-  CPXFunction_t function : 8;
+  CPXFunction_t function : 6;
+  uint8_t version : 2;
 } __attribute__((packed)) CPXRoutingPacked_t;
 
 #define CPX_HEADER_SIZE (2)
@@ -90,6 +94,12 @@ typedef struct {
   uint8_t data[CPX_MAX_PAYLOAD_SIZE - CPX_ROUTING_PACKED_SIZE];
 } CPXRoutablePacket_t;
 
+typedef void (*cpxAppMessageHandlerCallback_t)(const CPXPacket_t* cpxRx);
+
 void cpxInitRoute(const CPXTarget_t source, const CPXTarget_t destination, const CPXFunction_t function, CPXRouting_t* route);
 
 void cpxInit();
+
+void cpxRegisterAppMessageHandler(cpxAppMessageHandlerCallback_t callback);
+
+bool cpxCheckVersion(uint8_t version);

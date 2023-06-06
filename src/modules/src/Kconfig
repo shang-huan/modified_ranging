@@ -50,14 +50,28 @@ config CONTROLLER_OOT
 config ESTIMATOR_KALMAN_ENABLE
     bool "Enable Kalman Estimator"
     default y
+    select ESTIMATOR_OUTLIER_FILTERS
     help
         Enable the Kalman (EKF) estimator.
 
+config ESTIMATOR_KALMAN_TDOA_OUTLIERFILTER_FALLBACK
+    bool "Use 'old' TDoA outlier filter."
+    default n
+    depends on ESTIMATOR_KALMAN_ENABLE
+    help
+        Use the 'old' TDoA outlier filter instead of the default one. Deprecated, will be removed after September 2023.
+
 config ESTIMATOR_UKF_ENABLE
     bool "Enable error-state UKF estimator"
+    select ESTIMATOR_OUTLIER_FILTERS
     default n
     help
         Enable the (error-state unscented) Kalman filter (UKF) estimator
+
+config ESTIMATOR_OUTLIER_FILTERS
+    bool
+    help
+        Include outlier filters for estimators
 
 choice
     prompt "Default estimator"
@@ -129,18 +143,18 @@ config MOTORS_DSHOT_PWM_600KHZ
 
 endchoice
 
-config MOTORS_START_DISARMED
-    bool "Set disarmed state after boot"
+config MOTORS_REQUIRE_ARMING
+    bool "Require arming to be able to start motors and take off"
     default n
     help
-        When enabled, the firmware will boot in disarmed state and one needs to
-        arm the drone explicitly before starting the motors
+        When enabled, system must be armed to be able to take off. Arming can
+        be done in several ways, e.g. though cfclient or external transmitter.
 
 config MOTORS_DEFAULT_IDLE_THRUST
     int "Default idle thrust for motors in armed state"
     range 0 65535
     default 0
-    depends on MOTORS_START_DISARMED
+    depends on MOTORS_REQUIRE_ARMING
     help
         Default thrust for motors when idling in armed state, expressed as an
         integer in the range 0 to 65535. This can be overridden with parameters;

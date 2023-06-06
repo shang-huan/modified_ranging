@@ -668,7 +668,7 @@ static void usdLogTask(void* prm)
               continue;
             }
           }
-          if (usdLogConfig.numEventConfigs < MAX_USD_LOG_EVENTS - 1) {
+          if (usdLogConfig.numEventConfigs < MAX_USD_LOG_EVENTS) {
             ++usdLogConfig.numEventConfigs;
             cfg = &usdLogConfig.eventConfigs[usdLogConfig.numEventConfigs];
           } else {
@@ -809,9 +809,13 @@ static void usdWriteData(const void *data, size_t size)
 {
   UINT bytesWritten;
   FRESULT status = f_write(&logFile, data, size, &bytesWritten);
-  ASSERT(status == FR_OK);
-  crc32Update(&crcContext, data, size);
-  STATS_CNT_RATE_MULTI_EVENT(&fatWriteRate, bytesWritten);
+  if (status != FR_OK) {
+    DEBUG_PRINT("usd deck write failure %d\n", status);
+    enableLogging = false;
+  } else {
+    crc32Update(&crcContext, data, size);
+    STATS_CNT_RATE_MULTI_EVENT(&fatWriteRate, bytesWritten);
+  }
 }
 
 static void usdWriteTask(void* prm)
