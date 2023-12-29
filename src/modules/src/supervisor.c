@@ -111,6 +111,10 @@ bool supervisorIsArmed() {
   return supervisorMem.isArmingActivated || supervisorMem.deprecatedArmParam;
 }
 
+bool supervisorIsLocked() {
+  return supervisorStateLocked == supervisorMem.state;
+}
+
 bool supervisorRequestArming(const bool doArm) {
   if (doArm == supervisorMem.isArmingActivated) {
     return true;
@@ -153,7 +157,7 @@ static bool isFlyingCheck(SupervisorMem_t* this, const uint32_t tick) {
 }
 
 //
-// Tumbling is defined as being tilted more than 60 degrees for one second, or more than 90 degrees for 30 ms.
+// Tumbling is defined as being tilted a bit for some time, or closer to up side down for a shorter time.
 // Free falling is considered a valid flight mode.
 //
 // Once a tumbled situation is identified, we can use this for instance to cut
@@ -166,8 +170,8 @@ static bool isTumbledCheck(SupervisorMem_t* this, const sensorData_t *data, cons
   const float acceptedTiltAccZ = 0.5;  // 60 degrees tilt (when stationary)
   const uint32_t maxTiltTime = M2T(1000);
 
-  const float acceptedUpsideDownAccZ = -0.0;  // 90 degrees tilt
-  const uint32_t maxUpsideDownTime = M2T(30);
+  const float acceptedUpsideDownAccZ = -0.2;
+  const uint32_t maxUpsideDownTime = M2T(100);
 
   const bool isFreeFalling = (fabsf(data->acc.z) < freeFallThreshold && fabsf(data->acc.y) < freeFallThreshold && fabsf(data->acc.x) < freeFallThreshold);
   if (isFreeFalling) {
@@ -305,6 +309,9 @@ static void updateLogData(SupervisorMem_t* this, const supervisorConditionBits_t
   if (this->isTumbled) {
     this->infoBitfield |= 0x0020;
   }
+  if (supervisorStateLocked == this->state) {
+    this->infoBitfield |= 0x0040;
+  }
 }
 
 void supervisorUpdate(const sensorData_t *sensors, const setpoint_t* setpoint, stabilizerStep_t stabilizerStep) {
@@ -390,19 +397,19 @@ LOG_GROUP_START(sys)
 /**
  * @brief Nonzero if system is ready to fly.
  *
- * Deprecated, will be removed after 2024-06-01. Use superv.info instead
+ * Deprecated, will be removed after 2024-06-01. Use supervisor.info instead
  */
 LOG_ADD_CORE(LOG_UINT8, canfly, &supervisorMem.canFly)
 /**
  * @brief Nonzero if the system thinks it is flying
  *
- * Deprecated, will be removed after 2024-06-01. Use superv.info instead
+ * Deprecated, will be removed after 2024-06-01. Use supervisor.info instead
  */
 LOG_ADD_CORE(LOG_UINT8, isFlying, &supervisorMem.isFlying)
 /**
  * @brief Nonzero if the system thinks it is tumbled/crashed
  *
- * Deprecated, will be removed after 2024-06-01. Use superv.info instead
+ * Deprecated, will be removed after 2024-06-01. Use supervisor.info instead
  */
 LOG_ADD_CORE(LOG_UINT8, isTumbled, &supervisorMem.isTumbled)
 LOG_GROUP_STOP(sys)
@@ -440,6 +447,7 @@ LOG_GROUP_START(supervisor)
  * Bit 3 = can fly - the Crazyflie is ready to fly
  * Bit 4 = is flying - the Crazyflie is flying.
  * Bit 5 = is tumbled - the Crazyflie is up side down.
+ * Bit 6 = is locked - the Crazyflie is in the locked state and must be restarted.
  */
 LOG_ADD(LOG_UINT16, info, &supervisorMem.infoBitfield)
 LOG_GROUP_STOP(supervisor)
