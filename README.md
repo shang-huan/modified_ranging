@@ -9,9 +9,14 @@ This repository contains the implementation of the paper:
 
 ## Prerequisites
 
-Currently the protocol implementation is based on the DW3000 UWB chip, we implemented the [DW3000 chip driver](https://github.com/SEU-NetSI/libdw3000) on Crazyflie and made a custom extension deck, which we named it the `adhoc deck`. 
+Currently the protocol implementation is based on the DW3000 UWB chip, we implemented the [DW3000 chip driver](https://github.com/SEU-NetSI/libdw3000) on Crazyflie and made a custom extension deck, which we named it the `adhoc deck`.
 
 The older implementation based on the DW1000 UWB chip (loco deck) can be found [here](https://github.com/SEU-NetSI/crazyflie-firmware/tree/archive/master/2022.05). Considering the older implementation is no longer actively maintained, we highly recommend you to upgrade `loco deck` to `adhoc deck`. The upgradation is very simple and straightforward, since the dw3000 and dw1000 chips are pin compatible, just replace the dw1000 chip on the loco deck with a dw3000 chip then you will get a brand new [adhoc deck](https://github.com/SEU-NetSI/crazyflie-firmware/assets/42486690/f0ec9681-9aff-4e16-8ad3-3da7a20e6b60).
+
+<p align="center">
+  <img src="https://github.com/SEU-NetSI/crazyflie-firmware/assets/42486690/5795cfc0-1e47-433b-99d6-fb7a6d9deb89" alt="The State Machine of Swarm Ranging Protocol">
+  <em>The State Machine of Swarm Ranging Protocol</em>
+</p>
 
 ## Building and Flashing
 
