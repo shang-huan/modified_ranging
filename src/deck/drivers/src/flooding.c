@@ -94,7 +94,7 @@ int generateFloodingMessage(Flooding_Message_t *floodingMessage) {
   /* generate message body */
   uint16_t addressIndex;
   for (addressIndex = 0; addressIndex < RANGING_TABLE_SIZE; addressIndex++) {
-    if (bodyUnitNumber >= MAX_BODY_UNIT_NUMBER) {
+    if (bodyUnitNumber >= MAX_BODY_UNIT) {
       break;
     }
     /* Use distance to judge whether neighbors exist. If the neighbor does not exist,

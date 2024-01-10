@@ -1,5 +1,4 @@
 #include "flooding_struct.h"
-#include "ranging_struct.h"
 #include "adhocdeck.h"
 #include <string.h>
 #include "debug.h"

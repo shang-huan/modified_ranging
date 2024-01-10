@@ -3,10 +3,7 @@
 
 #include "libdw3000.h"
 #include "mac_802_15_4.h"
-#include "dwTypes.h"
 #include "queue.h"
-#include "ranging_struct.h"
-#include "flooding_struct.h"
 
 /* Function Switch */
 // #define ENABLE_PHR_EXT_MODE
@@ -103,7 +100,5 @@ int uwbReceivePacket(MESSAGE_TYPE type, UWB_Packet_t *packet);
 int uwbReceivePacketBlock(MESSAGE_TYPE type, UWB_Packet_t *packet);
 int uwbReceivePacketWait(MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
 void uwbRegisterListener(UWB_Message_Listener_t *listener);
-dwTime_t getPacketSendTime();
-dwTime_t getPacketReceivedTime();
 
 #endif

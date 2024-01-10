@@ -4,7 +4,6 @@
 #include "FreeRTOS.h"
 #include "dwTypes.h"
 #include "adhocdeck.h"
-#include "ranging_struct.h"
 
 #define MAX_FLOODING_BODY_UNIT_NUMBER 30
 #define FLOODING_CHECK_TABLE_SIZE 10
