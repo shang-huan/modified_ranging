@@ -65,9 +65,9 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
   /* Update expiration time of this neighbor */
   neighborRangingTable->expirationTime = xTaskGetTickCount() + M2T(RANGING_TABLE_HOLD_TIME);
 
-  /* Each ranging messages contains find corresponding MAX_Tr_UNIT lastTxTimestamps
-   * find corresponding Tr according to Rr to get a valid Tr-Rr pair if possible.
-   * This approach may help when experiencing continuous packet loss.
+  /* Each ranging messages contains MAX_Tr_UNIT lastTxTimestamps, find corresponding
+   * Tr according to Rr to get a valid Tr-Rr pair if possible, this approach may
+   * help when experiencing continuous packet loss.
    */
   Ranging_Table_Tr_Rr_Buffer_t *neighborTrRrBuffer = &neighborRangingTable->TrRrBuffer;
   for (int i = 0; i < MAX_Tr_UNIT; i++) {
