@@ -153,7 +153,7 @@ Ranging_Table_Tr_Rr_Candidate_t rangingTableBufferGetCandidate(Ranging_Table_Tr_
 void updateTfBuffer(Timestamp_Tuple_t timestamp);
 Timestamp_Tuple_t findTfBySeqNumber(uint16_t seqNumber);
 Timestamp_Tuple_t getLatestTxTimestamp();
-void getLastestNTxTimestamps(Timestamp_Tuple_t* timestamps, int n);
+void getLatestNTxTimestamps(Timestamp_Tuple_t* timestamps, int n);
 
 /* Ranging Table Operations */
 void rangingTableInit(Ranging_Table_t *rangingTable, uint16_t address);

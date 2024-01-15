@@ -160,7 +160,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
   rangingMessage->header.srcAddress = MY_UWB_ADDRESS;
   rangingMessage->header.msgLength = sizeof(Ranging_Message_Header_t) + sizeof(Body_Unit_t) * bodyUnitNumber;
   rangingMessage->header.msgSequence = curSeqNumber;
-  getLastestNTxTimestamps(rangingMessage->header.lastTxTimestamps, MAX_Tr_UNIT);
+  getLatestNTxTimestamps(rangingMessage->header.lastTxTimestamps, MAX_Tr_UNIT);
   float velocityX = logGetFloat(idVelocityX);
   float velocityY = logGetFloat(idVelocityY);
   float velocityZ = logGetFloat(idVelocityZ);
@@ -323,7 +323,7 @@ Timestamp_Tuple_t getLatestTxTimestamp() {
   return TfBuffer[TfBufferIndex];
 }
 
-void getLastestNTxTimestamps(Timestamp_Tuple_t *timestamps, int n) {
+void getLatestNTxTimestamps(Timestamp_Tuple_t *timestamps, int n) {
   ASSERT(n <= Tf_BUFFER_POOL_SIZE);
   int startIndex = (TfBufferIndex + 1 - n + Tf_BUFFER_POOL_SIZE) % Tf_BUFFER_POOL_SIZE;
   for (int i = n - 1; i >= 0; i--) {
