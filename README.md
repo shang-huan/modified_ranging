@@ -67,9 +67,9 @@ Here are the interfaces to send and receive packets via UWB.
 // adhocdeck.h
 int uwbSendPacket(UWB_Packet_t *packet);
 int uwbSendPacketBlock(UWB_Packet_t *packet);
-int uwbReceivePacket(MESSAGE_TYPE type, UWB_Packet_t *packet);
-int uwbReceivePacketBlock(MESSAGE_TYPE type, UWB_Packet_t *packet);
-int uwbReceivePacketWait(MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
+int uwbReceivePacket(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
+int uwbReceivePacketBlock(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
+int uwbReceivePacketWait(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
 void uwbRegisterListener(UWB_Message_Listener_t *listener);
 ```
 
@@ -86,11 +86,12 @@ To receive packet you first need to specify what type of message you want to rec
 
 ```C
 typedef enum {
-  RANGING = 0, // Ranging message
-  FLOODING = 1, // Flooding message
-  DATA = 2, // Routing message
-  MESSAGE_TYPE_COUNT, // don't use it
-} MESSAGE_TYPE;
+  UWB_REVERSED_MESSAGE = 0,
+  UWB_RANGING_MESSAGE = 1, // Ranging message
+  UWB_FLOODING_MESSAGE = 2, // Flooding message
+  UWB_DATA_MESSAGE = 3, // Routing message
+  UWB_MESSAGE_TYPE_COUNT, // don't use it
+} UWB_MESSAGE_TYPE;
 ```
 
 If you want to define a custom message type, simply add the message type definition (for example, CUSTOM_MESSAGE_TYPE) to the above enumeration structure.

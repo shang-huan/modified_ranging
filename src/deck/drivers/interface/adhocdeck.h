@@ -5,41 +5,48 @@
 #include "mac_802_15_4.h"
 #include "queue.h"
 
+#define UWB_DEBUG_ENABLE
+#define UWB_RANGING_ENABLE
+#define UWB_ROUTING_ENABLE
+//#define UWB_FLOODING_ENABLE
+
 /* Function Switch */
-// #define ENABLE_PHR_EXT_MODE
+//#define UWB_ENABLE_PHR_EXT_MODE
 
-#define SPEED_OF_LIGHT 299702547
-#define MAX_TIMESTAMP 1099511627776  // 2**40
-#define TX_ANT_DLY 16385
-#define RX_ANT_DLY 16385
+#define UWB_SPEED_OF_LIGHT 299702547
+#define UWB_MAX_TIMESTAMP 1099511627776  // 2**40
+#define UWB_TX_ANT_DLY 16385
+#define UWB_RX_ANT_DLY 16385
 
-#define FRAME_LEN_STD 127
-#define FRAME_LEN_EXT 1023
-#ifdef ENABLE_PHR_EXT_MODE
-#define FRAME_LEN_MAX FRAME_LEN_EXT
+#define UWB_FRAME_LEN_STD 127
+#define UWB_FRAME_LEN_EXT 1023
+#define UWB_TASK_STACK_SIZE (1.5 * configMINIMAL_STACK_SIZE)
+
+#ifdef UWB_ENABLE_PHR_EXT_MODE
+  #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_EXT
 #else
-#define FRAME_LEN_MAX FRAME_LEN_STD
+  #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_STD
 #endif
 
 /* Queue Constants */
-#define TX_QUEUE_SIZE 15
-#define TX_QUEUE_ITEM_SIZE sizeof(UWB_Packet_t)
+#define UWB_TX_QUEUE_SIZE 10
+#define UWB_TX_QUEUE_ITEM_SIZE sizeof(UWB_Packet_t)
 
-typedef uint16_t address_t;
-
-/* Packet */
-#define PACKET_SIZE FRAME_LEN_MAX
-#define PAYLOAD_SIZE (PACKET_SIZE - sizeof(Packet_Header_t))
+/* UWB Packet */
+#define UWB_PACKET_SIZE_MAX UWB_FRAME_LEN_MAX
+#define UWB_PAYLOAD_SIZE_MAX (UWB_PACKET_SIZE_MAX - sizeof(UWB_Packet_Header_t))
+#define UWB_DEST_ANY 65535
+#define UWB_DEST_EMPTY 65534
 
 /* TX options */
-static dwt_txconfig_t txconfig_options = {
+static dwt_txconfig_t uwbTxConfigOptions = {
     .PGcount = 0x0,
     .PGdly = 0x34,
     .power = 0xfdfdfdfd
 };
 
 /* PHR configuration */
-static dwt_config_t config = {
+static dwt_config_t uwbPhrConfig = {
     5,            /* Channel number. */
     DWT_PLEN_128, /* Preamble length. Used in TX only. */
     DWT_PAC8,     /* Preamble acquisition chunk size. Used in RX only. */
@@ -48,7 +55,7 @@ static dwt_config_t config = {
     1, /* 0 to use standard 8 symbol SFD, 1 to use non-standard 8 symbol, 2 for
           non-standard 16 symbol SFD and 3 for 4z 8 symbol SDF type */
     DWT_BR_6M8,      /* Data rate. */
-#ifdef ENABLE_PHR_EXT_MODE
+#ifdef UWB_ENABLE_PHR_EXT_MODE
     DWT_PHRMODE_EXT, /* Extended PHY header mode. */
 #else
     DWT_PHRMODE_STD, /* Standard PHY header mode. */
@@ -62,43 +69,48 @@ static dwt_config_t config = {
     DWT_PDOA_M0     /* PDOA mode off */
 };
 
+typedef uint16_t UWB_Address_t;
+typedef portTickType Time_t;
+
 /* UWB packet definition */
 typedef enum {
-  RANGING = 0,
-  FLOODING = 1,
-  DATA = 2,
-  MESSAGE_TYPE_COUNT, /* only used for counting message types. */
-} MESSAGE_TYPE;
+  UWB_RANGING_MESSAGE = 0,
+  UWB_FLOODING_MESSAGE = 1,
+  UWB_DATA_MESSAGE = 2,
+  UWB_AODV_MESSAGE = 3,
+  UWB_OLSR_MESSAGE = 4,
+  UWB_MESSAGE_TYPE_COUNT, /* only used for counting message types. */
+} UWB_MESSAGE_TYPE;
 
 typedef struct {
-  mhr_802_15_4_t mac;    // mac header
-  struct {
-    MESSAGE_TYPE type: 6;
-    uint16_t length: 10;
-  };
-} __attribute__((packed)) Packet_Header_t;
+  UWB_Address_t srcAddress; // mac address, currently using MY_UWB_ADDRESS
+  UWB_Address_t destAddress; // mac address
+  UWB_MESSAGE_TYPE type: 6;
+  uint16_t length: 10;
+} __attribute__((packed)) UWB_Packet_Header_t;
 
 typedef struct {
-  Packet_Header_t header; // Packet header
-  uint8_t payload[PAYLOAD_SIZE];
+  UWB_Packet_Header_t header; // Packet header
+  uint8_t payload[UWB_PAYLOAD_SIZE_MAX];
 } __attribute__((packed)) UWB_Packet_t;
 
 typedef void (*UWBCallback)(void *);
 
 typedef struct {
-  MESSAGE_TYPE type;
+  UWB_MESSAGE_TYPE type;
   QueueHandle_t rxQueue;
   UWBCallback rxCb;
   UWBCallback txCb;
 } UWB_Message_Listener_t;
 
 /* UWB operations */
-uint16_t getUWBAddress();
+uint16_t uwbGetAddress();
 int uwbSendPacket(UWB_Packet_t *packet);
 int uwbSendPacketBlock(UWB_Packet_t *packet);
-int uwbReceivePacket(MESSAGE_TYPE type, UWB_Packet_t *packet);
-int uwbReceivePacketBlock(MESSAGE_TYPE type, UWB_Packet_t *packet);
-int uwbReceivePacketWait(MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
+int uwbSendPacketWait(UWB_Packet_t *packet, int wait);
+int uwbReceivePacket(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
+int uwbReceivePacketBlock(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet);
+int uwbReceivePacketWait(UWB_MESSAGE_TYPE type, UWB_Packet_t *packet, int wait);
 void uwbRegisterListener(UWB_Message_Listener_t *listener);
 
 #endif
