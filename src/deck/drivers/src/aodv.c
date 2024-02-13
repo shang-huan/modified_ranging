@@ -416,7 +416,7 @@ static void aodvProcessRREP(UWB_Packet_t *packet) {
     if (!toDest.validDestSeqFlag) {
       routingTableUpdateEntry(routingTable, newEntry);
     } else if (aodvCompareSeqNumber(rrep->destSeqNumber, toDest.destSeqNumber)) {
-      /* (ii)the Destination Sequence Number in the RREP is greater than the node's copy of the
+      /* (ii) the Destination Sequence Number in the RREP is greater than the node's copy of the
        * destination sequence number and the known value is valid.
        */
       routingTableUpdateEntry(routingTable, newEntry);

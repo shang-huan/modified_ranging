@@ -25,6 +25,7 @@
 #include "swarm_ranging.h"
 #include "flooding.h"
 #include "routing.h"
+#include "raft.h"
 
 #ifndef UWB_DEBUG_ENABLE
   #undef DEBUG_PRINT
@@ -384,6 +385,9 @@ static void uwbTaskInit() {
 #endif
 #ifdef UWB_ROUTING_ENABLE
   routingInit();
+#endif
+#ifdef UWB_RAFT_ENABLE
+  raftInit();
 #endif
 #ifdef UWB_FLOODING_ENABLE
   floodingInit();
