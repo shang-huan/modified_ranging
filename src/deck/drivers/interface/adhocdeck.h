@@ -5,10 +5,10 @@
 #include "mac_802_15_4.h"
 #include "queue.h"
 
-#define UWB_DEBUG_ENABLE
+//#define UWB_DEBUG_ENABLE
 #define UWB_RANGING_ENABLE
 #define UWB_ROUTING_ENABLE
-#define UWB_RAFT_ENABLE
+//#define UWB_RAFT_ENABLE
 //#define UWB_FLOODING_ENABLE
 
 /* Function Switch */
@@ -20,8 +20,8 @@
 #define UWB_RX_ANT_DLY 16385
 
 #define UWB_FRAME_LEN_STD 127
-#define UWB_FRAME_LEN_EXT 1023
-#define UWB_TASK_STACK_SIZE (1.5 * configMINIMAL_STACK_SIZE)
+#define UWB_FRAME_LEN_EXT 256
+//#define UWB_FRAME_LEN_EXT 1024
 
 #ifdef UWB_ENABLE_PHR_EXT_MODE
   #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_EXT
@@ -29,8 +29,10 @@
   #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_STD
 #endif
 
+#define UWB_TASK_STACK_SIZE (2 * UWB_FRAME_LEN_MAX)
+
 /* Queue Constants */
-#define UWB_TX_QUEUE_SIZE 10
+#define UWB_TX_QUEUE_SIZE 5
 #define UWB_TX_QUEUE_ITEM_SIZE sizeof(UWB_Packet_t)
 
 /* UWB Packet */

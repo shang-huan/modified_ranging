@@ -9,8 +9,8 @@
 #include "debug.h"
 #include "log.h"
 #include "system.h"
-
 #include "routing.h"
+#include "olsr.h"
 #include "aodv.h"
 
 #ifndef ROUTING_DEBUG_ENABLE
@@ -32,6 +32,7 @@ static Routing_Table_t routingTable;
 static int routingSeqNumber = 1;
 
 static Route_Entry_t EMPTY_ROUTE_ENTRY = {
+    .type = ROUTE_RESERVED,
     .destAddress = UWB_DEST_EMPTY,
     .nextHop = UWB_DEST_EMPTY,
     .hopCount = 1,
@@ -89,11 +90,11 @@ static void evictDataPacketTimerCallback(TimerHandle_t timer) {
   xSemaphoreGive(txBufferMutex);
 }
 
-static int routingTableClearExpire(Routing_Table_t *table) {
+int routingTableClearExpire(Routing_Table_t *table) {
   Time_t curTime = xTaskGetTickCount();
   int evictionCount = 0;
   for (int p1 = 0, p2 = table->size - 1; p1 <= p2;) {
-    if (table->entries[p1].expirationTime <= curTime) {
+    if (table->entries[p1].expirationTime != 0 && table->entries[p1].expirationTime <= curTime) {
       DEBUG_PRINT("routingTableClearExpire: Clean route entry for neighbor %u that expire at %lu.\n",
                   table->entries[p1].destAddress,
                   table->entries[p1].expirationTime);
@@ -202,7 +203,7 @@ static void uwbRoutingTxTask(void *parameters) {
 //        printRouteEntry(&toDest);
 //        printRoutingTable(&routingTable);
         /* Unknown dest, start route discovery procedure */
-        if (nextHopToDest == UWB_DEST_EMPTY || toDest.expirationTime < curTime || !toDest.valid) {
+        if (nextHopToDest == UWB_DEST_EMPTY || !toDest.valid) {
           /* Buffer this data packet since there is no certain route to dest */
           bufferDataPacket(uwbTxDataPacketCache);
           /* Then trigger route discovery */
@@ -216,27 +217,25 @@ static void uwbRoutingTxTask(void *parameters) {
 //          printRouteEntry(&toDest);
           /* Update expiration time of next hop neighbor. */
           routingTableUpdateExpirationTime(&routingTable, nextHopToDest);
-          if (toDest.expirationTime > curTime && toDest.valid) {
-            /* Populate mac layer dest address */
-            uwbTxPacketCache.header.srcAddress = uwbGetAddress();
-            uwbTxPacketCache.header.destAddress = toDest.nextHop;
-            uwbTxPacketCache.header.type = UWB_DATA_MESSAGE;
-            uwbTxPacketCache.header.length = sizeof(UWB_Packet_Header_t) + uwbTxDataPacketCache->header.length;
-            DEBUG_PRINT(
-                "uwbRoutingTxTask: %u send type = %u, len = %u, origin = %u, dest = %u, seq = %lu, ttl = %u.\n",
-                uwbGetAddress(),
-                uwbTxDataPacketCache->header.type,
-                uwbTxDataPacketCache->header.length,
-                uwbTxDataPacketCache->header.srcAddress,
-                uwbTxDataPacketCache->header.destAddress,
-                uwbTxDataPacketCache->header.seqNumber,
-                uwbTxDataPacketCache->header.ttl
-            );
-            /* Update expiration time of dest */
-            routingTableUpdateExpirationTime(&routingTable, toDest.destAddress);
-            /* Forward */
-            uwbSendPacketBlock(&uwbTxPacketCache); // TODO: rate limiter
-          }
+          /* Populate mac layer dest address */
+          uwbTxPacketCache.header.srcAddress = uwbGetAddress();
+          uwbTxPacketCache.header.destAddress = toDest.nextHop;
+          uwbTxPacketCache.header.type = UWB_DATA_MESSAGE;
+          uwbTxPacketCache.header.length = sizeof(UWB_Packet_Header_t) + uwbTxDataPacketCache->header.length;
+          DEBUG_PRINT(
+              "uwbRoutingTxTask: %u send type = %u, len = %u, origin = %u, dest = %u, seq = %lu, ttl = %u.\n",
+              uwbGetAddress(),
+              uwbTxDataPacketCache->header.type,
+              uwbTxDataPacketCache->header.length,
+              uwbTxDataPacketCache->header.srcAddress,
+              uwbTxDataPacketCache->header.destAddress,
+              uwbTxDataPacketCache->header.seqNumber,
+              uwbTxDataPacketCache->header.ttl
+          );
+          /* Update expiration time of dest */
+          routingTableUpdateExpirationTime(&routingTable, toDest.destAddress);
+          /* Forward */
+          uwbSendPacketBlock(&uwbTxPacketCache); // TODO: rate limiter
         }
         xSemaphoreGive(txBufferMutex);
         xSemaphoreGive(routingTable.mu);
@@ -379,6 +378,9 @@ void routingInit() {
               &uwbRoutingRxTaskHandle);
   #ifdef ROUTING_AODV_ENABLE
   aodvInit();
+  #endif
+  #ifdef ROUTING_OLSR_ENABLE
+  olsrInit();
   #endif
 }
 
@@ -619,28 +621,30 @@ void routeExpirationHooksInvoke(Route_Expiration_Hooks_t *hooks, UWB_Address_t *
 }
 
 void printRouteEntry(Route_Entry_t *entry) {
-  DEBUG_PRINT("dest\t next\t hop\t destSeq\t expire\t validSeq\t valid \t \n");
-  DEBUG_PRINT("%u\t %u\t %u\t %lu\t %lu\t %d\t %d\t \n",
+  DEBUG_PRINT("dest\t next\t hop\t destSeq\t type\t expire\t validSeq\t valid \t \n");
+  DEBUG_PRINT("%u\t %u\t %u\t %lu\t %d\t %lu\t %d\t %d\t \n",
               entry->destAddress,
               entry->nextHop,
               entry->hopCount,
               entry->destSeqNumber,
+              entry->type,
               entry->expirationTime,
               entry->validDestSeqFlag,
               entry->valid);
 }
 
 void printRoutingTable(Routing_Table_t *table) {
-  DEBUG_PRINT("dest\t next\t hop\t destSeq\t expire\t validSeq\t valid \t \n");
+  DEBUG_PRINT("dest\t next\t hop\t destSeq\t type\t expire\t validSeq\t valid \t \n");
   for (int i = 0; i < table->size; i++) {
     if (table->entries[i].destAddress == UWB_DEST_EMPTY) {
       continue;
     }
-    DEBUG_PRINT("%u\t %u\t %u\t %lu\t %lu\t %d\t %d\t \n",
+    DEBUG_PRINT("%u\t %u\t %u\t %lu\t %d\t %lu\t %d\t %d\t \n",
                 table->entries[i].destAddress,
                 table->entries[i].nextHop,
                 table->entries[i].hopCount,
                 table->entries[i].destSeqNumber,
+                table->entries[i].type,
                 table->entries[i].expirationTime,
                 table->entries[i].validDestSeqFlag,
                 table->entries[i].valid);

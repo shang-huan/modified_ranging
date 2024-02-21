@@ -5,7 +5,7 @@
 #include "semphr.h"
 #include "routing.h"
 
-#define RAFT_DEBUG_ENABLE
+//#define RAFT_DEBUG_ENABLE
 
 /* Queue Constants */
 #define RAFT_RX_QUEUE_SIZE 5

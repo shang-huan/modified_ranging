@@ -112,6 +112,7 @@ static void aodvProcessHello(AODV_RREP_Message_t *rrep) {
    */
   Route_Entry_t toNeighbor = routingTableFindEntry(routingTable, rrep->origAddress);
   if (toNeighbor.destAddress == UWB_DEST_EMPTY) {
+    toNeighbor.type = ROUTE_AODV,
     toNeighbor.valid = true;
     toNeighbor.destAddress = rrep->origAddress;
     toNeighbor.nextHop = rrep->origAddress;
@@ -121,6 +122,7 @@ static void aodvProcessHello(AODV_RREP_Message_t *rrep) {
     toNeighbor.validDestSeqFlag = true;
     routingTableAddEntry(routingTable, toNeighbor);
   } else {
+    toNeighbor.type = ROUTE_AODV,
     toNeighbor.valid = true;
     toNeighbor.nextHop = rrep->origAddress;
     toNeighbor.hopCount = 1;
@@ -250,6 +252,7 @@ static void aodvProcessRREQ(UWB_Packet_t *packet) {
   /* Update route for Me to Origin through Neighbor */
   Route_Entry_t toOrigin = routingTableFindEntry(routingTable, rreq->origAddress);
   if (toOrigin.destAddress == UWB_DEST_EMPTY) {
+    toOrigin.type = ROUTE_AODV,
     toOrigin.destAddress = rreq->origAddress;
     toOrigin.valid = true;
     toOrigin.validDestSeqFlag = true;
@@ -266,6 +269,7 @@ static void aodvProcessRREQ(UWB_Packet_t *packet) {
     } else {
       toOrigin.destSeqNumber = rreq->origSeqNumber;
     }
+    toOrigin.type = ROUTE_AODV,
     toOrigin.valid = true;
     toOrigin.validDestSeqFlag = true;
     toOrigin.nextHop = packet->header.srcAddress;
@@ -277,6 +281,7 @@ static void aodvProcessRREQ(UWB_Packet_t *packet) {
   /* Update route for Me to Neighbor */
   Route_Entry_t toNeighbor = routingTableFindEntry(routingTable, packet->header.srcAddress);
   if (toNeighbor.destAddress == UWB_DEST_EMPTY) {
+    toNeighbor.type = ROUTE_AODV,
     toNeighbor.valid = true;
     toNeighbor.destAddress = packet->header.srcAddress;
     toNeighbor.validDestSeqFlag = false;
@@ -286,6 +291,7 @@ static void aodvProcessRREQ(UWB_Packet_t *packet) {
     toNeighbor.expirationTime = xTaskGetTickCount() + M2T(ROUTING_TABLE_HOLD_TIME);
     routingTableAddEntry(routingTable, toNeighbor);
   } else {
+    toNeighbor.type = ROUTE_AODV,
     toNeighbor.valid = true;
     toNeighbor.validDestSeqFlag = false;
     toNeighbor.destAddress = packet->header.srcAddress;
@@ -399,6 +405,7 @@ static void aodvProcessRREP(UWB_Packet_t *packet) {
    * message.
    */
   Route_Entry_t newEntry = {
+      .type = ROUTE_AODV,
       .destAddress = rrep->destAddress,
       .valid = true,
       .validDestSeqFlag = true,
@@ -577,6 +584,7 @@ void aodvDiscoveryRoute(UWB_Address_t destAddress) {
     rreqMsg->destSeqNumber = 0;
     /* Add new route entry for destAddress. */
     Route_Entry_t newRouteEntry = emptyRouteEntry();
+    newRouteEntry.type = ROUTE_AODV;
     newRouteEntry.destAddress = destAddress;
     newRouteEntry.expirationTime = xTaskGetTickCount() + M2T(AODV_ROUTE_DISCOVERY_TIME);
     routingTableAddEntry(routingTable, newRouteEntry);
@@ -651,6 +659,7 @@ static void aodvRxTask(void *parameters) {
         toNeighbor.expirationTime = MAX(toNeighbor.expirationTime, xTaskGetTickCount() + M2T(ROUTING_TABLE_HOLD_TIME));
         routingTableUpdateEntry(routingTable, toNeighbor);
       } else {
+        toNeighbor.type = ROUTE_AODV,
         toNeighbor.valid = true;
         toNeighbor.destAddress = rxPacketCache.header.srcAddress;
         toNeighbor.nextHop = rxPacketCache.header.srcAddress;
@@ -686,8 +695,12 @@ void aodvRouteExpirationHook(UWB_Address_t *addresses, int count) {
   DEBUG_PRINT("aodvRouteExpirationHook\n");
   Unreachable_Dest_t unreachableList[count];
   for (int i = 0; i < count; i++) {
+    Route_Entry_t expired = routingTableFindEntry(routingTable, addresses[i]);
+    if (expired.type != ROUTE_AODV) {
+      continue;
+    }
     unreachableList[i].destAddress = addresses[i];
-    unreachableList[i].destSeqNumber = routingTableFindEntry(routingTable, addresses[i]).destSeqNumber;
+    unreachableList[i].destSeqNumber = expired.destSeqNumber;
   }
   aodvSendRERR(unreachableList, count);
 }

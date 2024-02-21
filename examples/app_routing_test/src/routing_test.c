@@ -10,7 +10,7 @@
 #define APP_RX_QUEUE_SIZE 5
 #define APP_RX_QUEUE_ITEM_SIZE sizeof(UWB_Data_Packet_t)
 #define APP_TX_DEST 3
-#define APP_TX_INTERVAL 1000
+#define APP_TX_INTERVAL 100
 #define PING_MSG_BUFFER_SIZE 20
 
 typedef enum {
@@ -37,11 +37,16 @@ static TaskHandle_t appTxTaskHandle;
 static TaskHandle_t appRxTaskHandle;
 static QueueHandle_t rxQueue;
 
+static Routing_Table_t *routingTable;
+
 static Ping_Msg_Buffer_t pingMsgBuffer;
 static uint32_t pingSeqNumber = 1;
 
 static void appTxTask() {
   while (1) {
+    xSemaphoreTake(routingTable->mu, portMAX_DELAY);
+    printRoutingTable(routingTable);
+    xSemaphoreGive(routingTable->mu);
     UWB_Data_Packet_t dataTxPacket;
     dataTxPacket.header.type = UWB_DATA_MESSAGE_RESERVED;
     dataTxPacket.header.srcAddress = uwbGetAddress();
@@ -56,7 +61,6 @@ static void appTxTask() {
     pingSeqNumber++;
     pingMsgBuffer.index = (pingMsgBuffer.index + 1) % PING_MSG_BUFFER_SIZE;
     uwbSendDataPacketBlock(&dataTxPacket);
-    printRoutingTable(getGlobalRoutingTable());
     vTaskDelay(M2T(APP_TX_INTERVAL));
   }
 }
@@ -114,6 +118,7 @@ static void appRxTask() {
 
 void appMain() {
   rxQueue = xQueueCreate(APP_RX_QUEUE_SIZE, APP_RX_QUEUE_ITEM_SIZE);
+  routingTable = getGlobalRoutingTable();
   UWB_Data_Packet_Listener_t listener = {
       .type = UWB_DATA_MESSAGE_RESERVED,
       .rxQueue = rxQueue
