@@ -22,10 +22,11 @@
 #include "dwTypes.h"
 #include "libdw3000.h"
 #include "dw3000.h"
-#include "swarm_ranging.h"
-#include "flooding.h"
-#include "routing.h"
-#include "raft.h"
+// #include "swarm_ranging.h"
+// #include "flooding.h"
+// #include "routing.h"
+// #include "raft.h"
+#include "modified_ranging.h"
 
 #ifndef UWB_DEBUG_ENABLE
   #undef DEBUG_PRINT
@@ -392,6 +393,7 @@ static void uwbTaskInit() {
 #ifdef UWB_FLOODING_ENABLE
   floodingInit();
 #endif
+modifiedRangingInit();
 }
 /*********** Deck driver initialization ***************/
 static void dwm3000Init(DeckInfo *info) {

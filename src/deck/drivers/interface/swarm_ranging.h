@@ -5,7 +5,7 @@
 #include "adhocdeck.h"
 #include "semphr.h"
 
-//#define RANGING_DEBUG_ENABLE
+#define RANGING_DEBUG_ENABLE
 
 /* Function Switch */
 //#define ENABLE_BUS_BOARDING_SCHEME
@@ -89,6 +89,7 @@ typedef struct {
   Ranging_Table_Tr_Rr_Candidate_t candidates[Tr_Rr_BUFFER_POOL_SIZE];
 } __attribute__((packed)) Ranging_Table_Tr_Rr_Buffer_t;
 
+
 typedef enum {
   RANGING_STATE_RESERVED,
   RANGING_STATE_S1,
@@ -113,6 +114,7 @@ typedef enum {
   |  Tp  |  Rr  |  Tf  |  Re  |  ts  |
   +------+------+------+------+------+
 */
+
 typedef struct {
   uint16_t neighborAddress;
 

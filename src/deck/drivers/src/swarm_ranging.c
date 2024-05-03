@@ -305,13 +305,13 @@ static void rangingTableSetClearExpireTimerCallback(TimerHandle_t timer) {
   xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
 
   Time_t curTime = xTaskGetTickCount();
-  DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Trigger expiration timer at %lu.\n", curTime);
+  // DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Trigger expiration timer at %lu.\n", curTime);
 
   int evictionCount = rangingTableSetClearExpire(&rangingTableSet);
   if (evictionCount > 0) {
-    DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Evict total %d ranging tables.\n", evictionCount);
+    // DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Evict total %d ranging tables.\n", evictionCount);
   } else {
-    DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Evict none.\n");
+    // DEBUG_PRINT("rangingTableSetClearExpireTimerCallback: Evict none.\n");
   }
 
   xSemaphoreGive(rangingTableSet.mu);
@@ -645,13 +645,13 @@ static void neighborSetClearExpireTimerCallback(TimerHandle_t timer) {
   xSemaphoreTake(neighborSet.mu, portMAX_DELAY);
 
   Time_t curTime = xTaskGetTickCount();
-  DEBUG_PRINT("neighborSetClearExpireTimerCallback: Trigger expiration timer at %lu.\n", curTime);
+  // DEBUG_PRINT("neighborSetClearExpireTimerCallback: Trigger expiration timer at %lu.\n", curTime);
 
   int evictionCount = neighborSetClearExpire(&neighborSet);
   if (evictionCount > 0) {
-    DEBUG_PRINT("neighborSetClearExpireTimerCallback: Evict total %d neighbors.\n", evictionCount);
+    // DEBUG_PRINT("neighborSetClearExpireTimerCallback: Evict total %d neighbors.\n", evictionCount);
   } else {
-    DEBUG_PRINT("neighborSetClearExpireTimerCallback: Evict none.\n");
+    // DEBUG_PRINT("neighborSetClearExpireTimerCallback: Evict none.\n");
   }
 
   xSemaphoreGive(neighborSet.mu);
@@ -774,10 +774,68 @@ static int16_t computeDistance(Timestamp_Tuple_t Tp, Timestamp_Tuple_t Rp,
   tReply1 = (Tr.timestamp.full - Rp.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;
   tRound2 = (Rf.timestamp.full - Tr.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;
   tReply2 = (Tf.timestamp.full - Rr.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;
+
+  
+
   diff1 = tRound1 - tReply1;
   diff2 = tRound2 - tReply2;
   t = (diff1 * tReply2 + diff2 * tReply1 + diff2 * diff1) / (tRound1 + tRound2 + tReply1 + tReply2);
   int16_t distance = (int16_t) t * 0.4691763978616;
+  // 打印计算值和计算结果
+  DEBUG_PRINT("tRound1,tReply1,tRound2,tReply2 = %llu,%llu,%llu,%llu\n", tRound1, tReply1, tRound2, tReply2);
+  DEBUG_PRINT("diff1,diff2,t = %lld,%lld,%lld\n", diff1, diff2, t);
+  DEBUG_PRINT("distance = %d\n", distance);
+
+  if (distance < 0) {
+    DEBUG_PRINT("Ranging Error: distance < 0\n");
+    isErrorOccurred = true;
+  }
+
+  if (distance > 1000) {
+    DEBUG_PRINT("Ranging Error: distance > 1000\n");
+    isErrorOccurred = true;
+  }
+
+  if (isErrorOccurred) {
+    return -1;
+  }
+
+  return distance;
+}
+
+static int16_t computeDistanceModified(Timestamp_Tuple_t Tp, Timestamp_Tuple_t Rp,
+                               Timestamp_Tuple_t Tr, Timestamp_Tuple_t Rr,
+                               Timestamp_Tuple_t Tf, Timestamp_Tuple_t Rf,
+                               int64_t Tf1, int64_t Tf2) {
+
+  bool isErrorOccurred = false;
+
+  if (Tp.seqNumber != Rp.seqNumber || Tr.seqNumber != Rr.seqNumber || Tf.seqNumber != Rf.seqNumber) {
+    DEBUG_PRINT("Ranging Error: sequence number mismatch\n");
+    isErrorOccurred = true;
+  }
+
+  if (Tp.seqNumber >= Tf.seqNumber || Rp.seqNumber >= Rf.seqNumber) {
+    DEBUG_PRINT("Ranging Error: sequence number out of order\n");
+    isErrorOccurred = true;
+  }
+
+  int64_t tRound1, tReply1, tRound2, tReply2, diff1, diff2, Tf3;
+  tRound1 = (Rr.timestamp.full - Tp.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;//Ra
+  tReply1 = (Tr.timestamp.full - Rp.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;//Db
+  tRound2 = (Rf.timestamp.full - Tr.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;//Rb
+  tReply2 = (Tf.timestamp.full - Rr.timestamp.full + UWB_MAX_TIMESTAMP) % UWB_MAX_TIMESTAMP;//Da
+
+  DEBUG_PRINT("tRound1,tReply1,tRound2,tReply2 = %ld,%ld,%ld,%ld\n", tRound1, tReply1, tRound2, tReply2);
+  
+  diff1 = tRound1 - tReply1;
+  diff2 = tRound2 - tReply2;
+  // t = (diff1 * tReply2 + diff2 * tReply1 + diff2 * diff1) / (tRound1 + tRound2 + tReply1 + tReply2);
+  // 2(RaRb-DaDb) = (Rb+Db)Tf1+(Ra+Da+Rb+Db)Tf2+(Ra+Da)Tf3
+  Tf3 = 2*(diff1 * tReply2 + diff2 * tReply1 + diff2 * diff1)-(tRound2+tReply1)*Tf1-(tRound1+tReply1+tRound2+tReply2)*Tf2;
+  Tf3 = Tf3/(tReply2+tReply1);
+  int16_t distance = (int16_t) Tf3 * 0.4691763978616;
+  
 
   if (distance < 0) {
     DEBUG_PRINT("Ranging Error: distance < 0\n");

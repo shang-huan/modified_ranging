@@ -5,6 +5,12 @@
         "**/bower_components": true
     },
     "files.associations": {
-        "bootloader.h": "c"
-    }
+        "bootloader.h": "c",
+        "dwtypes.h": "c",
+        "debug.h": "c",
+        "queue.h": "c",
+        "modified_ranging.h": "c",
+        "swarm_ranging.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

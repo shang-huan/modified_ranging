@@ -6,8 +6,8 @@
 #include "queue.h"
 
 //#define UWB_DEBUG_ENABLE
-#define UWB_RANGING_ENABLE
-#define UWB_ROUTING_ENABLE
+// #define UWB_RANGING_ENABLE
+// #define UWB_ROUTING_ENABLE
 //#define UWB_RAFT_ENABLE
 //#define UWB_FLOODING_ENABLE
 
@@ -29,7 +29,8 @@
   #define UWB_FRAME_LEN_MAX UWB_FRAME_LEN_STD
 #endif
 
-#define UWB_TASK_STACK_SIZE (2 * UWB_FRAME_LEN_MAX)
+// #define UWB_TASK_STACK_SIZE (2 * UWB_FRAME_LEN_MAX)
+#define UWB_TASK_STACK_SIZE (2 * 256)
 
 /* Queue Constants */
 #define UWB_TX_QUEUE_SIZE 5
