@@ -5,6 +5,8 @@
 #include "dwTypes.h"
 #include "stdbool.h"
 
+#define RANGING_TABLE_DEBUG_ENABLE
+
 #define TABLE_BUFFER_SIZE 10
 #define FREE_QUEUE_SIZE TABLE_BUFFER_SIZE
 

@@ -393,7 +393,9 @@ static void uwbTaskInit() {
 #ifdef UWB_FLOODING_ENABLE
   floodingInit();
 #endif
-modifiedRangingInit();
+#ifdef UWB_MODIFIED_RANGING_ENABLE
+  modifiedRangingInit();
+#endif
 }
 /*********** Deck driver initialization ***************/
 static void dwm3000Init(DeckInfo *info) {

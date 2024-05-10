@@ -15,12 +15,18 @@
 #include "modified_ranging.h"
 #include "ranging_table.h"
 
+#ifndef UWB_MODIFIED_RANGING_DEBUG_ENABLE
+#undef DEBUG_PRINT
+#define DEBUG_PRINT
+#endif
+
 static QueueHandle_t rxQueue;
 static UWB_Message_Listener_t listener;
 static TaskHandle_t uwbRangingTxTaskHandle = 0;
 static TaskHandle_t uwbRangingRxTaskHandle = 0;
 
 static uint16_t MY_UWB_ADDRESS; // 本机地址
+static RangingMODE mode = CLASSIC_MODE; // 测距模式
 
 static RangingTableSet_t rangingTableSet; // 测距表集合
 static int rangingSeqNumber = 1; // 本地测距处理序号
@@ -42,7 +48,7 @@ typedef struct
 void initRangingTableSet(){
     rangingTableSet.size = 0;
     rangingTableSet.mu = xSemaphoreCreateMutex();
-    rangingTableSet.sendBufferIndex = 0;
+    rangingTableSet.sendBufferTop = -1;
     for (table_index_t i = 0; i < TABLE_BUFFER_SIZE; i++)
     {
         rangingTableSet.sendBuffer[i].timestamp.full = NULL_TIMESTAMP;
@@ -102,30 +108,73 @@ table_index_t findRangingTable(uint16_t address){
 
 // 查找指定序号发送缓冲区下标
 table_index_t findSendBufferIndex(uint16_t seq){
-    table_index_t index = rangingTableSet.sendBufferIndex;
+    table_index_t index = rangingTableSet.sendBufferTop;
     int count = 0;
     while (rangingTableSet.sendBuffer[index].seqNumber != NULL_SEQ && count < rangingTableSet.size)
     {
         if(rangingTableSet.sendBuffer[index].seqNumber == seq){
-            return rangingTableSet.sendBufferIndex;
+            return index;
         }
-        index = (index - 1 + rangingTableSet.size) % rangingTableSet.size;
+        index = (index - 1 + TABLE_BUFFER_SIZE) % TABLE_BUFFER_SIZE;
     }
     return NULL_INDEX;
 
 }
+// 打印测距消息
+static void printfRangingMessage(Ranging_Message_t* rangingMessage){
+    // 打印报文全内容
+    DEBUG_PRINT("Ranging Message:\n");
+    DEBUG_PRINT("Header:\n");
+    /*
+    typedef struct
+    {
+        uint16_t srcAddress;                                     // 2 byte
+        uint16_t msgSequence;                                    // 2 byte
+        Timestamp_Tuple_t lastTxTimestamps[RANGING_MAX_Tr_UNIT]; // 10 byte * MAX_Tr_UNIT
+        uint16_t msgLength;                                      // 2 byte
+        //   uint16_t filter; // 16 bits bloom filter //暂时不知作用
+    } __attribute__((packed)) Ranging_Message_Header_t; // 36
+    */
+    DEBUG_PRINT("srcAddress: %u\n", rangingMessage->header.srcAddress);
+    DEBUG_PRINT("msgSequence: %u\n", rangingMessage->header.msgSequence);
+    DEBUG_PRINT("msgLength: %u\n", rangingMessage->header.msgLength);
+    DEBUG_PRINT("lastTxTimestamps:\n");
+    for(int i = 0; i < RANGING_MAX_Tr_UNIT; i++){
+        DEBUG_PRINT("seqNumber: %u, timestamp: %llu\n", rangingMessage->header.lastTxTimestamps[i].seqNumber, rangingMessage->header.lastTxTimestamps[i].timestamp.full);
+    }
+    DEBUG_PRINT("Body Units:\n");
+    /*
+    typedef struct
+    {
+        uint16_t dest; // 目的地址
+        Timestamp_Tuple_t rxTimestamp[RANGING_MAX_RX_UNIT]; // 10 byte * MAX_RX_UNIT
+    } __attribute__((packed)) Body_Unit_t;                  // 22
+    */
+    for(int i = 0; i < RANGING_MAX_BODY_UNIT; i++){
+        DEBUG_PRINT("dest: %u\n", rangingMessage->bodyUnits[i].dest);
+        DEBUG_PRINT("rxTimestamps:\n");
+        for(int j = 0; j < RANGING_MAX_RX_UNIT; j++){
+            DEBUG_PRINT("seqNumber: %u, timestamp: %llu\n", rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber, rangingMessage->bodyUnits[i].rxTimestamp[j].timestamp.full);
+        }
+    }
+}
+// 打印sendBuffer
+static void printSendBuffer(){
+    DEBUG_PRINT("Send Buffer\n");
+    table_index_t index = rangingTableSet.sendBufferTop;
+    int count = 0;
+    while (index != NULL_INDEX && count < TABLE_BUFFER_SIZE)
+    {
+        DEBUG_PRINT("seq: %d,Tx: %lld\n", rangingTableSet.sendBuffer[index].seqNumber, rangingTableSet.sendBuffer[index].timestamp.full);
+        index = (index - 1 + TABLE_BUFFER_SIZE) % TABLE_BUFFER_SIZE;
+        count++;
+    }
+}
+
 // 打印完整测距表集合
 static void printRangingTableSet(){
     DEBUG_PRINT("Ranging Table Set:\n");
-    DebugPrint("Send Buffer:\n");
-    table_index_t index = rangingTableSet.sendBufferIndex;
-    int count = 0;
-    while (index != NULL_INDEX && count < rangingTableSet.size)
-    {
-        DEBUG_PRINT("seq: %d,Tx: %lld\n", rangingTableSet.sendBuffer[index].seqNumber, rangingTableSet.sendBuffer[index].timestamp.full);
-        index = (index - 1 + rangingTableSet.size) % rangingTableSet.size;
-        count++;
-    }
+    printSendBuffer();
     for (table_index_t i = 0; i < rangingTableSet.size; i++)
     {
         debugPrintRangingTable(&rangingTableSet.neighbor[i]);
@@ -133,7 +182,8 @@ static void printRangingTableSet(){
 }
 
 static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
-    int8_t bodyUnitNumber = 0;\
+    // DEBUG_PRINT("generateRangingMessage: Generating ranging message.seq:%d\n",rangingSeqNumber);
+    int8_t bodyUnitNumber = 0;
     rangingSeqNumber++;
     int curSeqNumber = rangingSeqNumber;
     //   rangingMessage->header.filter = 0;
@@ -151,6 +201,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
         loopIndex = (loopIndex+1) % rangingTableSet.size;
         RangingTable_t *table = &rangingTableSet.neighbor[loopIndex];
         if(table->state == USING){
+            DEBUG_PRINT("generateRangingMessage: Generating ranging message for neighbor %u.\n", table->address);
             Body_Unit_t *bodyUnit = &rangingMessage->bodyUnits[bodyUnitNumber];
             bodyUnit->dest = table->address;
             table_index_t p = table->receiveBuffer.head;
@@ -158,6 +209,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
             for(int i = 0; i < RANGING_MAX_RX_UNIT; i++){
                 if(p != NULL_INDEX){
                     // 填充对方发送序列号以及接收时间戳
+                    DEBUG_PRINT("p:%d",p);
                     bodyUnit->rxTimestamp[i].seqNumber = table->receiveBuffer.tableBuffer[p].remoteSeq;
                     bodyUnit->rxTimestamp[i].timestamp = table->receiveBuffer.tableBuffer[p].Rx;
                     p = table->receiveBuffer.tableBuffer[p].next;
@@ -177,7 +229,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
     rangingMessage->header.msgLength = sizeof(Ranging_Message_Header_t) + sizeof(Body_Unit_t) * bodyUnitNumber;
     rangingMessage->header.msgSequence = curSeqNumber;
     // 从发送缓冲区中取出最近多次发送时间戳
-    table_index_t sendBufferIndex = rangingTableSet.sendBufferIndex;
+    table_index_t sendBufferIndex = rangingTableSet.sendBufferTop;
     for(int i = 0; i < RANGING_MAX_Tr_UNIT; i++){
         if(rangingTableSet.sendBuffer[sendBufferIndex].timestamp.full != NULL_TIMESTAMP){
             // 按序填充发送序列号以及发送时间戳
@@ -199,6 +251,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
 }
 
 static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessageWithTimestamp) {
+    DEBUG_PRINT("processRangingMessage: Received ranging message from %u,seq:%d\n", rangingMessageWithTimestamp->rangingMessage.header.srcAddress,rangingSeqNumber);
     Ranging_Message_t *rangingMessage = &rangingMessageWithTimestamp->rangingMessage;
     uint16_t neighborAddress = rangingMessage->header.srcAddress;
     table_index_t neighborIndex = findRangingTable(neighborAddress);
@@ -218,6 +271,7 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
     1. 目的地址
     2. 上m次接收时间戳
     */
+    // printfRangingMessage(rangingMessage);
     for (int i = 0; i < RANGING_MAX_BODY_UNIT; i++) {
         if (rangingMessage->bodyUnits[i].dest == MY_UWB_ADDRESS) {
             // 从消息体中取出接收时间戳
@@ -225,7 +279,9 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
                 // 按序处理接收时间戳，先插入序号小的（生成报文时序号大的在前）
                 if (rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber != NULL_SEQ) {
                     // 查找匹配的发送时间戳
+                    // printSendBuffer();
                     table_index_t sendBufferIndex = findSendBufferIndex(rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber);
+                    DEBUG_PRINT("processRangingMessage: sendBufferIndex:%d\n",sendBufferIndex);
                     if (sendBufferIndex == NULL_INDEX) {
                         DEBUG_PRINT("Warning: Cannot find corresponding Tx timestamp for Rx timestamp while processing ranging message.\n");
                         continue;
@@ -233,7 +289,7 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
                     // 添加记录到发送缓冲区
                     addRecord(&neighborRangingTable->sendBuffer, rangingTableSet.sendBuffer[sendBufferIndex].timestamp, rangingMessage->bodyUnits[i].rxTimestamp[j].timestamp, NULL_TF, rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber, rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber);
                     // 触发测距事件
-                    updateTof(&neighborRangingTable->sendBuffer, &neighborRangingTable->receiveBuffer, sendBufferIndex, MODIFIED_MODE);
+                    updateTof(&neighborRangingTable->sendBuffer, &neighborRangingTable->receiveBuffer, sendBufferIndex, mode);
                 }
             }
             break;
@@ -243,11 +299,12 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
     // 更新上n次发送时间戳
     for (int i = 0; i < RANGING_MAX_Tr_UNIT; i++) {
         table_index_t receiveBufferIndex = findRemoteSeqIndex(&neighborRangingTable->receiveBuffer, rangingMessage->header.lastTxTimestamps[i].seqNumber);
+        DEBUG_PRINT("processRangingMessage: receiveBufferIndex:%d\n",receiveBufferIndex);
         if (receiveBufferIndex != NULL_INDEX) {
             // 更新接收缓冲区中的发送时间戳
             neighborRangingTable->receiveBuffer.tableBuffer[receiveBufferIndex].Tx = rangingMessage->header.lastTxTimestamps[i].timestamp;
             // 触发测距事件
-            updateTof(&neighborRangingTable->receiveBuffer, &neighborRangingTable->sendBuffer, receiveBufferIndex, MODIFIED_MODE);
+            updateTof(&neighborRangingTable->receiveBuffer, &neighborRangingTable->sendBuffer, receiveBufferIndex, mode);
         }
         else{
             DEBUG_PRINT("Warning: Cannot find corresponding Rx timestamp for Tx timestamp while processing ranging message.\n");
@@ -255,7 +312,8 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
     }
     // 添加本次接收时间戳,本地测距处理序号加一
     rangingSeqNumber++;
-    addRecord(&neighborRangingTable->receiveBuffer, rangingMessageWithTimestamp->rxTime, nullTimeStamp, NULL_TF, rangingSeqNumber, rangingMessage->header.msgSequence);
+    addRecord(&neighborRangingTable->receiveBuffer, nullTimeStamp, rangingMessageWithTimestamp->rxTime, NULL_TF, rangingSeqNumber, rangingMessage->header.msgSequence);
+    DEBUG_PRINT("processRangingMessage finished.\n");
 }
 
 static void uwbRangingTxTask(void *parameters) {
@@ -287,14 +345,15 @@ static void uwbRangingRxTask(void *parameters) {
     Ranging_Message_With_Timestamp_t rxPacketCache;
 
     while (true) {
+        // portMAX_DELAY取最大值,阻塞等待接收队列中有数据
         if (xQueueReceive(rxQueue, &rxPacketCache, portMAX_DELAY)) {
-        xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
+            xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
 
-        processRangingMessage(&rxPacketCache);
+            processRangingMessage(&rxPacketCache);
 
-        xSemaphoreGive(rangingTableSet.mu);
+            xSemaphoreGive(rangingTableSet.mu);
         }
-        vTaskDelay(M2T(1));
+        vTaskDelay(M2T(100));
     }
 }
 
@@ -321,16 +380,22 @@ void modifiedRangingTxCallback(void *parameters) {
 
     dwTime_t txTime;
     dwt_readtxtimestamp((uint8_t *) &txTime.raw);
-
-    Timestamp_Tuple_t timestamp = {.timestamp = txTime, .seqNumber = rangingMessage->header.msgSequence};
+    
     // 添加记录到发送缓冲区
-    rangingTableSet.sendBuffer[rangingTableSet.sendBufferIndex] = timestamp;
-    rangingTableSet.sendBufferIndex = (rangingTableSet.sendBufferIndex + 1) % TABLE_BUFFER_SIZE;
+    xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
+    // DEBUG_PRINT("TXCB,seq:%d,time:%llu\n",rangingMessage->header.msgSequence,txTime.full);
+    // printRangingTableSet(&rangingTableSet);
+    rangingTableSet.sendBufferTop = (rangingTableSet.sendBufferTop + 1) % TABLE_BUFFER_SIZE;
+    rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].seqNumber = rangingMessage->header.msgSequence;
+    rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].timestamp = txTime;
+    xSemaphoreGive(rangingTableSet.mu);
+    // DEBUG_PRINT("modifiedRangingTxCallback: sendBufferIndex:%d,seq:%u,time:%llu\n",rangingTableSet.sendBufferTop,timestamp.seqNumber,timestamp.timestamp.full);
 }
 
 void modifiedRangingInit() {
     MY_UWB_ADDRESS = uwbGetAddress();
     rxQueue = xQueueCreate(RANGING_RX_QUEUE_SIZE, RANGING_RX_QUEUE_ITEM_SIZE);
+    DEBUG_PRINT("modifiedRangingInit: Ranging rxQueue created.\n");
     initRangingTableSet(&rangingTableSet);
     // neighborSetInit(&neighborSet);
     // neighborSetEvictionTimer = xTimerCreate("neighborSetEvictionTimer",

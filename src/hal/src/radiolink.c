@@ -46,10 +46,10 @@
 #include "cfassert.h"
 
 #define RADIOLINK_TX_QUEUE_SIZE (1)
-#define RADIOLINK_CRTP_QUEUE_SIZE (5)
+#define RADIOLINK_CRTP_QUEUE_SIZE (20)
 #define RADIO_ACTIVITY_TIMEOUT_MS (1000)
 
-#define RADIOLINK_P2P_QUEUE_SIZE (5)
+#define RADIOLINK_P2P_QUEUE_SIZE (20)
 
 static xQueueHandle  txQueue;
 STATIC_MEM_QUEUE_ALLOC(txQueue, RADIOLINK_TX_QUEUE_SIZE, sizeof(SyslinkPacket));
@@ -161,13 +161,20 @@ void radiolinkSyslinkDispatch(SyslinkPacket *slp)
   {
     slp->length--; // Decrease to get CRTP size.
     // Assert that we are not dropping any packets
-    ASSERT(xQueueSend(crtpPacketDelivery, &slp->length, 0) == pdPASS);
-    ledseqRun(&seq_linkUp);
-    // If a radio packet is received, one can be sent
-    if (xQueueReceive(txQueue, &txPacket, 0) == pdTRUE)
-    {
-      ledseqRun(&seq_linkDown);
-      syslinkSendPacket(&txPacket);
+    // ASSERT(xQueueSend(crtpPacketDelivery, &slp->length, 0) == pdPASS);
+    if (xQueueSend(crtpPacketDelivery, &slp->length, 0) != pdPASS) {
+      // 如果队列满，可以在这里记录错误或进行其他处理
+      // 例如：丢弃数据或记录日志
+      return;
+    }
+    else{
+      ledseqRun(&seq_linkUp);
+      // If a radio packet is received, one can be sent
+      if (xQueueReceive(txQueue, &txPacket, 0) == pdTRUE)
+      {
+        ledseqRun(&seq_linkDown);
+        syslinkSendPacket(&txPacket);
+      }
     }
   } else if (slp->type == SYSLINK_RADIO_RAW_BROADCAST)
   {

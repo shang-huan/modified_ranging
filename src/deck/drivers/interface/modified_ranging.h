@@ -6,10 +6,12 @@
 #include "semphr.h"
 #include "adhocdeck.h"
 
+// #define UWB_MODIFIED_RANGING_DEBUG_ENABLE
+
 #define MAX_NEIGHBOR_NUM 10
 
 /* Ranging Constants */
-#define RANGING_PERIOD 200     // default in 200ms
+#define RANGING_PERIOD 500     // default in 200ms
 #define RANGING_PERIOD_MIN 50  // default 50ms
 #define RANGING_PERIOD_MAX 500 // default 500ms
 
@@ -85,8 +87,8 @@ typedef struct
     int size;                     // 邻居数量
     SemaphoreHandle_t mu;         // 互斥量
 
-    table_index_t sendBufferIndex; // 缓冲区头索引
-    Timestamp_Tuple_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区
+    table_index_t sendBufferTop; // 缓冲区头索引
+    Timestamp_Tuple_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的时间戳
     
     RangingTable_t neighbor[MAX_NEIGHBOR_NUM];      // 邻居测距表
 } RangingTableSet_t;
