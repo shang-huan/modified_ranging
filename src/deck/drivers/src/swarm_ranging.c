@@ -1080,6 +1080,8 @@ void rangingTableOnEvent(Ranging_Table_t *table, RANGING_TABLE_EVENT event) {
 
 /* Swarm Ranging */
 static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessageWithTimestamp) {
+  DEBUG_PRINT("processRangingMessage: Received ranging message from neighbor %u.\n",
+              rangingMessageWithTimestamp->rangingMessage.header.srcAddress);
   Ranging_Message_t *rangingMessage = &rangingMessageWithTimestamp->rangingMessage;
   uint16_t neighborAddress = rangingMessage->header.srcAddress;
   int neighborIndex = rangingTableSetSearchTable(&rangingTableSet, neighborAddress);
@@ -1154,6 +1156,7 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_t *rangingMessa
   neighborRangingTable->period = MAX(neighborRangingTable->period, M2T(RANGING_PERIOD_MIN));
   neighborRangingTable->period = MIN(neighborRangingTable->period, M2T(RANGING_PERIOD_MAX));
   #endif
+  DEBUG_PRINT("finish processRangingMessage\n");
 }
 
 /* By default, we include each neighbor's latest rx timestamp to body unit in index order of ranging table, which
