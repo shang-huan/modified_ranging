@@ -113,6 +113,7 @@ table_index_t findRangingTable(uint16_t address){
 // 查找指定序号发送缓冲区下标
 table_index_t findSendBufferIndex(uint16_t seq){
     table_index_t index = rangingTableSet.sendBufferTop;
+    table_index_t index = rangingTableSet.sendBufferTop;
     int count = 0;
     while (rangingTableSet.sendBuffer[index].seqNumber != NULL_SEQ && count < rangingTableSet.size)
     {
@@ -211,6 +212,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
         RangingTable_t *table = &rangingTableSet.neighbor[loopIndex];
         if(table->state == USING){
             DEBUG_PRINT("generateRangingMessage: Generating ranging message for neighbor %u.\n", table->address);
+            DEBUG_PRINT("generateRangingMessage: Generating ranging message for neighbor %u.\n", table->address);
             Body_Unit_t *bodyUnit = &rangingMessage->bodyUnits[bodyUnitNumber];
             bodyUnit->dest = table->address;
             table_index_t p = table->receiveBuffer.head;
@@ -241,6 +243,7 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
     /* Generate message header */
     
     // 从发送缓冲区中取出最近多次发送时间戳
+    table_index_t sendBufferIndex = rangingTableSet.sendBufferTop;
     table_index_t sendBufferIndex = rangingTableSet.sendBufferTop;
     for(int i = 0; i < RANGING_MAX_Tr_UNIT; i++){
         if(rangingTableSet.sendBuffer[sendBufferIndex].timestamp.full != NULL_TIMESTAMP){
@@ -348,6 +351,7 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_And_Coordinate_
     2. 上m次接收时间戳
     */
     // printfRangingMessage(rangingMessage);
+    // printfRangingMessage(rangingMessage);
     for (int i = 0; i < RANGING_MAX_BODY_UNIT; i++) {
         if (rangingMessage->bodyUnits[i].dest == MY_UWB_ADDRESS) {
             // 从消息体中取出接收时间戳
@@ -355,6 +359,7 @@ static void processRangingMessage(Ranging_Message_With_Timestamp_And_Coordinate_
                 // 按序处理接收时间戳，先插入序号小的（生成报文时序号大的在前）
                 if (rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber != NULL_SEQ) {
                     // 查找匹配的发送时间戳
+                    // printSendBuffer();
                     table_index_t sendBufferIndex = findSendBufferIndex(rangingMessage->bodyUnits[i].rxTimestamp[j].seqNumber);
                     // DEBUG_PRINT("processRangingMessage: sendBufferIndex:%d\n",sendBufferIndex);
                     if (sendBufferIndex == NULL_INDEX) {
@@ -431,6 +436,7 @@ static void uwbRangingRxTask(void *parameters) {
         if (xQueueReceive(rxRangingQueue, &rxPacketCache, portMAX_DELAY)) {
             xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
 
+            processRangingMessage(&rxPacketCache);
             processRangingMessage(&rxPacketCache);
 
             xSemaphoreGive(rangingTableSet.mu);

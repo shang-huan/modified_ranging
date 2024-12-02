@@ -20,6 +20,7 @@ void initFreeQueue(FreeQueue *stack)
     stack->tail = stack->size - 1;
     stack->head = 0;
     for (table_index_t i = 0; i < FREE_QUEUE_SIZE; i++)
+    for (table_index_t i = 0; i < FREE_QUEUE_SIZE; i++)
     {
         stack->freeIndex[i] = i;
     }
@@ -27,6 +28,10 @@ void initFreeQueue(FreeQueue *stack)
 // 从空闲指针队列中获取一个空闲指针
 table_index_t pop(FreeQueue *stack)
 {
+    if(isEmpty(stack)){
+        return NULL_INDEX;
+    }
+    table_index_t index = stack->freeIndex[stack->head];
     if(isEmpty(stack)){
         return NULL_INDEX;
     }
@@ -39,6 +44,9 @@ table_index_t pop(FreeQueue *stack)
 // 将一个空闲指针放回空闲指针队列
 void push(FreeQueue *stack, table_index_t index)
 {
+    if(isFull(stack)){
+        return;
+    }
     if(isFull(stack)){
         return;
     }
@@ -112,6 +120,7 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
         index = list->tableBuffer[index].next;
     }
     
+    
     // 获取一个空闲指针
     index = pop(&list->freeQueue);
     // 添加记录
@@ -133,6 +142,9 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
         list->tableBuffer[list->head].pre = index;
         list->tableBuffer[index].next = list->head;
         list->head = index;
+        list->tableBuffer[list->head].pre = index;
+        list->tableBuffer[index].next = list->head;
+        list->head = index;
     }
 
     return index;
@@ -151,6 +163,10 @@ void deleteLastRecord(TableLinkedList_t *list)
     {
         list->tableBuffer[list->tail].next = NULL_INDEX;
     }
+    if (list->tail != NULL_INDEX)
+    {
+        list->tableBuffer[list->tail].next = NULL_INDEX;
+    }
     // 清空数据
     list->tableBuffer[index].Tx.full = NULL_TIMESTAMP;
     list->tableBuffer[index].TxCoordinate = nullCoordinate;
@@ -161,6 +177,7 @@ void deleteLastRecord(TableLinkedList_t *list)
     list->tableBuffer[index].remoteSeq = NULL_SEQ;
     list->tableBuffer[index].next = NULL_INDEX;
     list->tableBuffer[index].pre = NULL_INDEX;
+    DEBUG_PRINT("Delete last record,index: %d\n", index);
     DEBUG_PRINT("Delete last record,index: %d\n", index);
     // 放回空闲队列
     push(&list->freeQueue, index);
