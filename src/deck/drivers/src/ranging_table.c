@@ -32,10 +32,6 @@ table_index_t pop(FreeQueue *stack)
         return NULL_INDEX;
     }
     table_index_t index = stack->freeIndex[stack->head];
-    if(isEmpty(stack)){
-        return NULL_INDEX;
-    }
-    table_index_t index = stack->freeIndex[stack->head];
     stack->head = (stack->head + 1) % FREE_QUEUE_SIZE;
     stack->size--;
     return index;

@@ -113,7 +113,6 @@ table_index_t findRangingTable(uint16_t address){
 // 查找指定序号发送缓冲区下标
 table_index_t findSendBufferIndex(uint16_t seq){
     table_index_t index = rangingTableSet.sendBufferTop;
-    table_index_t index = rangingTableSet.sendBufferTop;
     int count = 0;
     while (rangingTableSet.sendBuffer[index].seqNumber != NULL_SEQ && count < rangingTableSet.size)
     {
@@ -243,7 +242,6 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
     /* Generate message header */
     
     // 从发送缓冲区中取出最近多次发送时间戳
-    table_index_t sendBufferIndex = rangingTableSet.sendBufferTop;
     table_index_t sendBufferIndex = rangingTableSet.sendBufferTop;
     for(int i = 0; i < RANGING_MAX_Tr_UNIT; i++){
         if(rangingTableSet.sendBuffer[sendBufferIndex].timestamp.full != NULL_TIMESTAMP){

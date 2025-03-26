@@ -91,7 +91,7 @@ class RangingTable:
         Tof = (Ra * Rb - Da * Db) / (Ra + Rb + Da + Db)
         d = Tof * 0.4691763978616
         
-        # print("ka:",(Ra)/(2*Tof+Db))
+        print("ka:",(Ra)/(2*Tof+Db))
         
         return [Tof,d]
 
@@ -188,6 +188,7 @@ def reGetData(path):
     classicTof = []
     d = []
     classicD = []
+    d3 = []
     with open(path, "r") as file:
         for line in file:
             match = re.match(pattern, line)
@@ -197,7 +198,8 @@ def reGetData(path):
                 classicTof.append(int(match.groups()[2]))
                 d.append(float(match.groups()[3]))
                 classicD.append(float(match.groups()[5]))
-    return T23,classicTof,d,classicD
+                d3.append(float(match.groups()[4]))
+    return T23,classicTof,d,classicD,d3
     
 def funcMain1():
     rt = RangingTable()
@@ -219,9 +221,9 @@ def funcMain1():
     #     print((rt.raArray[i]*rt.rbArray[i]-rt.daArray[i]*rt.dbArray[i],rt.raArray[i])/rt.raArray,rt.dbArray[i],(rt.dbArray[i+1]-rt.dbArray[i])/(rt.raArray[i+1]-rt.raArray[i]))
 
     T23 = rt.doModifiedTofDoubleRanging()
-    print("Modified Double:")
-    for i in T23:
-        print(i)
+    # print("Modified Double:")
+    # for i in T23:
+    #     print(i)
     
     plt.plot(range(0,len(T23)), [i[1] for i in T23], label="Modified Double")
     
@@ -240,7 +242,7 @@ def funcMain1():
     #     diff.append(T23[i][1] - tof[i][1])
     # plt.plot(range(0,len(diff)), diff, label="Diff")
     plt.legend()
-    plt.show()
+    # plt.show()
     
 def funcMain2():
     Ra = 61812033992
@@ -271,7 +273,7 @@ def funcMain2():
     print(tof,tof2)
     
 def funcMain3():
-    [T23,classicTof,d,classicD] = reGetData("/Users/ou/Desktop/飞行记录文件/测距/12-02/1-测距-1202-实验100cm，60cm，60-180cm.txt")
+    [T23,classicTof,d,classicD,d3] = reGetData("/Users/ou/Desktop/飞行记录文件/测距/12-02/2-测距-1202-快速移动.txt")
     
     meanD = np.mean(d)
     meanClassicD = np.mean(classicD)
@@ -280,21 +282,28 @@ def funcMain3():
     print("D Mean:",meanD,"Std:",stdD)
     print("Classic D Mean:",meanClassicD,"Std:",stdClassicD)
     
+    T23_classicTof_d = []
+    for i in range(0,len(T23)):
+        T23_classicTof_d.append((T23[i] - classicTof[i])*0.4691763978616)
+    
     # plt.plot(range(0,len(T23)), T23, 'r' , label="T23")
     # plt.plot(range(0,len(T23)), [i/2 for i in T23], 'r' , label="T23/2")
     # plt.plot(range(0,len(classicTof)), classicTof, label="Classic Tof")
-    plt.plot(range(0,len(d)), d, label="d")
+    
     plt.plot(range(0,len(classicD)), classicD, label="Classic d")
+    # plt.plot(range(0,len(d3)), d3, label="d3")
+    plt.plot(range(0,len(T23_classicTof_d)), T23_classicTof_d, label="(T23 - Classic Tof) d")
+    plt.plot(range(0,len(d)), d , label="d")
     plt.legend()
     plt.show()
     
-    diff = []
-    for i in range(0,len(T23)):
-        diff.append(d[i] - classicD[i])
-    plt.plot(range(0,len(diff)), diff, label="Diff")
+    # diff = []
+    # for i in range(0,len(T23)):
+    #     diff.append(d[i] - classicD[i])
+    # plt.plot(range(0,len(diff)), diff, label="Diff")
     
-    plt.legend()
-    plt.show()
+    # plt.legend()
+    # plt.show()
     
 def funcMain4():
     A1Tx = 577235089205522945
@@ -318,9 +327,9 @@ def funcMain4():
     print(tof)
 
 if __name__ == "__main__":
-    funcMain1()
+    # funcMain1()
     # funcMain2()
-    # funcMain3()
+    funcMain3()
     # funcMain4()
     
     
