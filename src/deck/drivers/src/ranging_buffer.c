@@ -30,7 +30,7 @@ void initRangingBufferNode(RangingBufferNode *node){
     node->localSeq = NULL_SEQ;
     node->preLocalSeq = NULL_SEQ;
     
-    #ifdef ENABLE_RECORD_COORDINATE
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         node->sendTxCoordinate = nullCoordinate;
         node->sendRxCoordinate = nullCoordinate;
         node->receiveTxCoordinate = nullCoordinate;
@@ -46,8 +46,8 @@ void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType
         buffer->sendBuffer[buffer->topSendBuffer].sendRx = node->sendRx;
         buffer->sendBuffer[buffer->topSendBuffer].receiveTx = node->receiveTx;
         buffer->sendBuffer[buffer->topSendBuffer].receiveRx = node->receiveRx;
-        #ifdef ENABLE_RECORD_COORDINATE
-            buffer.sendBuffer[buffer->topSendBuffer].sendTxCoordinate = node->sendTxCoordinate;
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+            buffer->sendBuffer[buffer->topSendBuffer].sendTxCoordinate = node->sendTxCoordinate;
             buffer->sendBuffer[buffer->topSendBuffer].sendRxCoordinate = node->sendRxCoordinate;
             buffer->sendBuffer[buffer->topSendBuffer].receiveTxCoordinate = node->receiveTxCoordinate;
             buffer->sendBuffer[buffer->topSendBuffer].receiveRxCoordinate = node->receiveRxCoordinate;
@@ -80,8 +80,8 @@ void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType
         buffer->receiveBuffer[buffer->topReceiveBuffer].sendRx = node->sendRx;
         buffer->receiveBuffer[buffer->topReceiveBuffer].receiveTx = node->receiveTx;
         buffer->receiveBuffer[buffer->topReceiveBuffer].receiveRx = node->receiveRx;
-        #ifdef ENABLE_RECORD_COORDINATE
-            buffer.receiveBuffer[buffer->topReceiveBuffer].sendTxCoordinate = node->sendTxCoordinate;
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+            buffer->receiveBuffer[buffer->topReceiveBuffer].sendTxCoordinate = node->sendTxCoordinate;
             buffer->receiveBuffer[buffer->topReceiveBuffer].sendRxCoordinate = node->sendRxCoordinate;
             buffer->receiveBuffer[buffer->topReceiveBuffer].receiveTxCoordinate = node->receiveTxCoordinate;
             buffer->receiveBuffer[buffer->topReceiveBuffer].receiveRxCoordinate = node->receiveRxCoordinate;
@@ -137,12 +137,12 @@ table_index_t searchRangingBuffer(RangingBuffer *buffer, uint16_t localSeq, Stat
     }
     return ans;
 }
-bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t localSeq, uint16_t checkLocalSeq, StatusType status, bool flag){
+double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t localSeq, uint16_t checkLocalSeq, StatusType status, bool flag){
     RangingBufferNode* node = NULL;
     table_index_t index = searchRangingBuffer(buffer, checkLocalSeq, status);
     if(index == NULL_INDEX){
         DEBUG_PRINT("Warning: Cannot find the record with localSeq:%d.\n",checkLocalSeq);
-        return false;
+        return -1;
     }
     if(status == SENDER){
         node = &buffer->receiveBuffer[index];
@@ -150,7 +150,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
     else if(status == RECEIVER){
         node = &buffer->sendBuffer[index];
     }
-    DEBUG_PRINT("[CalculateTof]nodePreLocalSeq:%d,nodelocalSeq:%d,localSeq:%d\n",node->preLocalSeq,node->localSeq,localSeq);
+    // DEBUG_PRINT("[CalculateTof]nodePreLocalSeq:%d,nodelocalSeq:%d,localSeq:%d\n",node->preLocalSeq,node->localSeq,localSeq);
     uint64_t Ra=0,Rb=0,Da=0,Db=0;
     /*
         本次通信是发送方,通信次序从左到右如下:
@@ -200,7 +200,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
             }
             else{
                 DEBUG_PRINT("Warning: The latest record in the ranging buffer failed, and an attempt to recalculate the Tof using the next most recent valid record failed.\n");
-                return false;
+                return -1;
             }
         #endif
     }
@@ -213,7 +213,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
         }
         else{
             DEBUG_PRINT("Warning: The latest record in the ranging buffer failed, and an attempt to recalculate the Tof using the next most recent valid record failed.\n");
-            return false;
+            return -1;
         }
     }
     int64_t classicTof = ((Rb + Db) * (Ra - Da) + (Rb - Db) * (Ra + Da)) / (2*(Ra + Db + Rb + Da));
@@ -231,7 +231,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
         newNode.sendRx = Rx;
         newNode.receiveTx = node->receiveTx;
         newNode.receiveRx = node->receiveRx;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode.receiveTxCoordinate = node->receiveTxCoordinate;
             newNode.receiveRxCoordinate = node->receiveRxCoordinate;
         #endif
@@ -252,7 +252,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
         newNode.sendRx = node->sendRx;
         newNode.receiveTx = Tx;
         newNode.receiveRx = Rx;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode.sendTxCoordinate = node->sendTxCoordinate;
             newNode.sendRxCoordinate = node->sendRxCoordinate;
         #endif
@@ -263,7 +263,7 @@ bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t loca
         newNode.T2 = T23 - newNode.T1;
         addRangingBuffer(buffer, &newNode, status);
     }
-    return true;
+    return d;
 }
 
 // 更新Tof记录
@@ -327,7 +327,7 @@ bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table
         newNode1.sumTof = Tof*2;
         newNode1.T1 = Tof;
         newNode1.T2 = Tof;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode1.sendTxCoordinate = listA->tableBuffer[indexA3].TxCoordinate;
             newNode1.sendRxCoordinate = listA->tableBuffer[indexA3].RxCoordinate;
             newNode1.receiveTxCoordinate = listB->tableBuffer[indexB2].TxCoordinate;
@@ -345,7 +345,7 @@ bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table
         newNode2.sumTof = Tof*2;
         newNode2.T1 = Tof;
         newNode2.T2 = Tof;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode2.sendTxCoordinate = listA->tableBuffer[indexA1].TxCoordinate;
             newNode2.sendRxCoordinate = listA->tableBuffer[indexA1].RxCoordinate;
             newNode2.receiveTxCoordinate = listB->tableBuffer[indexB2].TxCoordinate;
@@ -367,7 +367,7 @@ bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table
         newNode1.sumTof = Tof*2;
         newNode1.T1 = Tof;
         newNode1.T2 = Tof;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode1.sendTxCoordinate = listB->tableBuffer[indexB2].TxCoordinate;
             newNode1.sendRxCoordinate = listB->tableBuffer[indexB2].RxCoordinate;
             newNode1.receiveTxCoordinate = listA->tableBuffer[indexA3].TxCoordinate;
@@ -385,7 +385,7 @@ bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table
         newNode2.sumTof = Tof*2;
         newNode2.T1 = Tof;
         newNode2.T2 = Tof;
-        #ifdef ENABLE_RECORD_COORDINATE
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode2.sendTxCoordinate = listB->tableBuffer[indexB2].TxCoordinate;
             newNode2.sendRxCoordinate = listB->tableBuffer[indexB2].RxCoordinate;
             newNode2.receiveTxCoordinate = listA->tableBuffer[indexA1].TxCoordinate;
@@ -408,9 +408,9 @@ void printRangingBuffer(RangingBuffer *buffer){
         DEBUG_PRINT("sendTx:%llu,sendRx:%llu\n",buffer->receiveBuffer[i].sendTx.full,buffer->receiveBuffer[i].sendRx.full);
         DEBUG_PRINT("receiveTx:%llu,receiveRx:%llu\n",buffer->receiveBuffer[i].receiveTx.full,buffer->receiveBuffer[i].receiveRx.full);
         DEBUG_PRINT("sumTof:%lld\n",buffer->receiveBuffer[i].sumTof);
-        #ifdef ENABLE_RECORD_COORDINATE
-            DEBUG_PRINT("sendCoordinate:(%d,%d,%d)\n",buffer->receiveBuffer[i].sendRxCoordinate.x,buffer->receiveBuffer[i].sendRxCoordinate.y,buffer->topReceiveBuffer[i].sendRxCoordinate.z);
-            DEBUG_PRINT("receiveCoordinate:(%d,%d,%d)\n",buffer->receiveBuffer[i].receiveRxCoordinate.x,buffer->receiveBuffer[i].receiveRxCoordinate.y,buffer->topReceiveBuffer[i].receiveRxCoordinate.z);
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+            DEBUG_PRINT("sendCoordinate:(%d,%d,%d)\n",buffer->receiveBuffer[i].sendRxCoordinate.x,buffer->receiveBuffer[i].sendRxCoordinate.y,buffer->receiveBuffer[i].sendRxCoordinate.z);
+            DEBUG_PRINT("receiveCoordinate:(%d,%d,%d)\n",buffer->receiveBuffer[i].receiveRxCoordinate.x,buffer->receiveBuffer[i].receiveRxCoordinate.y,buffer->receiveBuffer[i].receiveRxCoordinate.z);
         #endif
         i = (i - 1 + MAX_RANGING_BUFFER_SIZE) % MAX_RANGING_BUFFER_SIZE;
     }
@@ -423,9 +423,9 @@ void printRangingBuffer(RangingBuffer *buffer){
         DEBUG_PRINT("receiveTx:%llu,receiveRx:%llu\n",buffer->sendBuffer[i].receiveTx.full,buffer->sendBuffer[i].receiveRx.full);
         DEBUG_PRINT("sendTx:%llu,sendRx:%llu\n",buffer->sendBuffer[i].sendTx.full,buffer->sendBuffer[i].sendRx.full);
         DEBUG_PRINT("sumTof:%lld\n",buffer->sendBuffer[i].sumTof);
-        #ifdef ENABLE_RECORD_COORDINATE
-            DEBUG_PRINT("receiveCoordinate:(%d,%d,%d)\n",buffer->sendBuffer[i].receiveRxCoordinate.x,buffer->sendBuffer[i].receiveRxCoordinate.y,buffer->topSendBuffer[i].receiveRxCoordinate.z);
-            DEBUG_PRINT("sendCoordinate:(%d,%d,%d)\n",buffer->sendBuffer[i].sendRxCoordinate.x,buffer->sendBuffer[i].sendRxCoordinate.y,buffer->topSendBuffer[i].sendRxCoordinate.z);
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+            DEBUG_PRINT("receiveCoordinate:(%d,%d,%d)\n",buffer->sendBuffer[i].receiveRxCoordinate.x,buffer->sendBuffer[i].receiveRxCoordinate.y,buffer->sendBuffer[i].receiveRxCoordinate.z);
+            DEBUG_PRINT("sendCoordinate:(%d,%d,%d)\n",buffer->sendBuffer[i].sendRxCoordinate.x,buffer->sendBuffer[i].sendRxCoordinate.y,buffer->sendBuffer[i].sendRxCoordinate.z);
         #endif
         i = (i - 1 + MAX_RANGING_BUFFER_SIZE) % MAX_RANGING_BUFFER_SIZE;
     }

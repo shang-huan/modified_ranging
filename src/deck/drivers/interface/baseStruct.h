@@ -32,14 +32,16 @@ typedef enum{
 
 typedef struct{
     dwTime_t Tx;    // 发送时间戳
-    Coordinate16_Tuple_t TxCoordinate; // 发送坐标
     dwTime_t Rx; // 接收时间戳
+    Coordinate16_Tuple_t TxCoordinate; // 发送坐标
     Coordinate16_Tuple_t RxCoordinate; // 接收坐标
     int64_t Tf;// 传输时间戳 
     uint16_t localSeq;// 本地序号
     uint16_t remoteSeq;// 远程序号
     table_index_t next; // 下一个节点
     table_index_t pre; // 前一个节点
+
+    uint16_t ukfBufferId;// UKF缓存ID
 }TableNode_t;
 
 typedef struct 

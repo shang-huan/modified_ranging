@@ -8,6 +8,8 @@
 #include "nullValue.h"
 #include "ranging_buffer.h"
 
+#include "UKF.h"
+
 #ifndef RANGING_TABLE_DEBUG_ENABLE
 #undef DEBUG_PRINT
 #define DEBUG_PRINT
@@ -70,14 +72,19 @@ void initTableLinkedList(TableLinkedList_t *list)
     for (uint8_t i = 0; i < TABLE_BUFFER_SIZE; i++)
     {
         list->tableBuffer[i].Tx.full = NULL_TIMESTAMP;
-        list->tableBuffer[i].TxCoordinate = nullCoordinate;
         list->tableBuffer[i].Rx.full = NULL_TIMESTAMP;
+        #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        list->tableBuffer[i].TxCoordinate = nullCoordinate;
         list->tableBuffer[i].RxCoordinate = nullCoordinate;
+        #endif
         list->tableBuffer[i].Tf = NULL_TF;
         list->tableBuffer[i].localSeq = NULL_SEQ;
         list->tableBuffer[i].remoteSeq = NULL_SEQ;
         list->tableBuffer[i].next = NULL_INDEX;
         list->tableBuffer[i].pre = NULL_INDEX;
+        #ifdef UKF_RELATIVE_POSITION_ENABLE
+            list->tableBuffer[i].ukfBufferId = NULL_INDEX;
+        #endif
     }
     initFreeQueue(&list->freeQueue);
 }
@@ -100,12 +107,16 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
             if (node->Tx.full != NULL_TIMESTAMP)
             {
                 list->tableBuffer[index].Tx = node->Tx;
+                #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
                 list->tableBuffer[index].TxCoordinate = node->TxCoordinate;
+                #endif
             }
             if (node->Rx.full != NULL_TIMESTAMP)
             {
                 list->tableBuffer[index].Rx = node->Rx;
+                #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
                 list->tableBuffer[index].RxCoordinate = node->RxCoordinate;
+                #endif
             }
             if (node->Tf != NULL_TF)
             {
@@ -121,12 +132,17 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
     index = pop(&list->freeQueue);
     // 添加记录
     list->tableBuffer[index].Tx = node->Tx;
-    list->tableBuffer[index].TxCoordinate = node->TxCoordinate;
     list->tableBuffer[index].Rx = node->Rx;
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+    list->tableBuffer[index].TxCoordinate = node->TxCoordinate;
     list->tableBuffer[index].RxCoordinate = node->RxCoordinate;
+    #endif
     list->tableBuffer[index].Tf = node->Tf;
     list->tableBuffer[index].localSeq = node->localSeq;
     list->tableBuffer[index].remoteSeq = node->remoteSeq;
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
+        list->tableBuffer[index].ukfBufferId = UKFBufferId;
+    #endif
     // 添加到链表
     if (list->head == NULL_INDEX)
     {
@@ -138,11 +154,7 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
         list->tableBuffer[list->head].pre = index;
         list->tableBuffer[index].next = list->head;
         list->head = index;
-        list->tableBuffer[list->head].pre = index;
-        list->tableBuffer[index].next = list->head;
-        list->head = index;
     }
-
     return index;
 }
 // 删除最后一条记录
@@ -159,22 +171,19 @@ void deleteLastRecord(TableLinkedList_t *list)
     {
         list->tableBuffer[list->tail].next = NULL_INDEX;
     }
-    if (list->tail != NULL_INDEX)
-    {
-        list->tableBuffer[list->tail].next = NULL_INDEX;
-    }
     // 清空数据
     list->tableBuffer[index].Tx.full = NULL_TIMESTAMP;
-    list->tableBuffer[index].TxCoordinate = nullCoordinate;
     list->tableBuffer[index].Rx.full = NULL_TIMESTAMP;
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+    list->tableBuffer[index].TxCoordinate = nullCoordinate;
     list->tableBuffer[index].RxCoordinate = nullCoordinate;
+    #endif
     list->tableBuffer[index].Tf = NULL_TF;
     list->tableBuffer[index].localSeq = NULL_SEQ;
     list->tableBuffer[index].remoteSeq = NULL_SEQ;
     list->tableBuffer[index].next = NULL_INDEX;
     list->tableBuffer[index].pre = NULL_INDEX;
-    DEBUG_PRINT("Delete last record,index: %d\n", index);
-    DEBUG_PRINT("Delete last record,index: %d\n", index);
+    // DEBUG_PRINT("Delete last record,index: %d\n", index);
     // 放回空闲队列
     push(&list->freeQueue, index);
 }

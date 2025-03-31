@@ -5,8 +5,7 @@
 #include "ranging_table.h"
 #include "semphr.h"
 #include "adhocdeck.h"
-
-#define UWB_MODIFIED_RANGING_DEBUG_ENABLE
+#include "modified_ranging_config.h"
 
 #define MAX_NEIGHBOR_NUM 10
 
@@ -17,9 +16,9 @@
 
 /* Queue Constants */
 #define RANGING_RX_QUEUE_SIZE 5
-#define RANGING_RX_QUEUE_ITEM_SIZE sizeof(Ranging_Message_With_Timestamp_And_Coordinate_t)
+#define RANGING_RX_QUEUE_ITEM_SIZE sizeof(Ranging_Message_With_Additional_Info_t)
 #define AMEND_RX_QUEUE_SIZE 5
-#define AMEND_RX_QUEUE_SIZE sizeof(Amend_Message_With_Timestamp_And_Coordinate_t)
+#define AMEND_RX_QUEUE_SIZE sizeof(Amend_Message_With_Additional_Info_t)
 
 /* Ranging Struct Constants */
 #define RANGING_MESSAGE_SIZE_MAX UWB_PAYLOAD_SIZE_MAX
@@ -54,7 +53,9 @@ typedef struct
     //   } flags; // 1 byte //暂时不知作用
     uint16_t dest;                                      
     Timestamp_Tuple_t rxTimestamp[RANGING_MAX_RX_UNIT]; 
-    Coordinate16_Tuple_t rxCoodinate[RANGING_MAX_RX_UNIT];
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        Coordinate16_Tuple_t rxCoodinate[RANGING_MAX_RX_UNIT];
+    #endif
 } __attribute__((packed)) Body_Unit_t;                  
 
 /* Ranging Message Header*/
@@ -63,8 +64,10 @@ typedef struct
     PacketType packetType;                                   
     uint16_t srcAddress;                                     
     uint16_t msgSequence;                                    
-    Timestamp_Tuple_t lastTxTimestamps[RANGING_MAX_Tr_UNIT]; 
-    Coordinate16_Tuple_t lastTxCoodinate[RANGING_MAX_Tr_UNIT];
+    Timestamp_Tuple_t lastTxTimestamps[RANGING_MAX_Tr_UNIT];
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        Coordinate16_Tuple_t lastTxCoodinate[RANGING_MAX_Tr_UNIT];
+    #endif
     uint16_t msgLength;                                      
     //   uint16_t filter; // 16 bits bloom filter //暂时不知作用
 } __attribute__((packed)) Ranging_Message_Header_t; // 36
@@ -93,8 +96,10 @@ typedef struct
 {
     Ranging_Message_t rangingMessage;
     dwTime_t rxTime;
-    Coordinate16_Tuple_t rxCoordinate;
-} __attribute__((packed)) Ranging_Message_With_Timestamp_And_Coordinate_t;
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        Coordinate16_Tuple_t rxCoordinate;
+    #endif
+} __attribute__((packed)) Ranging_Message_With_Additional_Info_t;
 
 /* Amend packet 
     用于修正测距，在原有报文结构基础上增加令牌环机制
@@ -106,7 +111,9 @@ typedef struct
     uint16_t msgSequence;       // 消息序列号                                 
     uint16_t token;             // 令牌
     Timestamp_Tuple_t lastTxTimestamps[RANGING_MAX_Tr_UNIT];  // 上n次发送时间戳
-    Coordinate16_Tuple_t lastTxCoodinate[RANGING_MAX_Tr_UNIT]; // 上n次发送坐标
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        Coordinate16_Tuple_t lastTxCoodinate[RANGING_MAX_Tr_UNIT]; // 上n次发送坐标
+    #endif
     uint16_t msgLength;                                      // 消息长度
 } __attribute__((packed)) Amend_Message_Header_t; // 36
 
@@ -121,8 +128,10 @@ typedef struct
 {
     Amend_Message_t rangingMessage;
     dwTime_t rxTime;
-    Coordinate16_Tuple_t rxCoordinate;
-} __attribute__((packed)) Amend_Message_With_Timestamp_And_Coordinate_t;
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+        Coordinate16_Tuple_t rxCoordinate;
+    #endif
+} __attribute__((packed)) Amend_Message_With_Additional_Info_t;
 
 typedef struct
 {
@@ -131,8 +140,12 @@ typedef struct
 
     table_index_t sendBufferTop; // 缓冲区头索引
     Timestamp_Tuple_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的时间戳
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
+    uint16_t ukfBufferId_Send[TABLE_BUFFER_SIZE]; 
+    #endif
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
     Coordinate16_Tuple_t sendCoordinateBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的坐标
-    
+    #endif
     RangingTable_t neighbor[MAX_NEIGHBOR_NUM];      // 邻居测距表
 } RangingTableSet_t;
 

@@ -27,6 +27,7 @@
 // #include "routing.h"
 // #include "raft.h"
 #include "modified_ranging.h"
+#include "UKF.h"
 
 #ifndef UWB_DEBUG_ENABLE
   #undef DEBUG_PRINT
@@ -395,6 +396,9 @@ static void uwbTaskInit() {
 #endif
 #ifdef UWB_MODIFIED_RANGING_ENABLE
   modifiedRangingInit();
+#endif
+#ifdef UKF_RELATIVE_POSITION_ENABLE
+  UKFRelativePositionInit();
 #endif
 }
 /*********** Deck driver initialization ***************/

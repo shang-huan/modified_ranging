@@ -8,6 +8,7 @@
 #include "stdbool.h"
 #include "ranging_buffer.h"
 #include "baseStruct.h"
+#include "modified_ranging_config.h"
 
 #define RANGING_TABLE_DEBUG_ENABLE
 

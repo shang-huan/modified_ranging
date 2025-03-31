@@ -3,9 +3,9 @@
 
 #include "baseStruct.h"
 #include "dwTypes.h"
+#include "modified_ranging_config.h"
 
 // #define ENABLE_CLASSIC_TOLERANCE
-// #define ENABLE_RECORD_COORDINATE
 
 #define MAX_RANGING_BUFFER_SIZE 5
 
@@ -27,7 +27,7 @@ typedef struct
     int64_t T2;
     int64_t sumTof;
 
-    #ifdef ENABLE_RECORD_COORDINATE
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         Coordinate16_Tuple_t sendTxCoordinate; 
         Coordinate16_Tuple_t sendRxCoordinate; 
         Coordinate16_Tuple_t receiveTxCoordinate;
@@ -52,7 +52,7 @@ void initRangingBuffer(RangingBuffer *buffer);
 void initRangingBufferNode(RangingBufferNode *node);
 void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType status);
 table_index_t searchRangingBuffer(RangingBuffer *buffer, uint16_t localSeq, StatusType status);
-bool calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t localSeq, uint16_t checkLocalSeq, StatusType status, bool flag);
+double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t localSeq, uint16_t checkLocalSeq, StatusType status, bool flag);
 bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table_index_t firstIndex, RangingBuffer* rangingBuffer, StatusType status);
 
 void printRangingBuffer(RangingBuffer *buffer);
