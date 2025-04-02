@@ -107,7 +107,7 @@ void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType
         //     i = (i - 1 + MAX_RANGING_BUFFER_SIZE) % MAX_RANGING_BUFFER_SIZE;
         // }
     }
-    DEBUG_PRINT("Add a new record to ranging buffer,current topSendBuffer:%d,topReceiveBuffer:%d.\n",buffer->topSendBuffer,buffer->topReceiveBuffer);
+    // DEBUG_PRINT("Add a new record to ranging buffer,current topSendBuffer:%d,topReceiveBuffer:%d.\n",buffer->topSendBuffer,buffer->topReceiveBuffer);
 }
 table_index_t searchRangingBuffer(RangingBuffer *buffer, uint16_t localSeq, StatusType status){
     table_index_t ans = NULL_INDEX;
@@ -137,7 +137,10 @@ table_index_t searchRangingBuffer(RangingBuffer *buffer, uint16_t localSeq, Stat
     }
     return ans;
 }
-double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t localSeq, uint16_t checkLocalSeq, StatusType status, bool flag){
+double calculateTof(RangingBuffer *buffer, TableNode_t* tableNode, uint16_t checkLocalSeq, StatusType status, bool flag){
+    dwTime_t Tx = tableNode->Tx;
+    dwTime_t Rx = tableNode->Rx;
+    uint16_t localSeq = tableNode->localSeq;
     RangingBufferNode* node = NULL;
     table_index_t index = searchRangingBuffer(buffer, checkLocalSeq, status);
     if(index == NULL_INDEX){
@@ -196,7 +199,7 @@ double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t lo
         #else
             if(flag){
                 DEBUG_PRINT("Warning: The latest record in the ranging buffer fails, and an attempt is made to recalculate the Tof using the next most recent valid record.\n");
-                return calculateTof(buffer, Tx, Rx, localSeq, node->localSeq, status, false);
+                return calculateTof(buffer, tableNode, node->localSeq, status, false);
             }
             else{
                 DEBUG_PRINT("Warning: The latest record in the ranging buffer failed, and an attempt to recalculate the Tof using the next most recent valid record failed.\n");
@@ -209,7 +212,7 @@ double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t lo
         DEBUG_PRINT("Warning: d is out of range(0,1000),d:%f\n",d);
         if(flag){
             DEBUG_PRINT("Warning: The latest record in the ranging buffer fails, and an attempt is made to recalculate the Tof using the next most recent valid record.\n");
-            return calculateTof(buffer, Tx, Rx, localSeq, node->localSeq, status, false);
+            return calculateTof(buffer, tableNode, node->localSeq, status, false);
         }
         else{
             DEBUG_PRINT("Warning: The latest record in the ranging buffer failed, and an attempt to recalculate the Tof using the next most recent valid record failed.\n");
@@ -218,7 +221,13 @@ double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t lo
     }
     int64_t classicTof = ((Rb + Db) * (Ra - Da) + (Rb - Db) * (Ra + Da)) / (2*(Ra + Db + Rb + Da));
     float classicD = classicTof * 0.4691763978616;
-    DEBUG_PRINT("[CalculateTof Finished]T23: %lld,T3: %lld,classicTof: %lld,d: %f,d3: %f,classicD: %f\n", T23, (T23-node->T2), classicTof, d, (T23-node->T2)* 0.4691763978616, classicD);
+    
+    float trueDx = (tableNode->RxCoordinate.x - tableNode->TxCoordinate.x)/10.0;
+    float trueDy = (tableNode->RxCoordinate.y - tableNode->TxCoordinate.y)/10.0;
+    float trueDz = (tableNode->RxCoordinate.z - tableNode->TxCoordinate.z)/10.0;
+    float trueD = sqrt(trueDx*trueDx + trueDy*trueDy + trueDz*trueDz);
+
+    DEBUG_PRINT("[CalculateTof Finished][%d] T23: %lld,T3: %lld,classicTof: %lld,d: %f,d3: %f,classicD: %f,trueD: %f\n", status, T23, (T23-node->T2), classicTof, d, (T23-node->T2)* 0.4691763978616, classicD,trueD);
     //缓存新有效记录
     RangingBufferNode newNode;
     if(status == SENDER){
@@ -232,8 +241,10 @@ double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t lo
         newNode.receiveTx = node->receiveTx;
         newNode.receiveRx = node->receiveRx;
         #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
-            newNode.receiveTxCoordinate = node->receiveTxCoordinate;
             newNode.receiveRxCoordinate = node->receiveRxCoordinate;
+            newNode.receiveTxCoordinate = node->receiveTxCoordinate;
+            newNode.sendTxCoordinate = tableNode->TxCoordinate;
+            newNode.sendRxCoordinate = tableNode->RxCoordinate;
         #endif
         newNode.localSeq = localSeq;
         newNode.preLocalSeq = node->localSeq;
@@ -255,6 +266,8 @@ double calculateTof(RangingBuffer *buffer, dwTime_t Tx, dwTime_t Rx, uint16_t lo
         #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
             newNode.sendTxCoordinate = node->sendTxCoordinate;
             newNode.sendRxCoordinate = node->sendRxCoordinate;
+            newNode.receiveRxCoordinate = tableNode->RxCoordinate;
+            newNode.receiveTxCoordinate = tableNode->TxCoordinate;
         #endif
         newNode.localSeq = localSeq;
         newNode.preLocalSeq = node->localSeq;
@@ -313,6 +326,9 @@ bool firstRecordBuffer(TableLinkedList_t *listA, TableLinkedList_t *listB, table
         return false;
     }
     RangingBufferNode newNode1,newNode2;
+    DEBUG_PRINT("[firstRecordBuffer]A1:(%d,%d),B2:(%d,%d),A3:(%d,%d)\n",listA->tableBuffer[indexA1].localSeq,listA->tableBuffer[indexA1].remoteSeq,
+        listB->tableBuffer[indexB2].localSeq,listB->tableBuffer[indexB2].remoteSeq,
+        listA->tableBuffer[indexA3].localSeq,listA->tableBuffer[indexA3].remoteSeq);
     if(status == SENDER){
         /*
                 A3.Rx  B2.Tx            A1.Rx

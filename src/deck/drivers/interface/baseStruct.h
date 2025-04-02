@@ -42,7 +42,7 @@ typedef struct{
     table_index_t pre; // 前一个节点
 
     uint16_t ukfBufferId;// UKF缓存ID
-}TableNode_t;
+}__attribute__((packed)) TableNode_t;
 
 typedef struct 
 {

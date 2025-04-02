@@ -22,7 +22,6 @@ void initFreeQueue(FreeQueue *stack)
     stack->tail = stack->size - 1;
     stack->head = 0;
     for (table_index_t i = 0; i < FREE_QUEUE_SIZE; i++)
-    for (table_index_t i = 0; i < FREE_QUEUE_SIZE; i++)
     {
         stack->freeIndex[i] = i;
     }
@@ -42,9 +41,6 @@ table_index_t pop(FreeQueue *stack)
 // 将一个空闲指针放回空闲指针队列
 void push(FreeQueue *stack, table_index_t index)
 {
-    if(isFull(stack)){
-        return;
-    }
     if(isFull(stack)){
         return;
     }
@@ -91,7 +87,7 @@ void initTableLinkedList(TableLinkedList_t *list)
 // 添加时间戳记录，若序列号已存在则更新记录
 table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
 {
-    DEBUG_PRINT("Add Record,localSeq: %d,remoteSeq: %d\n", node->localSeq, node->remoteSeq);
+    // DEBUG_PRINT("Add Record,localSeq: %d,remoteSeq: %d\n", node->localSeq, node->remoteSeq);
     if (isEmpty(&list->freeQueue))
     {
         // 如果满了，删除最后一条记录
@@ -126,7 +122,6 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
         }
         index = list->tableBuffer[index].next;
     }
-    
     
     // 获取一个空闲指针
     index = pop(&list->freeQueue);
