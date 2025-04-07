@@ -26,6 +26,8 @@ typedef struct
     int64_t T1;
     int64_t T2;
     int64_t sumTof;
+    uint16_t localSeq;
+    uint16_t preLocalSeq; //前一个本地序号
 
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         Coordinate16_Tuple_t sendTxCoordinate; 
@@ -33,9 +35,6 @@ typedef struct
         Coordinate16_Tuple_t receiveTxCoordinate;
         Coordinate16_Tuple_t receiveRxCoordinate;
     #endif
-
-    uint16_t localSeq;
-    uint16_t preLocalSeq; //前一个本地序号
 }__attribute__((packed)) RangingBufferNode; // 一次往返通信有效记录缓存
 
 typedef struct 

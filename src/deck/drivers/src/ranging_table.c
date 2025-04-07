@@ -16,48 +16,49 @@
 #endif
 
 // 初始化空闲指针队列
-void initFreeQueue(FreeQueue *stack)
+void initFreeQueue(FreeQueue *queue)
 {
-    stack->size = FREE_QUEUE_SIZE;
-    stack->tail = stack->size - 1;
-    stack->head = 0;
+    queue->size = FREE_QUEUE_SIZE;
+    queue->tail = queue->size - 1;
+    queue->head = 0;
     for (table_index_t i = 0; i < FREE_QUEUE_SIZE; i++)
     {
-        stack->freeIndex[i] = i;
+        queue->freeIndex[i] = i;
     }
 }
 // 从空闲指针队列中获取一个空闲指针
-table_index_t pop(FreeQueue *stack)
+table_index_t pop(FreeQueue *queue)
 {
-    if(isEmpty(stack)){
+    if(isEmpty(queue)){
         return NULL_INDEX;
     }
-    table_index_t index = stack->freeIndex[stack->head];
-    stack->head = (stack->head + 1) % FREE_QUEUE_SIZE;
-    stack->size--;
+    table_index_t index = queue->freeIndex[queue->head];
+    queue->freeIndex[queue->head] = NULL_INDEX;
+    queue->head = (queue->head + 1) % FREE_QUEUE_SIZE;
+    queue->size--;
     return index;
 }
 
 // 将一个空闲指针放回空闲指针队列
-void push(FreeQueue *stack, table_index_t index)
+void push(FreeQueue *queue, table_index_t index)
 {
-    if(isFull(stack)){
+    if(isFull(queue)){
         return;
     }
-    stack->tail = (stack->tail + 1) % FREE_QUEUE_SIZE;
-    stack->freeIndex[stack->tail] = index;
-    stack->size++;
+    queue->tail = (queue->tail + 1) % FREE_QUEUE_SIZE;
+    queue->freeIndex[queue->tail] = index;
+    queue->size++;
 }
 
 // 空闲指针队列判空
-bool isEmpty(FreeQueue *stack)
+bool isEmpty(FreeQueue *queue)
 {
-    return stack->size == 0;
+    return queue->size == 0;
 }
 // 空闲指针队列判满
-bool isFull(FreeQueue *stack)
+bool isFull(FreeQueue *queue)
 {
-    return stack->size == FREE_QUEUE_SIZE;
+    return queue->size == FREE_QUEUE_SIZE;
 }
 
 // 初始化链表

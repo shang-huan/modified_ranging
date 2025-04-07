@@ -25,15 +25,15 @@ typedef struct
 } RangingTable_t;
 
 // 初始化空闲指针队列
-void initFreeQueue(FreeQueue *stack);
+void initFreeQueue(FreeQueue *queue);
 // 从空闲指针队列中获取一个空闲指针
-table_index_t pop(FreeQueue *stack);
+table_index_t pop(FreeQueue *queue);
 // 将一个空闲指针放回空闲指针队列
-void push(FreeQueue *stack, table_index_t index);
+void push(FreeQueue *queue, table_index_t index);
 // 空间指针队列判空
-bool isEmpty(FreeQueue *stack);
+bool isEmpty(FreeQueue *queue);
 // 空间指针队列判满
-bool isFull(FreeQueue *stack);
+bool isFull(FreeQueue *queue);
 
 // 初始化链表
 void initTableLinkedList(TableLinkedList_t *list);

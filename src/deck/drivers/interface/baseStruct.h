@@ -1,6 +1,8 @@
 #ifndef BASE_STRUCT_H
 #define BASE_STRUCT_H
 
+#include "modified_ranging_config.h"
+
 /*
     该文件用于临时解决文件间的循环引用问题
 */
@@ -33,15 +35,18 @@ typedef enum{
 typedef struct{
     dwTime_t Tx;    // 发送时间戳
     dwTime_t Rx; // 接收时间戳
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
     Coordinate16_Tuple_t TxCoordinate; // 发送坐标
     Coordinate16_Tuple_t RxCoordinate; // 接收坐标
+    #endif
     int64_t Tf;// 传输时间戳 
     uint16_t localSeq;// 本地序号
     uint16_t remoteSeq;// 远程序号
     table_index_t next; // 下一个节点
     table_index_t pre; // 前一个节点
-
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
     uint16_t ukfBufferId;// UKF缓存ID
+    #endif
 }__attribute__((packed)) TableNode_t;
 
 typedef struct 

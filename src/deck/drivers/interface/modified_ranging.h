@@ -96,7 +96,7 @@ typedef struct
 {
     Ranging_Message_t rangingMessage;
     dwTime_t rxTime;
-    // uint16_t rxSeqNumber;
+    uint16_t rxSeqNumber;
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         Coordinate16_Tuple_t rxCoordinate;
     #endif
@@ -141,6 +141,7 @@ typedef struct
 
     table_index_t sendBufferTop; // 缓冲区头索引
     Timestamp_Tuple_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的时间戳
+    uint16_t sendBufferSendId[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的次序ID
     #ifdef UKF_RELATIVE_POSITION_ENABLE
     uint16_t ukfBufferId_Send[TABLE_BUFFER_SIZE]; 
     #endif
