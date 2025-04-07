@@ -41,7 +41,7 @@ static RangingTableSet_t rangingTableSet; // 测距表集合
 static int loopIndex = 0; // 遍历邻居测距表下标
 
 static SemaphoreHandle_t rangingSeqNumberMutex = NULL; // 测距序号互斥量,防止多线程同时修改
-static int rangingSeqNumber = 1; // 本地测距处理序号
+static uint16_t rangingSeqNumber = 1; // 本地测距处理序号
 
 static float viconFX;
 static float viconFY;
@@ -294,15 +294,15 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
             #endif
         }
     }
-    xSemaphoreTake(rangingSeqNumberMutex, portMAX_DELAY);
+    // xSemaphoreTake(rangingSeqNumberMutex, portMAX_DELAY);
     rangingSeqNumber++;
-    int curSeqNumber = rangingSeqNumber;
-    xSemaphoreGive(rangingSeqNumberMutex);
-    // DEBUG_PRINT("[GenerateRangingMessage] rangingSeqNumber increase to %d\n",rangingSeqNumber);
+    uint16_t curSeq = rangingSeqNumber;
+    // xSemaphoreGive(rangingSeqNumberMutex);
+
     rangingMessage->header.packetType = RANGING_PACKET;
     rangingMessage->header.srcAddress = MY_UWB_ADDRESS;
     rangingMessage->header.msgLength = sizeof(Ranging_Message_Header_t) + sizeof(Body_Unit_t) * bodyUnitNumber;
-    rangingMessage->header.msgSequence = curSeqNumber;
+    rangingMessage->header.msgSequence = curSeq;
     // DEBUG_PRINT("generateRangingMessage: ranging message size = %u with %u body units.\n",
     //             rangingMessage->header.msgLength,
     //             bodyUnitNumber
@@ -311,7 +311,6 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
 }
 
 static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangingMessageWithAdditionalInfo) {
-    // DEBUG_PRINT("processRangingMessage: Received ranging message from %u,seq:%d\n", rangingMessageWithAdditionalInfo->rangingMessage.header.srcAddress,rangingSeqNumber);
     Ranging_Message_t *rangingMessage = &rangingMessageWithAdditionalInfo->rangingMessage;
     uint16_t neighborAddress = rangingMessage->header.srcAddress;
     table_index_t neighborIndex = findRangingTable(neighborAddress);
@@ -327,12 +326,10 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
 
     RangingTable_t *neighborRangingTable = &rangingTableSet.neighbor[neighborIndex];
 
-    // 添加本次接收时间戳,本地测距处理序号加一
-    xSemaphoreTake(rangingSeqNumberMutex, portMAX_DELAY);
+    // xSemaphoreTake(rangingSeqNumberMutex, portMAX_DELAY);
     rangingSeqNumber++;
-    int curSeqNumber = rangingSeqNumber;
-    xSemaphoreGive(rangingSeqNumberMutex);
-    // DEBUG_PRINT("[processRangingMessage] rangingSeqNumber increase to %d\n",rangingSeqNumber);
+    uint16_t curSeq = rangingSeqNumber;
+    // xSemaphoreGive(rangingSeqNumberMutex);
 
     TableNode_t node;
     node.Tx = nullTimeStamp;
@@ -344,7 +341,7 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
     node.RxCoordinate.z = rangingMessageWithAdditionalInfo->rxCoordinate.z;
     #endif
     node.Tf = NULL_TF;
-    node.localSeq = curSeqNumber;
+    node.localSeq = curSeq;
     node.remoteSeq = rangingMessage->header.msgSequence;
     addRecord(&neighborRangingTable->receiveBuffer, &node);
     
@@ -373,6 +370,17 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
             // updateTof(&neighborRangingTable->receiveBuffer, &neighborRangingTable->sendBuffer, receiveBufferIndex, ranging_mode);
             if(neighborRangingTable->rangingBuffer.sendLength < MAX_RANGING_BUFFER_SIZE){
                 firstRecordBuffer(&neighborRangingTable->receiveBuffer, &neighborRangingTable->sendBuffer, receiveBufferIndex, &neighborRangingTable->rangingBuffer, RECEIVER);
+                if(neighborRangingTable->rangingBuffer.sendLength == MAX_RANGING_BUFFER_SIZE){
+                    // 更新Tof值
+                    int64_t initTofMean = getInitTofSum() / MAX_RANGING_BUFFER_SIZE;
+                    for (int i = 0; i < neighborRangingTable->rangingBuffer.sendLength; i++)
+                    {
+                        neighborRangingTable->rangingBuffer.sendBuffer[i].sumTof = initTofMean*2;
+                        neighborRangingTable->rangingBuffer.sendBuffer[i].T1 = initTofMean;
+                        neighborRangingTable->rangingBuffer.sendBuffer[i].T2 = initTofMean;
+                    }
+                    DEBUG_PRINT("initTofMean:%lld\n",initTofMean);
+                }
             }
             else{
                 double d = calculateTof(&neighborRangingTable->rangingBuffer, &neighborRangingTable->receiveBuffer.tableBuffer[receiveBufferIndex],
@@ -441,6 +449,17 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
                     // updateTof(&neighborRangingTable->sendBuffer, &neighborRangingTable->receiveBuffer, sendBufferIndex, ranging_mode);
                     if(neighborRangingTable->rangingBuffer.receiveLength < MAX_RANGING_BUFFER_SIZE){
                         firstRecordBuffer(&neighborRangingTable->sendBuffer, &neighborRangingTable->receiveBuffer, insertIndex, &neighborRangingTable->rangingBuffer, SENDER);
+                        if(neighborRangingTable->rangingBuffer.receiveLength == MAX_RANGING_BUFFER_SIZE){
+                            // 更新Tof值
+                            int64_t initTofMean = getInitTofSum() / MAX_RANGING_BUFFER_SIZE;
+                            for (int i = 0; i < neighborRangingTable->rangingBuffer.receiveLength; i++)
+                            {
+                                neighborRangingTable->rangingBuffer.receiveBuffer[i].sumTof = initTofMean*2;
+                                neighborRangingTable->rangingBuffer.receiveBuffer[i].T1 = initTofMean;
+                                neighborRangingTable->rangingBuffer.receiveBuffer[i].T2 = initTofMean;
+                            }
+                            DEBUG_PRINT("initTofMean:%lld\n",initTofMean);
+                        }
                     }else{
                         double d = calculateTof(&neighborRangingTable->rangingBuffer, &neighborRangingTable->sendBuffer.tableBuffer[insertIndex],
                             neighborRangingTable->sendBuffer.tableBuffer[insertIndex].localSeq, SENDER, true);
@@ -464,7 +483,6 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
 static void uwbRangingTxTask(void *parameters) {
     systemWaitStart();
 
-    vTaskDelay(M2T(1000));
     /* velocity log variable id */
 
     UWB_Packet_t txPacketCache;
@@ -480,6 +498,7 @@ static void uwbRangingTxTask(void *parameters) {
         Time_t taskDelay = generateRangingMessage(rangingMessage);
         txPacketCache.header.length = sizeof(UWB_Packet_Header_t) + rangingMessage->header.msgLength;
         uwbSendPacketBlock(&txPacketCache);
+
         xSemaphoreGive(rangingTableSet.mu);
         vTaskDelay(taskDelay);
     }
@@ -552,13 +571,14 @@ static void uwbRangingRxTask(void *parameters) {
 void modifiedRangingRxCallback(void *parameters) {
     // DEBUG_PRINT("rangingRxCallback \n");
 
+    dwTime_t rxTime;
+    dwt_readrxtimestamp((uint8_t *) &rxTime.raw);
+
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
     UWB_Packet_t *packet = (UWB_Packet_t *) parameters;
-
-    dwTime_t rxTime;
-    dwt_readrxtimestamp((uint8_t *) &rxTime.raw);
     Ranging_Message_t *rangingMessage = (Ranging_Message_t *) packet->payload;
+
     if(rangingMessage->header.packetType == RANGING_PACKET){ 
         Ranging_Message_With_Additional_Info_t rxMessageWithAdditionalInfo;
         rxMessageWithAdditionalInfo.rxTime = rxTime;
@@ -601,34 +621,37 @@ void modifiedRangingRxCallback(void *parameters) {
 }
 
 void modifiedRangingTxCallback(void *parameters) {
-    UWB_Packet_t *packet = (UWB_Packet_t *) parameters;
 
     dwTime_t txTime;
     dwt_readtxtimestamp((uint8_t *) &txTime.raw);
+
+    UWB_Packet_t *packet = (UWB_Packet_t *) parameters;
     
     // 添加记录到发送缓冲区
     xSemaphoreTake(rangingTableSet.mu, portMAX_DELAY);
     // DEBUG_PRINT("TXCB,seq:%d,time:%llu\n",rangingMessage->header.msgSequence,txTime.full);
     // printRangingTableSet(&rangingTableSet);
     rangingTableSet.sendBufferTop = (rangingTableSet.sendBufferTop + 1) % TABLE_BUFFER_SIZE;
+    int8_t sendBufferIndex = rangingTableSet.sendBufferTop;
     Ranging_Message_t *rangingMessage = (Ranging_Message_t *) packet->payload;
     if(rangingMessage->header.packetType == RANGING_PACKET){
-        rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].seqNumber = rangingMessage->header.msgSequence; 
+        rangingTableSet.sendBuffer[sendBufferIndex].seqNumber = rangingMessage->header.msgSequence; 
         #ifdef UKF_RELATIVE_POSITION_ENABLE
-        rangingTableSet.ukfBufferId_Send[rangingTableSet.sendBufferTop] = UKFBufferId;
+        rangingTableSet.ukfBufferId_Send[sendBufferIndex] = UKFBufferId;
         #endif
     }
     else if(rangingMessage->header.packetType == AMEND_PACKET){
         Amend_Message_t *amendMessage = (Amend_Message_t *) packet->payload;
-        rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].seqNumber = amendMessage->header.msgSequence;
+        rangingTableSet.sendBuffer[sendBufferIndex].seqNumber = amendMessage->header.msgSequence;
         #ifdef UKF_RELATIVE_POSITION_ENABLE
-        rangingTableSet.ukfBufferId_Send[rangingTableSet.sendBufferTop] = UKFBufferId;
+        rangingTableSet.ukfBufferId_Send[sendBufferIndex] = UKFBufferId;
         #endif
     }
     else{
         DEBUG_PRINT("Warning: Unknown packet type received.\n");
     }
-    rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].timestamp = txTime;
+    rangingTableSet.sendBuffer[sendBufferIndex].timestamp = txTime;
+
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
     uint64_t curViconXYZ = viconXYZ;
     uint64_t viconX = (curViconXYZ & 0x0000FFFF00000000) >> 32;
@@ -637,24 +660,24 @@ void modifiedRangingTxCallback(void *parameters) {
     uint16_t x = (uint16_t)viconX;
     uint16_t y = (uint16_t)viconY;
     uint16_t z = (uint16_t)viconZ;
-    rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].x = x;
-    rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].y = y;
-    rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].z = z;
-    // DEBUG_PRINT("modifiedRangingTxCallback: coordinate:(%u,%u,%u)\n",rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].x,
-    //     rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].y, rangingTableSet.sendCoordinateBuffer[rangingTableSet.sendBufferTop].z);
+    rangingTableSet.sendCoordinateBuffer[sendBufferIndex].x = x;
+    rangingTableSet.sendCoordinateBuffer[sendBufferIndex].y = y;
+    rangingTableSet.sendCoordinateBuffer[sendBufferIndex].z = z;
+    // DEBUG_PRINT("modifiedRangingTxCallback: coordinate:(%u,%u,%u)\n",rangingTableSet.sendCoordinateBuffer[sendBufferIndex].x,
+    //     rangingTableSet.sendCoordinateBuffer[sendBufferIndex].y, rangingTableSet.sendCoordinateBuffer[sendBufferIndex].z);
     #endif
     xSemaphoreGive(rangingTableSet.mu);
-    // DEBUG_PRINT("modifiedRangingTxCallback: sendBufferIndex:%d,seq:%u,time:%llu\n",rangingTableSet.sendBufferTop
-    //         ,rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].seqNumber
-    //         ,rangingTableSet.sendBuffer[rangingTableSet.sendBufferTop].timestamp.full);
+    // DEBUG_PRINT("modifiedRangingTxCallback: sendBufferIndex:%d,seq:%u,time:%llu\n",sendBufferIndex
+    //         ,rangingTableSet.sendBuffer[sendBufferIndex].seqNumber
+    //         ,rangingTableSet.sendBuffer[sendBufferIndex].timestamp.full);
 }
 
 void modifiedRangingInit() {
     MY_UWB_ADDRESS = uwbGetAddress();
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
-    viconFX = 3.78461;
-    viconFY = 1166.8166;
-    viconFZ = 33.115;
+    viconFX = 5.0753;
+    viconFY = 11.24381;
+    viconFZ = 29.5683;
     uint64_t viconX = (uint64_t)(roundf(viconFX));
     uint64_t viconY = (uint64_t)(roundf(viconFY));
     uint64_t viconZ = (uint64_t)(roundf(viconFZ));

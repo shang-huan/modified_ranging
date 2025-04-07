@@ -96,6 +96,7 @@ typedef struct
 {
     Ranging_Message_t rangingMessage;
     dwTime_t rxTime;
+    // uint16_t rxSeqNumber;
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         Coordinate16_Tuple_t rxCoordinate;
     #endif

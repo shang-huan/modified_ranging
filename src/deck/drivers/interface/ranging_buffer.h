@@ -7,7 +7,7 @@
 
 // #define ENABLE_CLASSIC_TOLERANCE
 
-#define MAX_RANGING_BUFFER_SIZE 5
+#define MAX_RANGING_BUFFER_SIZE 6
 
 #define CONVERGENCE_THRESHOLD 1 // 收敛阈值
 
@@ -47,6 +47,8 @@ typedef struct
     RangingBufferNode sendBuffer[MAX_RANGING_BUFFER_SIZE];
     RangingBufferNode receiveBuffer[MAX_RANGING_BUFFER_SIZE];
 }RangingBuffer; // 缓存多次有效往返通信记录
+
+int64_t getInitTofSum();
 
 void initRangingBuffer(RangingBuffer *buffer);
 void initRangingBufferNode(RangingBufferNode *node);

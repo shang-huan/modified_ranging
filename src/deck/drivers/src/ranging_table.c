@@ -90,7 +90,7 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
     // DEBUG_PRINT("Add Record,localSeq: %d,remoteSeq: %d\n", node->localSeq, node->remoteSeq);
     if (isEmpty(&list->freeQueue))
     {
-        // 如果满了，删除最后一条记录
+        // 空闲指针队列为空，删除最后一条记录
         deleteLastRecord(list);
     }
     // 查找该序列号是否已记录
@@ -188,11 +188,14 @@ table_index_t findMaxSeqIndex(TableLinkedList_t *list, uint16_t localSeq, uint16
     table_index_t index = list->head;
     while (index != NULL_INDEX)
     {
-        // 序号小且Rx、Tx数据完整
-        if ((list->tableBuffer[index].localSeq < localSeq || (list->tableBuffer[index].remoteSeq < remoteSeq && list->tableBuffer[index].localSeq == localSeq))
-            && list->tableBuffer[index].Rx.full != NULL_TIMESTAMP && list->tableBuffer[index].Tx.full != NULL_TIMESTAMP)
+        // 序号小
+        // if (list->tableBuffer[index].localSeq < localSeq || (list->tableBuffer[index].remoteSeq < remoteSeq && list->tableBuffer[index].localSeq == localSeq))
+        if (list->tableBuffer[index].localSeq < localSeq)
         {
-            return index;
+            // Rx、Tx数据完整
+            if (list->tableBuffer[index].Rx.full != NULL_TIMESTAMP && list->tableBuffer[index].Tx.full != NULL_TIMESTAMP){
+                return index;
+            }
         }
         index = list->tableBuffer[index].next;
     }
