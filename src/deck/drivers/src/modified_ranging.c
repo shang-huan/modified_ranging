@@ -698,9 +698,9 @@ void modifiedRangingTxCallback(void *parameters) {
 void modifiedRangingInit() {
     MY_UWB_ADDRESS = uwbGetAddress();
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
-    viconFX = 5.0753;
-    viconFY = 11.24381;
-    viconFZ = 29.5683;
+    viconFX = 11.17914;
+    viconFY = 12.84513;
+    viconFZ = 33.04726;
     uint64_t viconX = (uint64_t)(roundf(viconFX));
     uint64_t viconY = (uint64_t)(roundf(viconFY));
     uint64_t viconZ = (uint64_t)(roundf(viconFZ));

@@ -64,9 +64,9 @@ void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType
         buffer->sendBuffer[buffer->topSendBuffer].sumTof = node->sumTof;
         buffer->sendBuffer[buffer->topSendBuffer].T1 = node->T1;
         buffer->sendBuffer[buffer->topSendBuffer].T2 = node->T2;
-        DEBUG_PRINT("[SENDER]RTX:%llu,RRX:%llu,TTX:%llu,TRX:%llu,T12:%lld,localSeq:%d,preLocalSeq:%d\n"
-            ,node->receiveTx.full,node->receiveRx.full,node->sendTx.full,node->sendRx.full
-            ,node->sumTof,node->localSeq,node->preLocalSeq);
+        // DEBUG_PRINT("[SENDER]RTX:%llu,RRX:%llu,TTX:%llu,TRX:%llu,T12:%lld,localSeq:%d,preLocalSeq:%d\n"
+        //     ,node->receiveTx.full,node->receiveRx.full,node->sendTx.full,node->sendRx.full
+        //     ,node->sumTof,node->localSeq,node->preLocalSeq);
         if(buffer->sendLength < MAX_RANGING_BUFFER_SIZE){
             buffer->sendLength++;
         }
@@ -98,9 +98,9 @@ void addRangingBuffer(RangingBuffer *buffer, RangingBufferNode *node, StatusType
         buffer->receiveBuffer[buffer->topReceiveBuffer].sumTof = node->sumTof;
         buffer->receiveBuffer[buffer->topReceiveBuffer].T1 = node->T1;
         buffer->receiveBuffer[buffer->topReceiveBuffer].T2 = node->T2;
-        DEBUG_PRINT("[RECEIVER]TTX:%llu,TRX:%llu,RTX:%llu,RRX:%llu,T12:%lld,localSeq:%d,preLocalSeq:%d\n"
-            ,node->sendTx.full,node->sendRx.full,node->receiveTx.full,node->receiveRx.full
-            ,node->sumTof,node->localSeq,node->preLocalSeq);
+        // DEBUG_PRINT("[RECEIVER]TTX:%llu,TRX:%llu,RTX:%llu,RRX:%llu,T12:%lld,localSeq:%d,preLocalSeq:%d\n"
+        //     ,node->sendTx.full,node->sendRx.full,node->receiveTx.full,node->receiveRx.full
+        //     ,node->sumTof,node->localSeq,node->preLocalSeq);
         if(buffer->receiveLength < MAX_RANGING_BUFFER_SIZE){
             buffer->receiveLength++;
         }
