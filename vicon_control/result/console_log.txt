@@ -1,0 +1,1126 @@
+Warning: Cannot find corresponding Rx timestamp for Tx timestamp while processing ranging message.
+No valid record in listB
+No valid record in listA
+A3TX:152839765505,B2RX:177572608713,A1TX:184740386305
+A3RX:1086357633263,B2TX:11578796033,A1RX:18746558900
+[firstRecordBuffer]Tof:208
+[firstRecordBuffer]A1:(34,2),B2:(33,65535),A3:(32,1)
+A3TX:11578796033,B2RX:18746558900,A1TX:43505368577
+A3RX:177572608713,B2TX:184740386305,A1RX:209499247959
+[firstRecordBuffer]Tof:125
+[firstRecordBuffer]A1:(35,65535),B2:(34,2),A3:(33,65535)
+A3TX:184740386305,B2RX:209499247959,A1TX:216653548545
+A3RX:18746558900,B2TX:43505368577,A1RX:50659654625
+[firstRecordBuffer]Tof:186
+[firstRecordBuffer]A1:(36,3),B2:(35,65535),A3:(34,2)
+A3TX:43505368577,B2RX:50659654625,A1TX:75436203521
+A3RX:209499247959,B2TX:216653548545,A1RX:241430148956
+[firstRecordBuffer]Tof:130
+[firstRecordBuffer]A1:(37,65535),B2:(36,3),A3:(35,65535)
+A3TX:216653548545,B2RX:241430148956,A1TX:248572301825
+A3RX:50659654625,B2TX:75436203521,A1RX:82578341999
+[firstRecordBuffer]Tof:178
+[firstRecordBuffer]A1:(38,4),B2:(37,65535),A3:(36,3)
+A3TX:75436203521,B2RX:82578341999,A1TX:107363960833
+A3RX:241430148956,B2TX:248572301825,A1RX:273357971816
+[firstRecordBuffer]Tof:135
+[firstRecordBuffer]A1:(39,65535),B2:(38,4),A3:(37,65535)
+initTofMean:160
+[CalculateTof]status: 1,T12: 270,Ra: 24785669991,Rb: 7128622825,Da: 7128637081,Db: 24785618834
+[CalculateTof]RaDa: 3.476915,RbDb: 0.287611
+[CalculateTof Finished][1] T23: 379,T3: 244,classicTof: 177,d: 88.908927,d3: 114.479042,classicD: 83.044219,trueD: 58.012584
+[CalculateTof]status: 0,T12: 379,Ra: 7128622825,Rb: 24801075719,Da: 24801024791,Db: 7128637081
+[CalculateTof]RaDa: 0.287432,RbDb: 3.479076
+[CalculateTof Finished][0] T23: 273,T3: 29,classicTof: 148,d: 64.042579,d3: 13.606115,classicD: 69.438110,trueD: 58.012584
+[CalculateTof]status: 1,T12: 273,Ra: 24801075719,Rb: 7106059445,Da: 7106073593,Db: 24801024791
+[CalculateTof]RaDa: 3.490123,RbDb: 0.286522
+[CalculateTof Finished][1] T23: 365,T3: 336,classicTof: 172,d: 85.624694,d3: 157.643264,classicD: 80.698341,trueD: 58.012584
+[CalculateTof]status: 0,T12: 365,Ra: 7106059445,Rb: 24828101058,Da: 24828050251,Db: 7106073593
+[CalculateTof]RaDa: 0.286210,RbDb: 3.493926
+[CalculateTof Finished][0] T23: 289,T3: -47,classicTof: 152,d: 67.795990,d3: -22.051290,classicD: 71.314811,trueD: 58.012584
+[CalculateTof]status: 1,T12: 289,Ra: 24828101058,Rb: 7086240595,Da: 7086254654,Db: 24828050251
+[CalculateTof]RaDa: 3.503698,RbDb: 0.285412
+[CalculateTof Finished][1] T23: 359,T3: 406,classicTof: 171,d: 84.217163,d3: 190.485610,classicD: 80.229164,trueD: 58.012584
+[CalculateTof]status: 0,T12: 359,Ra: 7086240595,Rb: 24839794817,Da: 24839744173,Db: 7086254654
+[CalculateTof]RaDa: 0.285278,RbDb: 3.505348
+[CalculateTof Finished][0] T23: 286,T3: -120,classicTof: 151,d: 67.092224,d3: -56.301166,classicD: 70.845634,trueD: 58.012584
+[CalculateTof]status: 1,T12: 286,Ra: 24839794817,Rb: 7072292546,Da: 7072306559,Db: 24839744173
+[CalculateTof]RaDa: 3.512262,RbDb: 0.284716
+[CalculateTof Finished][1] T23: 324,T3: 444,classicTof: 158,d: 76.006576,d3: 208.314315,classicD: 74.129867,trueD: 58.012584
+[CalculateTof]status: 0,T12: 324,Ra: 7072292546,Rb: 24854070482,Da: 24854019902,Db: 7072306559
+[CalculateTof]RaDa: 0.284553,RbDb: 3.514280
+[CalculateTof Finished][0] T23: 287,T3: -157,classicTof: 147,d: 67.326812,d3: -73.660697,classicD: 68.968933,trueD: 58.012584
+[CalculateTof]status: 1,T12: 287,Ra: 24854070482,Rb: 7060075696,Da: 7060089646,Db: 24854019902
+[CalculateTof]RaDa: 3.520361,RbDb: 0.284061
+[CalculateTof Finished][1] T23: 336,T3: 493,classicTof: 162,d: 78.821632,d3: 231.303970,classicD: 76.006576,trueD: 58.012584
+[CalculateTof]status: 0,T12: 336,Ra: 7060075696,Rb: 24869745838,Da: 24869695312,Db: 7060089646
+[CalculateTof]RaDa: 0.283882,RbDb: 3.522582
+[CalculateTof Finished][0] T23: 298,T3: -195,classicTof: 153,d: 69.907279,d3: -91.489395,classicD: 71.783988,trueD: 58.012584
+[CalculateTof]status: 1,T12: 298,Ra: 24869745838,Rb: 7043602189,Da: 7043616082,Db: 24869695312
+[CalculateTof]RaDa: 3.530820,RbDb: 0.283220
+[CalculateTof Finished][1] T23: 332,T3: 527,classicTof: 162,d: 77.883285,d3: 247.255966,classicD: 76.006576,trueD: 58.012584
+[CalculateTof]status: 0,T12: 332,Ra: 7043602189,Rb: 24888770067,Da: 24888719603,Db: 7043616082
+[CalculateTof]RaDa: 0.283003,RbDb: 3.533521
+[CalculateTof Finished][0] T23: 294,T3: -233,classicTof: 151,d: 68.968933,d3: -109.318099,classicD: 70.845634,trueD: 58.012584
+[CalculateTof]status: 1,T12: 294,Ra: 24888770067,Rb: 7031399383,Da: 7031413229,Db: 24888719603
+[CalculateTof]RaDa: 3.539654,RbDb: 0.282513
+[CalculateTof Finished][1] T23: 327,T3: 560,classicTof: 160,d: 76.710342,d3: 262.738769,classicD: 75.068222,trueD: 58.012584
+[CalculateTof]status: 0,T12: 327,Ra: 7031399383,Rb: 24893382416,Da: 24893332009,Db: 7031413229
+[CalculateTof]RaDa: 0.282461,RbDb: 3.540309
+[CalculateTof Finished][0] T23: 299,T3: -261,classicTof: 152,d: 70.141868,d3: -122.455039,classicD: 71.314811,trueD: 58.012584
+[CalculateTof]status: 1,T12: 299,Ra: 24893382416,Rb: 7012239623,Da: 7012253424,Db: 24893332009
+[CalculateTof]RaDa: 3.549983,RbDb: 0.281691
+[CalculateTof Finished][1] T23: 313,T3: 574,classicTof: 155,d: 73.426109,d3: 269.307250,classicD: 72.722343,trueD: 58.012584
+[CalculateTof]status: 0,T12: 313,Ra: 7012239623,Rb: 24915439055,Da: 24915388665,Db: 7012253424
+[CalculateTof]RaDa: 0.281442,RbDb: 3.553128
+[CalculateTof Finished][0] T23: 292,T3: -282,classicTof: 148,d: 68.499755,d3: -132.307739,classicD: 69.438110,trueD: 58.012584
+[CalculateTof]status: 1,T12: 292,Ra: 24915439055,Rb: 6998143096,Da: 6998156849,Db: 24915388665
+[CalculateTof]RaDa: 3.560286,RbDb: 0.280876
+[CalculateTof Finished][1] T23: 318,T3: 600,classicTof: 156,d: 74.599044,d3: 281.505828,classicD: 73.191520,trueD: 58.012584
+[CalculateTof]status: 0,T12: 318,Ra: 6998143096,Rb: 24931953235,Da: 24931902856,Db: 6998156849
+[CalculateTof]RaDa: 0.280690,RbDb: 3.562645
+[CalculateTof Finished][0] T23: 298,T3: -302,classicTof: 151,d: 69.907279,d3: -141.691268,classicD: 70.845634,trueD: 58.012584
+[CalculateTof]status: 1,T12: 298,Ra: 24931953235,Rb: 6981099565,Da: 6981113261,Db: 24931902856
+[CalculateTof]RaDa: 3.571343,RbDb: 0.280006
+[CalculateTof Finished][1] T23: 327,T3: 629,classicTof: 160,d: 76.710342,d3: 295.111968,classicD: 75.068222,trueD: 58.012584
+[CalculateTof]status: 0,T12: 327,Ra: 6981099565,Rb: 24947092625,Da: 24947042259,Db: 6981113261
+[CalculateTof]RaDa: 0.279836,RbDb: 3.573512
+[CalculateTof Finished][0] T23: 306,T3: -323,classicTof: 155,d: 71.783988,d3: -151.543975,classicD: 72.722343,trueD: 58.012584
+[CalculateTof]status: 1,T12: 306,Ra: 24947092625,Rb: 6967451155,Da: 6967464815,Db: 24947042259
+[CalculateTof]RaDa: 3.580512,RbDb: 0.279289
+[CalculateTof Finished][1] T23: 321,T3: 644,classicTof: 158,d: 75.302810,d3: 302.149597,classicD: 74.129867,trueD: 58.012584
+[CalculateTof]status: 0,T12: 321,Ra: 6967451155,Rb: 24962461345,Da: 24962410989,Db: 6967464815
+[CalculateTof]RaDa: 0.279117,RbDb: 3.582717
+[CalculateTof Finished][0] T23: 305,T3: -339,classicTof: 154,d: 71.549400,d3: -159.050796,classicD: 72.253166,trueD: 58.012584
+[CalculateTof]status: 1,T12: 305,Ra: 24962461345,Rb: 6954895374,Da: 6954909023,Db: 24962410989
+[CalculateTof]RaDa: 3.589185,RbDb: 0.278614
+[CalculateTof Finished][1] T23: 295,T3: 634,classicTof: 148,d: 69.203521,d3: 297.457824,classicD: 69.438110,trueD: 58.012584
+[CalculateTof]status: 0,T12: 295,Ra: 6954895374,Rb: 24979953321,Da: 24979902962,Db: 6954909023
+[CalculateTof]RaDa: 0.278419,RbDb: 3.591701
+[CalculateTof Finished][0] T23: 289,T3: -345,classicTof: 145,d: 67.795990,d3: -161.865860,classicD: 68.030578,trueD: 58.012584
+[CalculateTof]status: 1,T12: 289,Ra: 24979953321,Rb: 6927816270,Da: 6927829847,Db: 24979902962
+[CalculateTof]RaDa: 3.605740,RbDb: 0.277335
+[CalculateTof Finished][1] T23: 309,T3: 654,classicTof: 152,d: 72.487754,d3: 306.841369,classicD: 71.314811,trueD: 58.012584
+[CalculateTof]status: 0,T12: 309,Ra: 6927816270,Rb: 24995347039,Da: 24995296690,Db: 6927829847
+[CalculateTof]RaDa: 0.277164,RbDb: 3.607961
+[CalculateTof Finished][0] T23: 292,T3: -362,classicTof: 147,d: 68.499755,d3: -169.841857,classicD: 68.968933,trueD: 58.012584
+[CalculateTof]status: 1,T12: 292,Ra: 24995347039,Rb: 6929160865,Da: 6929174433,Db: 24995296690
+[CalculateTof]RaDa: 3.607261,RbDb: 0.277218
+[CalculateTof Finished][1] T23: 308,T3: 670,classicTof: 152,d: 72.253166,d3: 314.348175,classicD: 71.314811,trueD: 58.012584
+[CalculateTof]status: 0,T12: 308,Ra: 6929160865,Rb: 24998471168,Da: 24998420831,Db: 6929174433
+[CalculateTof]RaDa: 0.277183,RbDb: 3.607712
+[CalculateTof Finished][0] T23: 299,T3: -371,classicTof: 150,d: 70.141868,d3: -174.064437,classicD: 70.376457,trueD: 58.012584
+[CalculateTof]status: 1,T12: 299,Ra: 24998471168,Rb: 6905038138,Da: 6905051648,Db: 24998420831
+[CalculateTof]RaDa: 3.620316,RbDb: 0.276218
+[CalculateTof Finished][1] T23: 311,T3: 682,classicTof: 154,d: 72.956932,d3: 319.978302,classicD: 72.253166,trueD: 58.012584
+[CalculateTof]status: 0,T12: 311,Ra: 6905038138,Rb: 25027204507,Da: 25027154118,Db: 6905051648
+[CalculateTof]RaDa: 0.275901,RbDb: 3.624477
+[CalculateTof Finished][0] T23: 306,T3: -376,classicTof: 153,d: 71.783988,d3: -176.410324,classicD: 71.783988,trueD: 58.012584
+[CalculateTof]status: 1,T12: 306,Ra: 25027204507,Rb: 6886599121,Da: 6886612581,Db: 25027154118
+[CalculateTof]RaDa: 3.634182,RbDb: 0.275165
+[CalculateTof Finished][1] T23: 321,T3: 697,classicTof: 158,d: 75.302810,d3: 327.015960,classicD: 74.129867,trueD: 58.012584
+[CalculateTof]status: 0,T12: 321,Ra: 6886599121,Rb: 25039229714,Da: 25039179311,Db: 6886612581
+[CalculateTof]RaDa: 0.275032,RbDb: 3.635928
+[CalculateTof Finished][0] T23: 314,T3: -383,classicTof: 157,d: 73.660697,d3: -179.694564,classicD: 73.660697,trueD: 58.409931
+[CalculateTof]status: 1,T12: 314,Ra: 25039229714,Rb: 6872113147,Da: 6872126702,Db: 25039179311
+[CalculateTof]RaDa: 3.643592,RbDb: 0.274454
+[CalculateTof Finished][1] T23: 192,T3: 575,classicTof: 109,d: 45.040935,d3: 269.776428,classicD: 51.140228,trueD: 59.504116
+[CalculateTof]status: 0,T12: 192,Ra: 6872113147,Rb: 25063272606,Da: 25063222277,Db: 6872126702
+[CalculateTof]RaDa: 0.274191,RbDb: 3.647091
+[CalculateTof Finished][0] T23: 192,T3: -383,classicTof: 96,d: 45.040935,d3: -179.694564,classicD: 45.040935,trueD: 84.015472
+[CalculateTof]status: 1,T12: 192,Ra: 25063272606,Rb: 6854420474,Da: 6854433634,Db: 25063222277
+[CalculateTof]RaDa: 3.656505,RbDb: 0.273485
+[CalculateTof Finished][1] T23: 551,T3: 934,classicTof: 237,d: 129.258102,d3: 438.210754,classicD: 111.194808,trueD: 96.025253
+[CalculateTof]status: 0,T12: 551,Ra: 6854420474,Rb: 25075946787,Da: 25075896326,Db: 6854433634
+[CalculateTof]RaDa: 0.273347,RbDb: 3.658354
+[CalculateTof Finished][0] T23: 482,T3: -452,classicTof: 248,d: 113.071510,d3: -212.067733,classicD: 116.355743,trueD: 136.305038
+[CalculateTof]status: 1,T12: 482,Ra: 25075946787,Rb: 6832191208,Da: 6832203997,Db: 25075896326
+[CalculateTof]RaDa: 3.670257,RbDb: 0.272460
+[CalculateTof Finished][1] T23: 828,T3: 1280,classicTof: 377,d: 194.239028,d3: 600.545776,classicD: 176.879501,trueD: 147.902694
+[CalculateTof]status: 0,T12: 828,Ra: 6832191208,Rb: 25089010644,Da: 25088960280,Db: 6832203997
+[CalculateTof]RaDa: 0.272318,RbDb: 3.672169
+[CalculateTof Finished][0] T23: 700,T3: -580,classicTof: 363,d: 164.211746,d3: -272.122314,classicD: 170.311035,trueD: 173.606979
+[CalculateTof]status: 1,T12: 700,Ra: 25089010644,Rb: 6824286912,Da: 6824299564,Db: 25088960280
+[CalculateTof]RaDa: 3.676422,RbDb: 0.272003
+[CalculateTof Finished][1] T23: 856,T3: 1436,classicTof: 411,d: 200.807495,d3: 673.737304,classicD: 192.831497,trueD: 6554.715332
+[CalculateTof]status: 0,T12: 856,Ra: 6824286912,Rb: 25105796185,Da: 25105745728,Db: 6824299564
+[CalculateTof]RaDa: 0.271821,RbDb: 3.678882
+[CalculateTof Finished][0] T23: 830,T3: -606,classicTof: 418,d: 194.708206,d3: -284.320892,classicD: 196.115737,trueD: 173.404861
+[CalculateTof]status: 1,T12: 830,Ra: 25105796185,Rb: 6807354431,Da: 6807367079,Db: 25105745728
+[CalculateTof]RaDa: 3.688033,RbDb: 0.271147
+[CalculateTof Finished][1] T23: 808,T3: 1414,classicTof: 406,d: 189.547271,d3: 663.415405,classicD: 190.485610,trueD: 173.404861
+[CalculateTof]status: 0,T12: 808,Ra: 6807354431,Rb: 25128528174,Da: 25128477633,Db: 6807367079
+[CalculateTof]RaDa: 0.270901,RbDb: 3.691372
+[CalculateTof Finished][0] T23: 824,T3: -590,classicTof: 410,d: 193.300674,d3: -276.814086,classicD: 192.362319,trueD: 173.905975
+[CalculateTof]status: 1,T12: 824,Ra: 25128528174,Rb: 6787488634,Da: 6787501266,Db: 25128477633
+[CalculateTof]RaDa: 3.702176,RbDb: 0.270111
+[CalculateTof Finished][1] T23: 797,T3: 1387,classicTof: 401,d: 186.966796,d3: 650.747680,classicD: 188.139739,trueD: 173.905975
+[CalculateTof]status: 0,T12: 797,Ra: 6787488634,Rb: 25133277172,Da: 25133226630,Db: 6787501266
+[CalculateTof]RaDa: 0.270060,RbDb: 3.702876
+[CalculateTof Finished][0] T23: 802,T3: -585,classicTof: 400,d: 188.139739,d3: -274.468200,classicD: 187.670562,trueD: 173.905975
+[CalculateTof]status: 1,T12: 802,Ra: 25133277172,Rb: 6784403135,Da: 6784415756,Db: 25133226630
+[CalculateTof]RaDa: 3.704560,RbDb: 0.269937
+[CalculateTof Finished][1] T23: 805,T3: 1390,classicTof: 402,d: 188.843505,d3: 652.155212,classicD: 188.608917,trueD: 173.905975
+[CalculateTof]status: 0,T12: 805,Ra: 6784403135,Rb: 25148669709,Da: 25148619073,Db: 6784415756
+[CalculateTof]RaDa: 0.269772,RbDb: 3.706829
+[CalculateTof Finished][0] T23: 822,T3: -568,classicTof: 409,d: 192.831497,d3: -266.492187,classicD: 191.893142,trueD: 173.905975
+[CalculateTof]status: 1,T12: 822,Ra: 25148669709,Rb: 6758406105,Da: 6758418675,Db: 25148619073
+[CalculateTof]RaDa: 3.721087,RbDb: 0.268738
+[CalculateTof Finished][1] T23: 816,T3: 1384,classicTof: 409,d: 191.423965,d3: 649.340148,classicD: 191.893142,trueD: 173.905975
+[CalculateTof]status: 0,T12: 816,Ra: 6758406105,Rb: 25168076816,Da: 25168026151,Db: 6758418675
+[CalculateTof]RaDa: 0.268531,RbDb: 3.723959
+[CalculateTof Finished][0] T23: 816,T3: -568,classicTof: 408,d: 191.423965,d3: -266.492187,classicD: 191.423965,trueD: 173.905975
+[CalculateTof]status: 1,T12: 816,Ra: 25168076816,Rb: 6745320164,Da: 6745332720,Db: 25168026151
+[CalculateTof]RaDa: 3.731183,RbDb: 0.268011
+[CalculateTof Finished][1] T23: 804,T3: 1372,classicTof: 403,d: 188.608917,d3: 643.710022,classicD: 189.078094,trueD: 173.905975
+[CalculateTof]status: 0,T12: 804,Ra: 6745320164,Rb: 25183505196,Da: 25183454492,Db: 6745332720
+[CalculateTof]RaDa: 0.267847,RbDb: 3.733470
+[CalculateTof Finished][0] T23: 809,T3: -563,classicTof: 404,d: 189.781860,d3: -264.146301,classicD: 189.547271,trueD: 173.905975
+[CalculateTof]status: 1,T12: 809,Ra: 25183505196,Rb: 6729733591,Da: 6729746132,Db: 25183454492
+[CalculateTof]RaDa: 3.742118,RbDb: 0.267228
+[CalculateTof Finished][1] T23: 792,T3: 1355,classicTof: 397,d: 185.793853,d3: 635.734008,classicD: 186.263031,trueD: 173.905975
+[CalculateTof]status: 0,T12: 792,Ra: 6729733591,Rb: 25199105144,Da: 25199054377,Db: 6729746132
+[CalculateTof]RaDa: 0.267062,RbDb: 3.744436
+[CalculateTof Finished][0] T23: 805,T3: -550,classicTof: 401,d: 188.843505,d3: -258.047027,classicD: 188.139739,trueD: 173.905975
+[CalculateTof]status: 1,T12: 805,Ra: 25199105144,Rb: 6715370676,Da: 6715383176,Db: 25199054377
+[CalculateTof]RaDa: 3.752445,RbDb: 0.266492
+[CalculateTof Finished][1] T23: 814,T3: 1364,classicTof: 406,d: 190.954788,d3: 639.956604,classicD: 190.485610,trueD: 173.905975
+[CalculateTof]status: 0,T12: 814,Ra: 6715370676,Rb: 25223682541,Da: 25223631692,Db: 6715383176
+[CalculateTof]RaDa: 0.266233,RbDb: 3.756104
+[CalculateTof Finished][0] T23: 820,T3: -544,classicTof: 409,d: 192.362319,d3: -255.231964,classicD: 191.893142,trueD: 173.905975
+[CalculateTof]status: 1,T12: 820,Ra: 25223682541,Rb: 6686857068,Da: 6686869523,Db: 25223631692
+[CalculateTof]RaDa: 3.772121,RbDb: 0.265102
+[CalculateTof Finished][1] T23: 807,T3: 1351,classicTof: 405,d: 189.312683,d3: 633.857299,classicD: 190.016433,trueD: 173.905975
+[CalculateTof]status: 0,T12: 807,Ra: 6686857068,Rb: 25231841641,Da: 25231790740,Db: 6686869523
+[CalculateTof]RaDa: 0.265017,RbDb: 3.773341
+[CalculateTof Finished][0] T23: 820,T3: -531,classicTof: 408,d: 192.362319,d3: -249.132659,classicD: 191.423965,trueD: 173.905975
+[CalculateTof]status: 1,T12: 820,Ra: 25231841641,Rb: 6687561708,Da: 6687574167,Db: 25231790740
+[CalculateTof]RaDa: 3.772943,RbDb: 0.265045
+[CalculateTof Finished][1] T23: 814,T3: 1345,classicTof: 407,d: 190.954788,d3: 631.042236,classicD: 190.954788,trueD: 173.905975
+[CalculateTof]status: 0,T12: 814,Ra: 6687561708,Rb: 25247234379,Da: 25247183380,Db: 6687574167
+[CalculateTof]RaDa: 0.264883,RbDb: 3.775245
+[CalculateTof Finished][0] T23: 834,T3: -511,classicTof: 414,d: 195.646560,d3: -239.749145,classicD: 194.239028,trueD: 173.905975
+[CalculateTof]status: 1,T12: 834,Ra: 25247234379,Rb: 6660295229,Da: 6660307637,Db: 25247183380
+[CalculateTof]RaDa: 3.790700,RbDb: 0.263803
+[CalculateTof Finished][1] T23: 825,T3: 1336,classicTof: 413,d: 193.535263,d3: 626.819641,classicD: 193.769851,trueD: 173.905975
+[CalculateTof]status: 0,T12: 825,Ra: 6660295229,Rb: 25263316815,Da: 25263265731,Db: 6660307637
+[CalculateTof]RaDa: 0.263635,RbDb: 3.793115
+[CalculateTof Finished][0] T23: 842,T3: -494,classicTof: 419,d: 197.523269,d3: -231.773147,classicD: 196.584915,trueD: 173.905975
+[CalculateTof]status: 1,T12: 842,Ra: 25263316815,Rb: 6651979837,Da: 6651992241,Db: 25263265731
+[CalculateTof]RaDa: 3.797857,RbDb: 0.263306
+[CalculateTof Finished][1] T23: 825,T3: 1319,classicTof: 414,d: 193.535263,d3: 618.843688,classicD: 194.239028,trueD: 173.905975
+[CalculateTof]status: 0,T12: 825,Ra: 6651979837,Rb: 25275642776,Da: 25275591619,Db: 6651992241
+[CalculateTof]RaDa: 0.263178,RbDb: 3.799710
+[CalculateTof Finished][0] T23: 842,T3: -477,classicTof: 419,d: 197.523269,d3: -223.797134,classicD: 196.584915,trueD: 173.905975
+[CalculateTof]status: 1,T12: 842,Ra: 25275642776,Rb: 6636795894,Da: 6636808296,Db: 25275591619
+[CalculateTof]RaDa: 3.808403,RbDb: 0.262577
+[CalculateTof Finished][1] T23: 809,T3: 1286,classicTof: 408,d: 189.781860,d3: 603.360839,classicD: 191.423965,trueD: 173.905975
+[CalculateTof]status: 0,T12: 809,Ra: 6636795894,Rb: 25293432376,Da: 25293381130,Db: 6636808296
+[CalculateTof]RaDa: 0.262392,RbDb: 3.811083
+[CalculateTof Finished][0] T23: 832,T3: -454,classicTof: 413,d: 195.177383,d3: -213.006088,classicD: 193.769851,trueD: 173.905975
+[CalculateTof]status: 1,T12: 832,Ra: 25293432376,Rb: 6619840872,Da: 6619853256,Db: 25293381130
+[CalculateTof]RaDa: 3.820844,RbDb: 0.261722
+[CalculateTof Finished][1] T23: 810,T3: 1264,classicTof: 407,d: 190.016433,d3: 593.038940,classicD: 190.954788,trueD: 173.905975
+[CalculateTof]status: 0,T12: 810,Ra: 6619840872,Rb: 25314627873,Da: 25314576536,Db: 6619853256
+[CalculateTof]RaDa: 0.261503,RbDb: 3.824046
+[CalculateTof Finished][0] T23: 828,T3: -436,classicTof: 412,d: 194.239028,d3: -204.560913,classicD: 193.300674,trueD: 173.905975
+[CalculateTof]status: 1,T12: 828,Ra: 25314627873,Rb: 6595542160,Da: 6595554527,Db: 25314576536
+[CalculateTof]RaDa: 3.838135,RbDb: 0.260543
+[CalculateTof Finished][1] T23: 792,T3: 1228,classicTof: 400,d: 185.793853,d3: 576.148620,classicD: 187.670562,trueD: 173.905975
+[CalculateTof]status: 0,T12: 792,Ra: 6595542160,Rb: 25331185748,Da: 25331134320,Db: 6595554527
+[CalculateTof]RaDa: 0.260372,RbDb: 3.840645
+[CalculateTof Finished][0] T23: 817,T3: -411,classicTof: 406,d: 191.658554,d3: -192.831497,classicD: 190.485610,trueD: 173.905975
+[CalculateTof]status: 1,T12: 817,Ra: 25331185748,Rb: 6582109047,Da: 6582121388,Db: 25331134320
+[CalculateTof]RaDa: 3.848483,RbDb: 0.259842
+[CalculateTof Finished][1] T23: 809,T3: 1220,classicTof: 405,d: 189.781860,d3: 572.395202,classicD: 190.016433,trueD: 173.905975
+[CalculateTof]status: 0,T12: 809,Ra: 6582109047,Rb: 25351010261,Da: 25350958729,Db: 6582121388
+[CalculateTof]RaDa: 0.259639,RbDb: 3.851495
+[CalculateTof Finished][0] T23: 828,T3: -392,classicTof: 412,d: 194.239028,d3: -183.917144,classicD: 193.300674,trueD: 173.105850
+[CalculateTof]status: 1,T12: 828,Ra: 25351010261,Rb: 6563571705,Da: 6563584043,Db: 25350958729
+[CalculateTof]RaDa: 3.862373,RbDb: 0.258908
+[CalculateTof Finished][1] T23: 789,T3: 1181,classicTof: 398,d: 185.090087,d3: 554.097351,classicD: 186.732208,trueD: 170.604599
+[CalculateTof]status: 0,T12: 789,Ra: 6563571705,Rb: 25358399771,Da: 25358348295,Db: 6563584043
+[CalculateTof]RaDa: 0.258832,RbDb: 3.863498
+[CalculateTof Finished][0] T23: 781,T3: -400,classicTof: 391,d: 183.213378,d3: -187.670562,classicD: 183.447967,trueD: 6552.474121
+[CalculateTof]status: 1,T12: 781,Ra: 25358399771,Rb: 6561393183,Da: 6561405669,Db: 25358348295
+[CalculateTof]RaDa: 3.864781,RbDb: 0.258746
+[CalculateTof Finished][1] T23: 631,T3: 1031,classicTof: 330,d: 148.025146,d3: 483.720855,classicD: 154.828216,trueD: 6552.675293
+[CalculateTof]status: 0,T12: 631,Ra: 6561393183,Rb: 25366721655,Da: 25366670305,Db: 6561405669
+[CalculateTof]RaDa: 0.258661,RbDb: 3.866050
+[CalculateTof Finished][0] T23: 633,T3: -398,classicTof: 316,d: 148.494323,d3: -186.732208,classicD: 148.259735,trueD: 75.708053
+[CalculateTof]status: 1,T12: 633,Ra: 25366721655,Rb: 6538041806,Da: 6538054537,Db: 25366670305
+[CalculateTof]RaDa: 3.879857,RbDb: 0.257741
+[CalculateTof Finished][1] T23: 340,T3: 738,classicTof: 200,d: 79.759986,d3: 346.252166,classicD: 93.835281,trueD: 68.007354
+[CalculateTof]status: 0,T12: 340,Ra: 6538041806,Rb: 25394991439,Da: 25394940466,Db: 6538054537
+[CalculateTof]RaDa: 0.257454,RbDb: 3.884181
+[CalculateTof Finished][0] T23: 304,T3: -434,classicTof: 155,d: 71.314811,d3: -203.622558,classicD: 72.722343,trueD: 58.405563
+[CalculateTof]status: 1,T12: 304,Ra: 25394991439,Rb: 6519561263,Da: 6519574193,Db: 25394940466
+[CalculateTof]RaDa: 3.895191,RbDb: 0.256726
+[CalculateTof Finished][1] T23: 78,T3: 512,classicTof: 62,d: 18.297880,d3: 240.218322,classicD: 29.088935,trueD: 59.908683
+[CalculateTof]status: 0,T12: 78,Ra: 6519561263,Rb: 25404723987,Da: 25404672977,Db: 6519574193
+[CalculateTof]RaDa: 0.256628,RbDb: 3.896684
+[CalculateTof Finished][0] T23: 140,T3: -372,classicTof: 63,d: 32.842346,d3: -174.533615,classicD: 29.558113,trueD: 6551.477539
+[CalculateTof]status: 1,T12: 140,Ra: 25404723987,Rb: 6506918470,Da: 6506930925,Db: 25404672977
+[CalculateTof]RaDa: 3.904256,RbDb: 0.256130
+[CalculateTof Finished][1] T23: 574,T3: 946,classicTof: 242,d: 134.653625,d3: 443.840881,classicD: 113.540687,trueD: 6551.590820
+[CalculateTof]status: 0,T12: 574,Ra: 6506918470,Rb: 25423622487,Da: 25423571386,Db: 6506930925
+[CalculateTof]RaDa: 0.255940,RbDb: 3.907160
+[CalculateTof Finished][0] T23: 476,T3: -470,classicTof: 248,d: 111.663986,d3: -220.512908,classicD: 116.355743,trueD: 6552.735839
+[CalculateTof]status: 1,T12: 476,Ra: 25423622487,Rb: 6494257400,Da: 6494269609,Db: 25423571386
+[CalculateTof]RaDa: 3.914777,RbDb: 0.255442
+[CalculateTof Finished][1] T23: 722,T3: 1192,classicTof: 336,d: 169.372680,d3: 559.258239,classicD: 157.643264,trueD: 6552.795898
+[CalculateTof]status: 0,T12: 722,Ra: 6494257400,Rb: 25442052178,Da: 25442001160,Db: 6494269609
+[CalculateTof]RaDa: 0.255257,RbDb: 3.917615
+[CalculateTof Finished][0] T23: 629,T3: -563,classicTof: 324,d: 147.555984,d3: -264.146301,classicD: 152.013153,trueD: 6554.659668
+[CalculateTof]status: 1,T12: 629,Ra: 25442052178,Rb: 6472442082,Da: 6472454062,Db: 25442001160
+[CalculateTof]RaDa: 3.930820,RbDb: 0.254399
+[CalculateTof Finished][1] T23: 838,T3: 1401,classicTof: 398,d: 196.584915,d3: 657.316162,classicD: 186.732208,trueD: 173.004745
+[CalculateTof]status: 0,T12: 838,Ra: 6472442082,Rb: 25447817886,Da: 25447766814,Db: 6472454062
+[CalculateTof]RaDa: 0.254342,RbDb: 3.931710
+[CalculateTof Finished][0] T23: 796,T3: -605,classicTof: 402,d: 186.732208,d3: -283.851715,classicD: 188.608917,trueD: 6551.828613
+[CalculateTof]status: 1,T12: 796,Ra: 25447817886,Rb: 6459369506,Da: 6459381602,Db: 25447766814
+[CalculateTof]RaDa: 3.939667,RbDb: 0.253828
+[CalculateTof Finished][1] T23: 665,T3: 1270,classicTof: 345,d: 156.001159,d3: 595.854003,classicD: 161.865860,trueD: 6551.491210
+[CalculateTof]status: 0,T12: 665,Ra: 6459369506,Rb: 25471745243,Da: 25471694302,Db: 6459381602
+[CalculateTof]RaDa: 0.253590,RbDb: 3.943372
+[CalculateTof Finished][0] T23: 653,T3: -617,classicTof: 327,d: 153.186096,d3: -289.481842,classicD: 153.420684,trueD: 91.705772
+[CalculateTof]status: 1,T12: 653,Ra: 25471745243,Rb: 6441271627,Da: 6441283877,Db: 25471694302
+[CalculateTof]RaDa: 3.954451,RbDb: 0.252879
+[CalculateTof Finished][1] T23: 466,T3: 1083,classicTof: 252,d: 109.318099,d3: 508.118041,classicD: 118.232452,trueD: 80.200309
+[CalculateTof]status: 0,T12: 466,Ra: 6441271627,Rb: 25497295683,Da: 25497244853,Db: 6441283877
+[CalculateTof]RaDa: 0.252626,RbDb: 3.958417
+[CalculateTof Finished][0] T23: 473,T3: -610,classicTof: 235,d: 110.960220,d3: -286.197601,classicD: 110.256454,trueD: 58.509914
+[CalculateTof]status: 1,T12: 473,Ra: 25497295683,Rb: 6417284366,Da: 6417296573,Db: 25497244853
+[CalculateTof]RaDa: 3.973214,RbDb: 0.251685
+[CalculateTof Finished][1] T23: 467,T3: 1077,classicTof: 234,d: 109.552688,d3: 505.302978,classicD: 109.787277,trueD: 58.609298
+[CalculateTof]status: 0,T12: 467,Ra: 6417284366,Rb: 25500270943,Da: 25500220146,Db: 6417296573
+[CalculateTof]RaDa: 0.251656,RbDb: 3.973678
+[CalculateTof Finished][0] T23: 458,T3: -619,classicTof: 230,d: 107.441398,d3: -290.420196,classicD: 107.910568,trueD: 6552.656738
+[CalculateTof]status: 1,T12: 458,Ra: 25500270943,Rb: 6417366375,Da: 6417378465,Db: 25500220146
+[CalculateTof]RaDa: 3.973627,RbDb: 0.251659
+[CalculateTof Finished][1] T23: 578,T3: 1197,classicTof: 277,d: 135.591980,d3: 561.604126,classicD: 129.961868,trueD: 6552.719238
+[CalculateTof]status: 0,T12: 578,Ra: 6417366375,Rb: 25516284050,Da: 25516233369,Db: 6417378465
+[CalculateTof]RaDa: 0.251501,RbDb: 3.976122
+[CalculateTof Finished][0] T23: 510,T3: -687,classicTof: 262,d: 119.639984,d3: -322.324188,classicD: 122.924217,trueD: 6551.847168
+[CalculateTof]status: 1,T12: 510,Ra: 25516284050,Rb: 6390926701,Da: 6390938478,Db: 25516233369
+[CalculateTof]RaDa: 3.992572,RbDb: 0.250465
+[CalculateTof Finished][1] T23: 789,T3: 1476,classicTof: 366,d: 185.090087,d3: 692.504333,classicD: 171.718566,trueD: 6552.041015
+[CalculateTof]status: 0,T12: 789,Ra: 6390926701,Rb: 25533562450,Da: 25533511827,Db: 6390938478
+[CalculateTof]RaDa: 0.250295,RbDb: 3.995276
+[CalculateTof Finished][0] T23: 696,T3: -780,classicTof: 357,d: 163.273391,d3: -365.957580,classicD: 167.495971,trueD: 173.405212
+[CalculateTof]status: 1,T12: 696,Ra: 25533562450,Rb: 6386794548,Da: 6386806190,Db: 25533511827
+[CalculateTof]RaDa: 3.997860,RbDb: 0.250133
+[CalculateTof Finished][1] T23: 846,T3: 1626,classicTof: 408,d: 198.461608,d3: 762.880798,classicD: 191.423965,trueD: 172.205368
+[CalculateTof]status: 0,T12: 846,Ra: 6386794548,Rb: 25543510899,Da: 25543460300,Db: 6386806190
+[CalculateTof]RaDa: 0.250036,RbDb: 3.999418
+[CalculateTof Finished][0] T23: 798,T3: -828,classicTof: 403,d: 187.201385,d3: -388.478057,classicD: 189.078094,trueD: 6552.018066
+[CalculateTof]status: 1,T12: 798,Ra: 25543510899,Rb: 6363040351,Da: 6363052173,Db: 25543460300
+[CalculateTof]RaDa: 4.014348,RbDb: 0.249106
+[CalculateTof Finished][1] T23: 583,T3: 1411,classicTof: 313,d: 136.764923,d3: 662.007873,classicD: 146.852218,trueD: 6551.939453
+[CalculateTof]status: 0,T12: 583,Ra: 6363040351,Rb: 25564799051,Da: 25564748705,Db: 6363052173
+[CalculateTof]RaDa: 0.248899,RbDb: 4.017694
+[CalculateTof Finished][0] T23: 563,T3: -848,classicTof: 283,d: 132.073150,d3: -397.861572,classicD: 132.776916,trueD: 74.001083
+[CalculateTof]status: 1,T12: 563,Ra: 25564799051,Rb: 6350108349,Da: 6350120373,Db: 25564748705
+[CalculateTof]RaDa: 4.025876,RbDb: 0.248393
+[CalculateTof Finished][1] T23: 341,T3: 1189,classicTof: 192,d: 79.994575,d3: 557.850708,classicD: 90.081871,trueD: 65.303833
+[CalculateTof]status: 0,T12: 341,Ra: 6350108349,Rb: 25585594190,Da: 25585544003,Db: 6350120373
+[CalculateTof]RaDa: 0.248191,RbDb: 4.029150
+[CalculateTof Finished][0] T23: 347,T3: -842,classicTof: 173,d: 81.402107,d3: -395.046539,classicD: 81.167518,trueD: 60.600410
+[CalculateTof]status: 1,T12: 347,Ra: 25585594190,Rb: 6324638192,Da: 6324650162,Db: 25585544003
+[CalculateTof]RaDa: 4.045377,RbDb: 0.247195
+[CalculateTof Finished][1] T23: 350,T3: 1192,classicTof: 174,d: 82.105873,d3: 559.258239,classicD: 81.636695,trueD: 63.400398
+[CalculateTof]status: 0,T12: 350,Ra: 6324638192,Rb: 25598643332,Da: 25598593040,Db: 6324650162
+[CalculateTof]RaDa: 0.247069,RbDb: 4.047440
+[CalculateTof Finished][0] T23: 369,T3: -823,classicTof: 182,d: 86.563041,d3: -386.132171,classicD: 85.390106,trueD: 6553.286621
+[CalculateTof]status: 1,T12: 369,Ra: 25598643332,Rb: 6322181665,Da: 6322193276,Db: 25598593040
+[CalculateTof]RaDa: 4.049013,RbDb: 0.246973
+[CalculateTof Finished][1] T23: 718,T3: 1541,classicTof: 324,d: 168.434326,d3: 723.000854,classicD: 152.013153,trueD: 6552.128417
+[CalculateTof]status: 0,T12: 718,Ra: 6322181665,Rb: 25612212682,Da: 25612162527,Db: 6322193276
+[CalculateTof]RaDa: 0.246842,RbDb: 4.051159
+[CalculateTof Finished][0] T23: 592,T3: -949,classicTof: 308,d: 138.876220,d3: -445.248413,classicD: 144.506332,trueD: 6553.410156
+[CalculateTof]status: 1,T12: 592,Ra: 25612212682,Rb: 6293446126,Da: 6293457462,Db: 25612162527
+[CalculateTof]RaDa: 4.069656,RbDb: 0.245721
+[CalculateTof Finished][1] T23: 842,T3: 1791,classicTof: 396,d: 197.523269,d3: 840.294921,classicD: 185.793853,trueD: 6554.046875
+[CalculateTof]status: 0,T12: 842,Ra: 6293446126,Rb: 25629787133,Da: 25629736978,Db: 6293457462
+[CalculateTof]RaDa: 0.245552,RbDb: 4.072449
+[CalculateTof Finished][0] T23: 772,T3: -1019,classicTof: 393,d: 181.102096,d3: -478.090759,classicD: 184.386322,trueD: 6553.148925
+[CalculateTof]status: 1,T12: 772,Ra: 25629787133,Rb: 6287964025,Da: 6287975427,Db: 25629736978
+[CalculateTof]RaDa: 4.075999,RbDb: 0.245338
+[CalculateTof Finished][1] T23: 713,T3: 1732,classicTof: 362,d: 167.261383,d3: 812.613525,classicD: 169.841857,trueD: 6552.140136
+[CalculateTof]status: 0,T12: 713,Ra: 6287964025,Rb: 25640729544,Da: 25640679559,Db: 6287975427
+[CalculateTof]RaDa: 0.245233,RbDb: 4.077739
+[CalculateTof Finished][0] T23: 681,T3: -1051,classicTof: 343,d: 159.754562,d3: -493.104400,classicD: 160.927505,trueD: 93.006507
+[CalculateTof]status: 1,T12: 681,Ra: 25640729544,Rb: 6271269617,Da: 6271281208,Db: 25640679559
+[CalculateTof]RaDa: 4.088594,RbDb: 0.244582
+[CalculateTof Finished][1] T23: 467,T3: 1518,classicTof: 254,d: 109.552688,d3: 712.209777,classicD: 119.170806,trueD: 80.104057
+[CalculateTof]status: 0,T12: 467,Ra: 6271269617,Rb: 25660387697,Da: 25660337935,Db: 6271281208
+[CalculateTof]RaDa: 0.244395,RbDb: 4.091729
+[CalculateTof Finished][0] T23: 456,T3: -1062,classicTof: 229,d: 106.972221,d3: -498.265319,classicD: 107.441398,trueD: 57.200786
+[CalculateTof]status: 1,T12: 456,Ra: 25660387697,Rb: 6253973231,Da: 6253984911,Db: 25660337935
+[CalculateTof]RaDa: 4.103045,RbDb: 0.243721
+[CalculateTof Finished][1] T23: 336,T3: 1398,classicTof: 180,d: 78.821632,d3: 655.908630,classicD: 84.451751,trueD: 58.701538
+[CalculateTof]status: 0,T12: 336,Ra: 6253973231,Rb: 25672396624,Da: 25672346897,Db: 6253984911
+[CalculateTof]RaDa: 0.243607,RbDb: 4.104966
+[CalculateTof Finished][0] T23: 352,T3: -1046,classicTof: 174,d: 82.575042,d3: -490.758514,classicD: 81.636695,trueD: 6551.795898
+[CalculateTof]status: 1,T12: 352,Ra: 25672396624,Rb: 6235585641,Da: 6235596976,Db: 25672346897
+[CalculateTof]RaDa: 4.117071,RbDb: 0.242891
+[CalculateTof Finished][1] T23: 657,T3: 1703,classicTof: 298,d: 154.124450,d3: 799.007385,classicD: 139.814559,trueD: 6551.513183
+[CalculateTof]status: 0,T12: 657,Ra: 6235585641,Rb: 25695007062,Da: 25694957463,Db: 6235596976
+[CalculateTof]RaDa: 0.242677,RbDb: 4.120697
+[CalculateTof Finished][0] T23: 542,T3: -1161,classicTof: 282,d: 127.146804,d3: -544.713806,classicD: 132.307739,trueD: 6551.993652
+[CalculateTof]status: 1,T12: 542,Ra: 25695007062,Rb: 6221396351,Da: 6221407402,Db: 25694957463
+[CalculateTof]RaDa: 4.130095,RbDb: 0.242125
+[CalculateTof Finished][1] T23: 826,T3: 1987,classicTof: 385,d: 193.769851,d3: 932.253479,classicD: 180.632919,trueD: 6552.417480
+[CalculateTof]status: 0,T12: 826,Ra: 6221396351,Rb: 25713166933,Da: 25713117313,Db: 6221407402
+[CalculateTof]RaDa: 0.241954,RbDb: 4.133014
+[CalculateTof Finished][0] T23: 754,T3: -1233,classicTof: 384,d: 176.879501,d3: -578.494506,classicD: 180.163742,trueD: 6553.849609
+[CalculateTof]status: 1,T12: 754,Ra: 25713166933,Rb: 6197482165,Da: 6197493163,Db: 25713117313
+[CalculateTof]RaDa: 4.148962,RbDb: 0.241024
+[CalculateTof Finished][1] T23: 779,T3: 2012,classicTof: 387,d: 182.744201,d3: 943.982910,classicD: 181.571258,trueD: 6553.080078
+[CalculateTof]status: 0,T12: 779,Ra: 6197482165,Rb: 25724991189,Da: 25724941643,Db: 6197493163
+[CalculateTof]RaDa: 0.240913,RbDb: 4.150870
+[CalculateTof Finished][0] T23: 750,T3: -1262,classicTof: 378,d: 175.941146,d3: -592.100585,classicD: 177.348678,trueD: 6551.858886
+[CalculateTof]status: 1,T12: 750,Ra: 25724991189,Rb: 6195280198,Da: 6195291435,Db: 25724941643
+[CalculateTof]RaDa: 4.152345,RbDb: 0.240827
+[CalculateTof Finished][1] T23: 514,T3: 1776,classicTof: 280,d: 120.578331,d3: 833.257263,classicD: 131.369384,trueD: 6552.292480
+[CalculateTof]status: 0,T12: 514,Ra: 6195280198,Rb: 25733868925,Da: 25733819578,Db: 6195291435
+[CalculateTof]RaDa: 0.240744,RbDb: 4.153778
+[CalculateTof Finished][0] T23: 519,T3: -1257,classicTof: 259,d: 121.751274,d3: -589.754760,classicD: 121.516685,trueD: 61.008277
+[CalculateTof]status: 1,T12: 519,Ra: 25733868925,Rb: 6171401837,Da: 6171413123,Db: 25733819578
+[CalculateTof]RaDa: 4.169850,RbDb: 0.239816
+[CalculateTof Finished][1] T23: 423,T3: 1680,classicTof: 221,d: 99.230804,d3: 788.216369,classicD: 103.687980,trueD: 58.309349
+[CalculateTof]status: 0,T12: 423,Ra: 6171401837,Rb: 25765734515,Da: 25765685139,Db: 6171413123
+[CalculateTof]RaDa: 0.239520,RbDb: 4.175014
+[CalculateTof Finished][0] T23: 439,T3: -1241,classicTof: 218,d: 102.984222,d3: -582.247924,classicD: 102.280456,trueD: 80.408523
+[CalculateTof]status: 1,T12: 439,Ra: 25765734515,Rb: 6146853498,Da: 6146864525,Db: 25765685139
+[CalculateTof]RaDa: 4.191687,RbDb: 0.238567
+[CalculateTof Finished][1] T23: 647,T3: 1888,classicTof: 303,d: 151.778564,d3: 885.805053,classicD: 142.160446,trueD: 6552.564453
+[CalculateTof]status: 0,T12: 647,Ra: 6146853498,Rb: 25773725595,Da: 25773676422,Db: 6146864525
+[CalculateTof]RaDa: 0.238493,RbDb: 4.192987
+[CalculateTof Finished][0] T23: 546,T3: -1342,classicTof: 282,d: 128.085159,d3: -629.634704,classicD: 132.307739,trueD: 6552.519531
+[CalculateTof]status: 1,T12: 546,Ra: 25773725595,Rb: 6139743226,Da: 6139754085,Db: 25773676422
+[CalculateTof]RaDa: 4.197843,RbDb: 0.238217
+[CalculateTof Finished][1] T23: 724,T3: 2066,classicTof: 345,d: 169.841857,d3: 969.318420,classicD: 161.865860,trueD: 6553.460937
+[CalculateTof]status: 0,T12: 724,Ra: 6139743226,Rb: 25792531416,Da: 25792482310,Db: 6139754085
+[CalculateTof]RaDa: 0.238043,RbDb: 4.200906
+[CalculateTof Finished][0] T23: 658,T3: -1408,classicTof: 335,d: 154.359039,d3: -660.600341,classicD: 157.174087,trueD: 172.906387
+[CalculateTof]status: 1,T12: 658,Ra: 25792531416,Rb: 6126065268,Da: 6126075944,Db: 25792482310
+[CalculateTof]RaDa: 4.210285,RbDb: 0.237513
+[CalculateTof Finished][1] T23: 831,T3: 2239,classicTof: 398,d: 194.942794,d3: 1050.485961,classicD: 186.732208,trueD: 173.004196
+[CalculateTof]status: 0,T12: 831,Ra: 6126065268,Rb: 25800143707,Da: 25800094604,Db: 6126075944
+[CalculateTof]RaDa: 0.237443,RbDb: 4.211528
+[CalculateTof Finished][0] T23: 785,T3: -1454,classicTof: 397,d: 184.151733,d3: -682.182495,classicD: 186.263031,trueD: 6553.086914
+[CalculateTof]status: 1,T12: 785,Ra: 25800143707,Rb: 6106865227,Da: 6106876069,Db: 25800094604
+[CalculateTof]RaDa: 4.224769,RbDb: 0.236699
+[CalculateTof Finished][1] T23: 594,T3: 2048,classicTof: 315,d: 139.345382,d3: 960.873291,classicD: 147.790557,trueD: 6552.815429
+[CalculateTof]status: 0,T12: 594,Ra: 6106865227,Rb: 25823389962,Da: 25823340981,Db: 6106876069
+[CalculateTof]RaDa: 0.236486,RbDb: 4.228576
+[CalculateTof Finished][0] T23: 600,T3: -1448,classicTof: 299,d: 140.752914,d3: -679.367431,classicD: 140.283737,trueD: 72.602752
+[CalculateTof]status: 1,T12: 600,Ra: 25823389962,Rb: 6090996688,Da: 6091007734,Db: 25823340981
+[CalculateTof]RaDa: 4.239592,RbDb: 0.235871
+[CalculateTof Finished][1] T23: 365,T3: 1813,classicTof: 205,d: 85.624694,d3: 850.616821,classicD: 96.181159,trueD: 64.303108
+[CalculateTof]status: 0,T12: 365,Ra: 6090996688,Rb: 25837326466,Da: 25837277744,Db: 6091007734
+[CalculateTof]RaDa: 0.235744,RbDb: 4.241880
+[CalculateTof Finished][0] T23: 353,T3: -1460,classicTof: 178,d: 82.809631,d3: -684.997558,classicD: 83.513397,trueD: 67.303718
+[CalculateTof]status: 1,T12: 353,Ra: 25837326466,Rb: 6074385653,Da: 6074396542,Db: 25837277744
+[CalculateTof]RaDa: 4.253480,RbDb: 0.235101
+[CalculateTof Finished][1] T23: 482,T3: 1942,classicTof: 228,d: 113.071510,d3: 911.140563,classicD: 106.972221,trueD: 76.800323
+[CalculateTof]status: 0,T12: 482,Ra: 6074385653,Rb: 25859885498,Da: 25859836683,Db: 6074396542
+[CalculateTof]RaDa: 0.234896,RbDb: 4.257194
+[CalculateTof Finished][0] T23: 464,T3: -1478,classicTof: 233,d: 108.848922,d3: -693.442688,classicD: 109.318099,trueD: 119.803550
+[CalculateTof]status: 1,T12: 464,Ra: 25859885498,Rb: 6056918230,Da: 6056928838,Db: 25859836683
+[CalculateTof]RaDa: 4.269471,RbDb: 0.234221
+[CalculateTof Finished][1] T23: 716,T3: 2194,classicTof: 334,d: 167.965148,d3: 1029.373046,classicD: 156.704910,trueD: 133.204681
+[CalculateTof]status: 0,T12: 716,Ra: 6056918230,Rb: 25868076371,Da: 25868027690,Db: 6056928838
+[CalculateTof]RaDa: 0.234146,RbDb: 4.270823
+[CalculateTof Finished][0] T23: 622,T3: -1572,classicTof: 320,d: 145.913864,d3: -737.545288,classicD: 150.136444,trueD: 172.706405
+[CalculateTof]status: 1,T12: 622,Ra: 25868076371,Rb: 6041237034,Da: 6041247405,Db: 25868027690
+[CalculateTof]RaDa: 4.281909,RbDb: 0.233540
+[CalculateTof Finished][1] T23: 852,T3: 2424,classicTof: 404,d: 199.869140,d3: 1137.283569,classicD: 189.547271,trueD: 173.306991
+[CalculateTof]status: 0,T12: 852,Ra: 6041237034,Rb: 25893722138,Da: 25893673430,Db: 6041247405
+[CalculateTof]RaDa: 0.233309,RbDb: 4.286155
+[CalculateTof Finished][0] T23: 794,T3: -1630,classicTof: 402,d: 186.263031,d3: -764.757507,classicD: 188.608917,trueD: 6553.182617
+[CalculateTof]status: 1,T12: 794,Ra: 25893722138,Rb: 6019308761,Da: 6019319270,Db: 25893673430
+[CalculateTof]RaDa: 4.301769,RbDb: 0.232462
+[CalculateTof Finished][1] T23: 629,T3: 2259,classicTof: 330,d: 147.555984,d3: 1059.869506,classicD: 154.828216,trueD: 6552.831054
+[CalculateTof]status: 0,T12: 629,Ra: 6019308761,Rb: 25903006878,Da: 25902958375,Db: 6019319270
+[CalculateTof]RaDa: 0.232379,RbDb: 4.303311
+[CalculateTof Finished][0] T23: 615,T3: -1644,classicTof: 309,d: 144.271743,d3: -771.325988,classicD: 144.975509,trueD: 73.101707
+[CalculateTof]status: 1,T12: 615,Ra: 25903006878,Rb: 6010287940,Da: 6010298722,Db: 25902958375
+[CalculateTof]RaDa: 4.309770,RbDb: 0.232030
+[CalculateTof Finished][1] T23: 329,T3: 1973,classicTof: 191,d: 77.179519,d3: 925.685058,classicD: 89.612693,trueD: 63.800079
+[CalculateTof]status: 0,T12: 329,Ra: 6010287940,Rb: 25918145369,Da: 25918097084,Db: 6010298722
+[CalculateTof]RaDa: 0.231895,RbDb: 4.312288
+[CalculateTof Finished][0] T23: 338,T3: -1635,classicTof: 168,d: 79.290809,d3: -767.103393,classicD: 78.821632,trueD: 67.410758
+[CalculateTof]status: 1,T12: 338,Ra: 25918145369,Rb: 5997606522,Da: 5997617319,Db: 25918097084
+[CalculateTof]RaDa: 4.321406,RbDb: 0.231406
+[CalculateTof Finished][1] T23: 298,T3: 1933,classicTof: 152,d: 69.907279,d3: 906.917968,classicD: 71.314811,trueD: 77.519737
+[CalculateTof]status: 0,T12: 298,Ra: 5997606522,Rb: 25934543274,Da: 25934495110,Db: 5997617319
+[CalculateTof]RaDa: 0.231259,RbDb: 4.324141
+[CalculateTof Finished][0] T23: 272,T3: -1661,classicTof: 138,d: 63.807991,d3: -779.302001,classicD: 64.746345,trueD: 6553.580566
+[CalculateTof]status: 1,T12: 272,Ra: 25934543274,Rb: 5975554566,Da: 5975564886,Db: 25934495110
+[CalculateTof]RaDa: 4.340098,RbDb: 0.230409
+[CalculateTof Finished][1] T23: 714,T3: 2375,classicTof: 315,d: 167.495971,d3: 1114.293945,classicD: 147.790557,trueD: 6553.886718
+[CalculateTof]status: 0,T12: 714,Ra: 5975554566,Rb: 25957485189,Da: 25957436922,Db: 5975564886
+[CalculateTof]RaDa: 0.230205,RbDb: 4.343938
+[CalculateTof Finished][0] T23: 626,T3: -1749,classicTof: 321,d: 146.852218,d3: -820.589538,classicD: 150.605621,trueD: 172.704315
+[CalculateTof]status: 1,T12: 626,Ra: 25957485189,Rb: 5956329505,Da: 5956339579,Db: 25957436922
+[CalculateTof]RaDa: 4.357959,RbDb: 0.229465
+[CalculateTof Finished][1] T23: 857,T3: 2606,classicTof: 407,d: 201.042083,d3: 1222.673706,classicD: 190.954788,trueD: 173.104690
+[CalculateTof]status: 0,T12: 857,Ra: 5956329505,Rb: 25967605360,Da: 25967557087,Db: 5956339579
+[CalculateTof]RaDa: 0.229375,RbDb: 4.359658
+[CalculateTof Finished][0] T23: 802,T3: -1804,classicTof: 406,d: 188.139739,d3: -846.394226,classicD: 190.485610,trueD: 141.704299
+[CalculateTof]status: 1,T12: 802,Ra: 25967605360,Rb: 5944975706,Da: 5944986000,Db: 25967557087
+[CalculateTof]RaDa: 4.367984,RbDb: 0.228938
+[CalculateTof Finished][1] T23: 573,T3: 2377,classicTof: 308,d: 134.419036,d3: 1115.232299,classicD: 144.506332,trueD: 126.202568
+[CalculateTof]status: 0,T12: 573,Ra: 5944975706,Rb: 25988475560,Da: 25988427430,Db: 5944986000
+[CalculateTof]RaDa: 0.228754,RbDb: 4.371494
+[CalculateTof Finished][0] T23: 584,T3: -1793,classicTof: 291,d: 136.999511,d3: -841.233276,classicD: 136.530334,trueD: 73.0
+[CalculateTof]status: 1,T12: 584,Ra: 25988475560,Rb: 5932009019,Da: 5932019544,Db: 25988427430
+[CalculateTof]RaDa: 4.381050,RbDb: 0.228255
+[CalculateTof Finished][1] T23: 327,T3: 2120,classicTof: 187,d: 76.710342,d3: 994.653991,classicD: 87.735984,trueD: 63.800392
+[CalculateTof]status: 0,T12: 327,Ra: 5932009019,Rb: 25992460937,Da: 25992413125,Db: 5932019544
+[CalculateTof]RaDa: 0.228220,RbDb: 4.381721
+[CalculateTof Finished][0] T23: 312,T3: -1808,classicTof: 157,d: 73.191520,d3: -848.270935,classicD: 73.660697,trueD: 66.803070
+[CalculateTof]status: 1,T12: 312,Ra: 25992460937,Rb: 5912832540,Da: 5912843127,Db: 25992413125
+[CalculateTof]RaDa: 4.395932,RbDb: 0.227483
+[CalculateTof Finished][1] T23: 218,T3: 2026,classicTof: 117,d: 51.140228,d3: 950.551391,classicD: 54.893638,trueD: 75.307769
+[CalculateTof]status: 0,T12: 218,Ra: 5912832540,Rb: 26016339096,Da: 26016291300,Db: 5912843127
+[CalculateTof]RaDa: 0.227274,RbDb: 4.399971
+[CalculateTof Finished][0] T23: 226,T3: -1800,classicTof: 112,d: 53.016933,d3: -844.517517,classicD: 52.547756,trueD: 6550.961914
+[CalculateTof]status: 1,T12: 226,Ra: 26016339096,Rb: 5897524266,Da: 5897534312,Db: 26016291300
+[CalculateTof]RaDa: 4.411392,RbDb: 0.226685
+[CalculateTof Finished][1] T23: 737,T3: 2537,classicTof: 321,d: 172.891510,d3: 1190.300537,classicD: 150.605621,trueD: 6551.459960
+[CalculateTof]status: 0,T12: 737,Ra: 5897524266,Rb: 26035288822,Da: 26035240918,Db: 5897534312
+[CalculateTof]RaDa: 0.226520,RbDb: 4.414605
+[CalculateTof Finished][0] T23: 638,T3: -1899,classicTof: 328,d: 149.667266,d3: -890.966003,classicD: 153.889862,trueD: 172.404891
+[CalculateTof]status: 1,T12: 638,Ra: 26035288822,Rb: 5877066922,Da: 5877076746,Db: 26035240918
+[CalculateTof]RaDa: 4.429972,RbDb: 0.225735
+[CalculateTof Finished][1] T23: 845,T3: 2744,classicTof: 403,d: 198.227035,d3: 1287.420043,classicD: 189.078094,trueD: 172.704544
+[CalculateTof]status: 0,T12: 845,Ra: 5877066922,Rb: 26046732433,Da: 26046684502,Db: 5877076746
+[CalculateTof]RaDa: 0.225635,RbDb: 4.431919
+[CalculateTof Finished][0] T23: 800,T3: -1944,classicTof: 404,d: 187.670562,d3: -912.078918,classicD: 189.547271,trueD: 6553.151367
+[CalculateTof]status: 1,T12: 800,Ra: 26046732433,Rb: 5869111329,Da: 5869121391,Db: 26046684502
+[CalculateTof]RaDa: 4.437926,RbDb: 0.225330
+[CalculateTof Finished][1] T23: 558,T3: 2502,classicTof: 301,d: 130.900207,d3: 1173.879394,classicD: 141.222091,trueD: 6552.794921
+[CalculateTof]status: 0,T12: 558,Ra: 5869111329,Rb: 26063462358,Da: 26063414751,Db: 5869121391
+[CalculateTof]RaDa: 0.225185,RbDb: 4.440777
+[CalculateTof Finished][0] T23: 532,T3: -1970,classicTof: 268,d: 124.800918,d3: -924.277526,classicD: 125.739273,trueD: 64.903083
+[CalculateTof]status: 1,T12: 532,Ra: 26063462358,Rb: 5847042380,Da: 5847052842,Db: 26063414751
+[CalculateTof]RaDa: 4.457538,RbDb: 0.224339
+[CalculateTof Finished][1] T23: 98,T3: 2068,classicTof: 89,d: 22.989643,d3: 970.256774,classicD: 41.756698,trueD: 60.103744
+[CalculateTof]status: 0,T12: 98,Ra: 5847042380,Rb: 26079139224,Da: 26079091892,Db: 5847052842
+[CalculateTof]RaDa: 0.224204,RbDb: 4.460219
+[CalculateTof Finished][0] T23: 128,T3: -1940,classicTof: 61,d: 30.027290,d3: -910.202209,classicD: 28.619760,trueD: 6552.605468
+[CalculateTof]status: 1,T12: 128,Ra: 26079139224,Rb: 5834754711,Da: 5834764904,Db: 26079091892
+[CalculateTof]RaDa: 4.469613,RbDb: 0.223733
+[CalculateTof Finished][1] T23: 368,T3: 2308,classicTof: 162,d: 86.328460,d3: 1082.859130,classicD: 76.006576,trueD: 6552.646484
+[CalculateTof]status: 0,T12: 368,Ra: 5834754711,Rb: 26094268697,Da: 26094221161,Db: 5834764904
+[CalculateTof]RaDa: 0.223603,RbDb: 4.472205
+[CalculateTof Finished][0] T23: 353,T3: -1955,classicTof: 178,d: 82.809631,d3: -917.239868,classicD: 83.513397,trueD: 6553.295898
+[CalculateTof]status: 1,T12: 353,Ra: 26094268697,Rb: 5817575708,Da: 5817585383,Db: 26094221161
+[CalculateTof]RaDa: 4.485412,RbDb: 0.222944
+[CalculateTof Finished][1] T23: 844,T3: 2799,classicTof: 377,d: 197.992446,d3: 1313.224731,classicD: 176.879501,trueD: 6553.890625
+[CalculateTof]status: 0,T12: 844,Ra: 5817575708,Rb: 26111386791,Da: 26111339236,Db: 5817585383
+[CalculateTof]RaDa: 0.222798,RbDb: 4.488355
+[CalculateTof Finished][0] T23: 732,T3: -2067,classicTof: 376,d: 171.718566,d3: -969.787597,classicD: 176.410324,trueD: 171.706436
+[CalculateTof]status: 1,T12: 732,Ra: 26111386791,Rb: 5807692222,Da: 5807701849,Db: 26111339236
+[CalculateTof]RaDa: 4.495993,RbDb: 0.222420
+[CalculateTof Finished][1] T23: 787,T3: 2854,classicTof: 388,d: 184.620910,d3: 1339.029418,classicD: 182.040435,trueD: 6554.474121
+[CalculateTof]status: 0,T12: 787,Ra: 5807692222,Rb: 26129492962,Da: 26129445442,Db: 5807701849
+[CalculateTof]RaDa: 0.222266,RbDb: 4.499110
+[CalculateTof Finished][0] T23: 760,T3: -2094,classicTof: 382,d: 178.287033,d3: -982.455383,classicD: 179.225387,trueD: 6551.015136
+[CalculateTof]status: 1,T12: 760,Ra: 26129492962,Rb: 5777416109,Da: 5777425950,Db: 26129445442
+[CalculateTof]RaDa: 4.522687,RbDb: 0.221107
+[CalculateTof Finished][1] T23: 497,T3: 2591,classicTof: 272,d: 116.590332,d3: 1215.635986,classicD: 127.615982,trueD: 6552.161621
+[CalculateTof]status: 0,T12: 497,Ra: 5777416109,Rb: 26146450245,Da: 26146402899,Db: 5777425950
+[CalculateTof]RaDa: 0.220964,RbDb: 4.525622
+[CalculateTof Finished][0] T23: 510,T3: -2081,classicTof: 254,d: 119.639984,d3: -976.356079,classicD: 119.170806,trueD: 57.305667
+[CalculateTof]status: 1,T12: 510,Ra: 26146450245,Rb: 5767909373,Da: 5767919291,Db: 26146402899
+[CalculateTof]RaDa: 4.533082,RbDb: 0.220600
+[CalculateTof Finished][1] T23: 414,T3: 2495,classicTof: 215,d: 97.119514,d3: 1170.595092,classicD: 100.872924,trueD: 57.102798
+[CalculateTof]status: 0,T12: 414,Ra: 5767909373,Rb: 26163617942,Da: 26163570691,Db: 5767919291
+[CalculateTof]RaDa: 0.220455,RbDb: 4.536058
+[CalculateTof Finished][0] T23: 407,T3: -2088,classicTof: 204,d: 95.477394,d3: -979.640319,classicD: 95.711982,trueD: 6552.829589
+[CalculateTof]status: 1,T12: 407,Ra: 26163617942,Rb: 5748060962,Da: 5748070762,Db: 26163570691
+[CalculateTof]RaDa: 4.551721,RbDb: 0.219697
+[CalculateTof Finished][1] T23: 491,T3: 2579,classicTof: 238,d: 115.182807,d3: 1210.005981,classicD: 111.663986,trueD: 6551.707031
+[CalculateTof]status: 0,T12: 491,Ra: 5748060962,Rb: 26175927859,Da: 26175880926,Db: 5748070762
+[CalculateTof]RaDa: 0.219593,RbDb: 4.553863
+[CalculateTof Finished][0] T23: 398,T3: -2181,classicTof: 207,d: 93.366104,d3: -1023.273742,classicD: 97.119514,trueD: 6553.697753
+[CalculateTof]status: 1,T12: 398,Ra: 26175927859,Rb: 5740523835,Da: 5740533197,Db: 26175880926
+[CalculateTof]RaDa: 4.559842,RbDb: 0.219305
+[CalculateTof Finished][1] T23: 843,T3: 3024,classicTof: 381,d: 197.757858,d3: 1418.789428,classicD: 178.756210,trueD: 6554.305175
+[CalculateTof]status: 0,T12: 843,Ra: 5740523835,Rb: 26188288729,Da: 26188241605,Db: 5740533197
+[CalculateTof]RaDa: 0.219202,RbDb: 4.561995
+[CalculateTof Finished][0] T23: 782,T3: -2242,classicTof: 396,d: 183.447967,d3: -1051.893432,classicD: 185.793853,trueD: 6552.968261
+[CalculateTof]status: 1,T12: 782,Ra: 26188288729,Rb: 5721319007,Da: 5721328423,Db: 26188241605
+[CalculateTof]RaDa: 4.577308,RbDb: 0.218469
+[CalculateTof Finished][1] T23: 708,T3: 2950,classicTof: 360,d: 166.088439,d3: 1384.070434,classicD: 168.903503,trueD: 6552.505371
+[CalculateTof]status: 0,T12: 708,Ra: 5721319007,Rb: 26209745794,Da: 26209698721,Db: 5721328423
+[CalculateTof]RaDa: 0.218290,RbDb: 4.581059
+[CalculateTof Finished][0] T23: 705,T3: -2245,classicTof: 352,d: 165.384674,d3: -1053.301025,classicD: 165.150085,trueD: 101.306419
+[CalculateTof]status: 1,T12: 705,Ra: 26209745794,Rb: 5703262922,Da: 5703272574,Db: 26209698721
+[CalculateTof]RaDa: 4.595562,RbDb: 0.217601
+[CalculateTof Finished][1] T23: 437,T3: 2682,classicTof: 242,d: 102.515045,d3: 1258.331054,classicD: 113.540687,trueD: 86.104179
+[CalculateTof]status: 0,T12: 437,Ra: 5703262922,Rb: 26230808557,Da: 26230761782,Db: 5703272574
+[CalculateTof]RaDa: 0.217426,RbDb: 4.599255
+[CalculateTof Finished][0] T23: 423,T3: -2259,classicTof: 212,d: 99.230804,d3: -1059.869506,classicD: 99.465393,trueD: 6551.165527
+[CalculateTof]status: 1,T12: 423,Ra: 26230808557,Rb: 5682995124,Da: 5683004947,Db: 26230761782
+[CalculateTof]RaDa: 4.615658,RbDb: 0.216653
+[CalculateTof Finished][1] T23: 219,T3: 2478,classicTof: 127,d: 51.374816,d3: 1162.619140,classicD: 59.585403,trueD: 6551.658203
+[CalculateTof]status: 0,T12: 219,Ra: 5682995124,Rb: 26240971132,Da: 26240924236,Db: 5683004947
+[CalculateTof]RaDa: 0.216569,RbDb: 4.617446
+[CalculateTof Finished][0] T23: 285,T3: -2193,classicTof: 136,d: 66.857635,d3: -1028.903808,classicD: 63.807991,trueD: 84.604019
+[CalculateTof]status: 1,T12: 285,Ra: 26240971132,Rb: 5676801976,Da: 5676811396,Db: 26240924236
+[CalculateTof]RaDa: 4.622484,RbDb: 0.216333
+[CalculateTof Finished][1] T23: 663,T3: 2856,classicTof: 298,d: 155.531982,d3: 1339.967773,classicD: 139.814559,trueD: 6551.981445
+[CalculateTof]status: 0,T12: 663,Ra: 5676801976,Rb: 26256185085,Da: 26256138312,Db: 5676811396
+[CalculateTof]RaDa: 0.216208,RbDb: 4.625164
+[CalculateTof Finished][0] T23: 549,T3: -2307,classicTof: 284,d: 128.788925,d3: -1082.389892,classicD: 133.246093,trueD: 6554.007324
+[CalculateTof]status: 1,T12: 549,Ra: 26256185085,Rb: 5651437951,Da: 5651447043,Db: 26256138312
+[CalculateTof]RaDa: 4.645922,RbDb: 0.215242
+[CalculateTof Finished][1] T23: 857,T3: 3164,classicTof: 401,d: 201.042083,d3: 1484.474121,classicD: 188.139739,trueD: 6554.540527
+[CalculateTof]status: 0,T12: 857,Ra: 5651437951,Rb: 26273709921,Da: 26273663105,Db: 5651447043
+[CalculateTof]RaDa: 0.215098,RbDb: 4.649023
+[CalculateTof Finished][0] T23: 793,T3: -2371,classicTof: 402,d: 186.028442,d3: -1112.417236,classicD: 188.608917,trueD: 6553.770996
+[CalculateTof]status: 1,T12: 793,Ra: 26273709921,Rb: 5642977970,Da: 5642987167,Db: 26273663105
+[CalculateTof]RaDa: 4.655993,RbDb: 0.214776
+[CalculateTof Finished][1] T23: 687,T3: 3058,classicTof: 353,d: 161.162094,d3: 1434.741455,classicD: 165.619262,trueD: 6553.214843
+[CalculateTof]status: 0,T12: 687,Ra: 5642977970,Rb: 26286590354,Da: 26286543694,Db: 5642987167
+[CalculateTof]RaDa: 0.214671,RbDb: 4.658275
+[CalculateTof Finished][0] T23: 672,T3: -2386,classicTof: 337,d: 157.643264,d3: -1119.454834,classicD: 158.112442,trueD: 83.701011
+[CalculateTof]status: 1,T12: 672,Ra: 26286590354,Rb: 5624150413,Da: 5624159854,Db: 26286543694
+[CalculateTof]RaDa: 4.673869,RbDb: 0.213955
+[CalculateTof Finished][1] T23: 398,T3: 2784,classicTof: 223,d: 93.366104,d3: 1306.187133,classicD: 104.626335,trueD: 71.102600
+[CalculateTof]status: 0,T12: 398,Ra: 5624150413,Rb: 26308254111,Da: 26308207731,Db: 5624159854
+[CalculateTof]RaDa: 0.213779,RbDb: 4.677721
+[CalculateTof Finished][0] T23: 389,T3: -2395,classicTof: 195,d: 91.254806,d3: -1123.677490,classicD: 91.489395,trueD: 59.000423
+[CalculateTof]status: 1,T12: 389,Ra: 26308254111,Rb: 5608556384,Da: 5608565857,Db: 26308207731
+[CalculateTof]RaDa: 4.690727,RbDb: 0.213186
+[CalculateTof Finished][1] T23: 331,T3: 2726,classicTof: 170,d: 77.648696,d3: 1278.974853,classicD: 79.759986,trueD: 63.501968
+[CalculateTof]status: 0,T12: 331,Ra: 5608556384,Rb: 26315824086,Da: 26315777696,Db: 5608565857
+[CalculateTof]RaDa: 0.213125,RbDb: 4.692077
+[CalculateTof Finished][0] T23: 343,T3: -2383,classicTof: 170,d: 80.463752,d3: -1118.047363,classicD: 79.759986,trueD: 6552.193359
+[CalculateTof]status: 1,T12: 343,Ra: 26315824086,Rb: 5592299698,Da: 5592308778,Db: 26315777696
+[CalculateTof]RaDa: 4.705717,RbDb: 0.212507
+[CalculateTof Finished][1] T23: 705,T3: 3088,classicTof: 320,d: 165.384674,d3: 1448.816772,classicD: 150.136444,trueD: 6552.842285
+[CalculateTof]status: 0,T12: 705,Ra: 5592299698,Rb: 26338957334,Da: 26338911054,Db: 5592308778
+[CalculateTof]RaDa: 0.212320,RbDb: 4.709854
+[CalculateTof Finished][0] T23: 596,T3: -2492,classicTof: 307,d: 139.814559,d3: -1169.187622,classicD: 144.037155,trueD: 175.200057
+[CalculateTof]status: 1,T12: 596,Ra: 26338957334,Rb: 5578389871,Da: 5578398698,Db: 26338911054
+[CalculateTof]RaDa: 4.721598,RbDb: 0.211792
+[CalculateTof Finished][1] T23: 848,T3: 3340,classicTof: 402,d: 198.930786,d3: 1567.049194,classicD: 188.608917,trueD: 174.201660
+[CalculateTof]status: 0,T12: 848,Ra: 5578389871,Rb: 26347611500,Da: 26347565201,Db: 5578398698
+[CalculateTof]RaDa: 0.211723,RbDb: 4.723149
+[CalculateTof Finished][0] T23: 796,T3: -2544,classicTof: 402,d: 186.732208,d3: -1193.584716,classicD: 188.608917,trueD: 6553.511718
+[CalculateTof]status: 1,T12: 796,Ra: 26347611500,Rb: 5560599899,Da: 5560608916,Db: 26347565201
+[CalculateTof]RaDa: 4.738260,RbDb: 0.211047
+[CalculateTof Finished][1] T23: 586,T3: 3130,classicTof: 311,d: 137.468688,d3: 1468.522094,classicD: 145.913864,trueD: 6553.364257
+[CalculateTof]status: 0,T12: 586,Ra: 5560599899,Rb: 26370015950,Da: 26369969829,Db: 5560608916
+[CalculateTof]RaDa: 0.210868,RbDb: 4.742289
+[CalculateTof Finished][0] T23: 584,T3: -2546,classicTof: 292,d: 136.999511,d3: -1194.523071,classicD: 136.999511,trueD: 60.201080
+[CalculateTof]status: 1,T12: 584,Ra: 26370015950,Rb: 5553197430,Da: 5553206578,Db: 26369969829
+[CalculateTof]RaDa: 4.748610,RbDb: 0.210587
+[CalculateTof Finished][1] T23: 441,T3: 2987,classicTof: 233,d: 103.453392,d3: 1401.429931,classicD: 109.318099,trueD: 58.300769
+[CalculateTof]status: 0,T12: 441,Ra: 5553197430,Rb: 26376932477,Da: 26376886410,Db: 5553206578
+[CalculateTof]RaDa: 0.210532,RbDb: 4.749856
+[CalculateTof Finished][0] T23: 457,T3: -2530,classicTof: 227,d: 107.206810,d3: -1187.016235,classicD: 106.503044,trueD: 6552.697265
+[CalculateTof]status: 1,T12: 457,Ra: 26376932477,Rb: 5527885430,Da: 5527894403,Db: 26376886410
+[CalculateTof]RaDa: 4.771605,RbDb: 0.209573
+[CalculateTof Finished][1] T23: 585,T3: 3115,classicTof: 281,d: 137.234100,d3: 1461.484497,classicD: 131.838562,trueD: 6552.287109
+[CalculateTof]status: 0,T12: 585,Ra: 5527885430,Rb: 26404266715,Da: 26404220810,Db: 5527894403
+[CalculateTof]RaDa: 0.209356,RbDb: 4.776550
+[CalculateTof Finished][0] T23: 515,T3: -2600,classicTof: 263,d: 120.812919,d3: -1219.858642,classicD: 123.393394,trueD: 6553.737793
+[CalculateTof]status: 1,T12: 515,Ra: 26404266715,Rb: 5510108484,Da: 5510117157,Db: 26404220810
+[CalculateTof]RaDa: 4.791960,RbDb: 0.208682
+[CalculateTof Finished][1] T23: 799,T3: 3399,classicTof: 375,d: 187.435974,d3: 1594.730590,classicD: 175.941146,trueD: 6554.265136
+[CalculateTof]status: 0,T12: 799,Ra: 5510108484,Rb: 26415249952,Da: 26415204028,Db: 5510117157
+[CalculateTof]RaDa: 0.208596,RbDb: 4.793953
+[CalculateTof Finished][0] T23: 739,T3: -2660,classicTof: 375,d: 173.360672,d3: -1248.009277,classicD: 175.941146,trueD: 6553.964843
+[CalculateTof]status: 1,T12: 739,Ra: 26415249952,Rb: 5494491649,Da: 5494500320,Db: 26415204028
+[CalculateTof]RaDa: 4.807580,RbDb: 0.208004
+[CalculateTof Finished][1] T23: 727,T3: 3387,classicTof: 364,d: 170.545623,d3: 1589.100463,classicD: 170.780212,trueD: 6553.379394
+[CalculateTof]status: 0,T12: 727,Ra: 5494491649,Rb: 26438847693,Da: 26438801919,Db: 5494500320
+[CalculateTof]RaDa: 0.207819,RbDb: 4.811874
+[CalculateTof Finished][0] T23: 690,T3: -2697,classicTof: 348,d: 161.865860,d3: -1265.368774,classicD: 163.273391,trueD: 91.905662
+[CalculateTof]status: 1,T12: 690,Ra: 26438847693,Rb: 5473774624,Da: 5473783603,Db: 26438801919
+[CalculateTof]RaDa: 4.830086,RbDb: 0.207035
+[CalculateTof Finished][1] T23: 354,T3: 3051,classicTof: 206,d: 83.044219,d3: 1431.457153,classicD: 96.650337,trueD: 77.003250
+[CalculateTof]status: 0,T12: 354,Ra: 5473774624,Rb: 26450495627,Da: 26450449888,Db: 5473783603
+[CalculateTof]RaDa: 0.206944,RbDb: 4.832214
+[CalculateTof Finished][0] T23: 413,T3: -2638,classicTof: 201,d: 96.884925,d3: -1237.687377,classicD: 94.304458,trueD: 61.300815
+[CalculateTof]status: 1,T12: 413,Ra: 26450495627,Rb: 5464311334,Da: 5464320373,Db: 26450449888
+[CalculateTof]RaDa: 4.840582,RbDb: 0.206586
+[CalculateTof Finished][1] T23: 324,T3: 2962,classicTof: 169,d: 76.006576,d3: 1389.700439,classicD: 79.290809,trueD: 64.203498
+[CalculateTof]status: 0,T12: 324,Ra: 5464311334,Rb: 26464402391,Da: 26464356826,Db: 5464320373
+[CalculateTof]RaDa: 0.206478,RbDb: 4.843127
+[CalculateTof Finished][0] T23: 302,T3: -2660,classicTof: 152,d: 70.845634,d3: -1248.009277,classicD: 71.314811,trueD: 6552.367675
+[CalculateTof]status: 1,T12: 302,Ra: 26464402391,Rb: 5451367009,Da: 5451375657,Db: 26464356826
+[CalculateTof]RaDa: 4.854628,RbDb: 0.205989
+[CalculateTof Finished][1] T23: 675,T3: 3335,classicTof: 305,d: 158.347030,d3: 1564.703247,classicD: 143.098800,trueD: 6552.815429
+[CalculateTof]status: 0,T12: 675,Ra: 5451367009,Rb: 26479083395,Da: 26479037855,Db: 5451375657
+[CalculateTof]RaDa: 0.205874,RbDb: 4.857321
+[CalculateTof Finished][0] T23: 588,T3: -2747,classicTof: 301,d: 137.937866,d3: -1288.827514,classicD: 141.222091,trueD: 6554.586914
+[CalculateTof]status: 1,T12: 588,Ra: 26479083395,Rb: 5430305724,Da: 5430314109,Db: 26479037855
+[CalculateTof]RaDa: 4.876160,RbDb: 0.205079
+[CalculateTof Finished][1] T23: 833,T3: 3580,classicTof: 395,d: 195.411972,d3: 1679.651489,classicD: 185.324676,trueD: 6554.062011
+[CalculateTof]status: 0,T12: 833,Ra: 5430305724,Rb: 26504441954,Da: 26504396356,Db: 5430314109
+[CalculateTof]RaDa: 0.204883,RbDb: 4.880830
+[CalculateTof Finished][0] T23: 786,T3: -2794,classicTof: 397,d: 184.386322,d3: -1310.878906,classicD: 186.263031,trueD: 6551.875976
+[CalculateTof]status: 1,T12: 786,Ra: 26504441954,Rb: 5409179725,Da: 5409188254,Db: 26504396356
+[CalculateTof]RaDa: 4.899892,RbDb: 0.204086
+[CalculateTof Finished][1] T23: 616,T3: 3410,classicTof: 322,d: 144.506332,d3: 1599.891479,classicD: 151.074798,trueD: 6551.688476
+[CalculateTof]status: 0,T12: 616,Ra: 5409179725,Rb: 26514898256,Da: 26514852787,Db: 5409188254
+[CalculateTof]RaDa: 0.204005,RbDb: 4.901825
+[CalculateTof Finished][0] T23: 621,T3: -2789,classicTof: 310,d: 145.679275,d3: -1308.532959,classicD: 145.444686,trueD: 74.300338
+[CalculateTof]status: 1,T12: 621,Ra: 26514898256,Rb: 5398457496,Da: 5398466224,Db: 26514852787
+[CalculateTof]RaDa: 4.911561,RbDb: 0.203601
+[CalculateTof Finished][1] T23: 403,T3: 3192,classicTof: 219,d: 94.539047,d3: 1497.611084,classicD: 102.749633,trueD: 65.302833
+[CalculateTof]status: 0,T12: 403,Ra: 5398457496,Rb: 26534653392,Da: 26534608232,Db: 5398466224
+[CalculateTof]RaDa: 0.203449,RbDb: 4.915221
+[CalculateTof Finished][0] T23: 377,T3: -2815,classicTof: 191,d: 88.439750,d3: -1320.731567,classicD: 89.612693,trueD: 58.602214
+[CalculateTof]status: 1,T12: 377,Ra: 26534653392,Rb: 5384156389,Da: 5384165424,Db: 26534608232
+[CalculateTof]RaDa: 4.928276,RbDb: 0.202910
+[CalculateTof Finished][1] T23: 51,T3: 2866,classicTof: 53,d: 11.963997,d3: 1344.659545,classicD: 24.866348,trueD: 58.602214
+[CalculateTof]status: 0,T12: 51,Ra: 5384156389,Rb: 26540785566,Da: 26540740379,Db: 5384165424
+[CalculateTof]RaDa: 0.202863,RbDb: 4.929415
+[CalculateTof Finished][0] T23: 121,T3: -2745,classicTof: 54,d: 28.385171,d3: -1287.889160,classicD: 25.335525,trueD: 58.602214
+[CalculateTof]status: 1,T12: 121,Ra: 26540785566,Rb: 5364542628,Da: 5364551266,Db: 26540740379
+[CalculateTof]RaDa: 4.947438,RbDb: 0.202124
+[CalculateTof Finished][1] T23: 470,T3: 3215,classicTof: 206,d: 110.256454,d3: 1508.402099,classicD: 96.650337,trueD: 58.602214
+[CalculateTof]status: 0,T12: 470,Ra: 5364542628,Rb: 26565241364,Da: 26565196124,Db: 5364551266
+[CalculateTof]RaDa: 0.201938,RbDb: 4.951996
+[CalculateTof Finished][0] T23: 402,T3: -2813,classicTof: 207,d: 94.304458,d3: -1319.793212,classicD: 97.119514,trueD: 58.602214
+[CalculateTof]status: 1,T12: 402,Ra: 26565241364,Rb: 5348286844,Da: 5348295660,Db: 26565196124
+[CalculateTof]RaDa: 4.967047,RbDb: 0.201326
+[CalculateTof Finished][1] T23: 211,T3: 3024,classicTof: 121,d: 49.498111,d3: 1418.789428,classicD: 56.770343,trueD: 58.602214
+[CalculateTof]status: 0,T12: 211,Ra: 5348286844,Rb: 26586530949,Da: 26586485380,Db: 5348295660
+[CalculateTof]RaDa: 0.201165,RbDb: 4.971028
+[CalculateTof Finished][0] T23: 308,T3: -2716,classicTof: 146,d: 72.253166,d3: -1274.283081,classicD: 68.499755,trueD: 58.602214
+[CalculateTof]status: 1,T12: 308,Ra: 26586530949,Rb: 5327743473,Da: 5327752059,Db: 26586485380
+[CalculateTof]RaDa: 4.990196,RbDb: 0.200392
+[CalculateTof Finished][1] T23: 483,T3: 3199,classicTof: 227,d: 113.306098,d3: 1500.895263,classicD: 106.503044,trueD: 58.602214
+[CalculateTof]status: 0,T12: 483,Ra: 5327743473,Rb: 26593446986,Da: 26593401359,Db: 5327752059
+[CalculateTof]RaDa: 0.200340,RbDb: 4.991495
+[CalculateTof Finished][0] T23: 458,T3: -2741,classicTof: 231,d: 107.441398,d3: -1286.012451,classicD: 108.379745,trueD: 58.602214
+[CalculateTof]status: 1,T12: 458,Ra: 26593446986,Rb: 5323991370,Da: 5324000182,Db: 26593401359
+[CalculateTof]RaDa: 4.995012,RbDb: 0.200199
+[CalculateTof Finished][1] T23: 230,T3: 2971,classicTof: 134,d: 53.955284,d3: 1393.923095,classicD: 62.869636,trueD: 58.602214
+[CalculateTof]status: 0,T12: 230,Ra: 5323991370,Rb: 26608911031,Da: 26608865462,Db: 5324000182
+[CalculateTof]RaDa: 0.200083,RbDb: 4.997916
+[CalculateTof Finished][0] T23: 259,T3: -2712,classicTof: 127,d: 60.758342,d3: -1272.406372,classicD: 59.585403,trueD: 58.602214
+[CalculateTof]status: 1,T12: 259,Ra: 26608911031,Rb: 5299398076,Da: 5299406665,Db: 26608865462
+[CalculateTof]RaDa: 5.021111,RbDb: 0.199159
+[CalculateTof Finished][1] T23: 434,T3: 3146,classicTof: 202,d: 101.811279,d3: 1476.028930,classicD: 94.773635,trueD: 58.602214
+[CalculateTof]status: 0,T12: 434,Ra: 5299398076,Rb: 26626438527,Da: 26626392644,Db: 5299406665
+[CalculateTof]RaDa: 0.199028,RbDb: 5.024418
+[CalculateTof Finished][0] T23: 456,T3: -2690,classicTof: 226,d: 106.972221,d3: -1262.084472,classicD: 106.033866,trueD: 58.602214
+[CalculateTof]status: 1,T12: 456,Ra: 26626438527,Rb: 5285805303,Da: 5285813889,Db: 26626392644
+[CalculateTof]RaDa: 5.037339,RbDb: 0.198517
+[CalculateTof Finished][1] T23: 432,T3: 3122,classicTof: 218,d: 101.342102,d3: 1464.768676,classicD: 102.280456,trueD: 58.602214
+[CalculateTof]status: 0,T12: 432,Ra: 5285805303,Rb: 26643996348,Da: 26643950345,Db: 5285813889
+[CalculateTof]RaDa: 0.198386,RbDb: 5.040661
+[CalculateTof Finished][0] T23: 454,T3: -2668,classicTof: 225,d: 106.503044,d3: -1251.762573,classicD: 105.564689,trueD: 58.602214
+[CalculateTof]status: 1,T12: 454,Ra: 26643996348,Rb: 5277355415,Da: 5277364036,Db: 26643950345
+[CalculateTof]RaDa: 5.048731,RbDb: 0.198069
+[CalculateTof Finished][1] T23: 400,T3: 3068,classicTof: 204,d: 93.835281,d3: 1439.433227,classicD: 95.711982,trueD: 58.602214
+[CalculateTof]status: 0,T12: 400,Ra: 5277355415,Rb: 26651121824,Da: 26651075689,Db: 5277364036
+[CalculateTof]RaDa: 0.198016,RbDb: 5.050081
+[CalculateTof Finished][0] T23: 435,T3: -2633,classicTof: 214,d: 102.045867,d3: -1235.341430,classicD: 100.403747,trueD: 58.602214
+[CalculateTof]status: 1,T12: 435,Ra: 26651121824,Rb: 5252764617,Da: 5252773216,Db: 26651075689
+[CalculateTof]RaDa: 5.073723,RbDb: 0.197093
+[CalculateTof Finished][1] T23: 408,T3: 3041,classicTof: 206,d: 95.711982,d3: 1426.765380,classicD: 96.650337,trueD: 58.602214
+[CalculateTof]status: 0,T12: 408,Ra: 5252764617,Rb: 26685259033,Da: 26685212727,Db: 5252773216
+[CalculateTof]RaDa: 0.196841,RbDb: 5.080223
+[CalculateTof Finished][0] T23: 435,T3: -2606,classicTof: 215,d: 102.045867,d3: -1222.673706,classicD: 100.872924,trueD: 58.602214
+[CalculateTof]status: 1,T12: 435,Ra: 26685259033,Rb: 5227884906,Da: 5227893479,Db: 26685212727
+[CalculateTof]RaDa: 5.104400,RbDb: 0.195909
+[CalculateTof Finished][1] T23: 413,T3: 3019,classicTof: 208,d: 96.884925,d3: 1416.443603,classicD: 97.588691,trueD: 58.602214
+[CalculateTof]status: 0,T12: 413,Ra: 5227884906,Rb: 26694455312,Da: 26694408854,Db: 5227893479
+[CalculateTof]RaDa: 0.195841,RbDb: 5.106159
+[CalculateTof Finished][0] T23: 444,T3: -2575,classicTof: 219,d: 104.157157,d3: -1208.129272,classicD: 102.749633,trueD: 58.602214
+[CalculateTof]status: 1,T12: 444,Ra: 26694455312,Rb: 5218694278,Da: 5218702832,Db: 26694408854
+[CalculateTof]RaDa: 5.115151,RbDb: 0.195497
+[CalculateTof Finished][1] T23: 441,T3: 3016,classicTof: 221,d: 103.453392,d3: 1415.036010,classicD: 103.687980,trueD: 58.602214
+[CalculateTof]status: 0,T12: 441,Ra: 5218694278,Rb: 26714393291,Da: 26714346874,Db: 5218702832
+[CalculateTof]RaDa: 0.195351,RbDb: 5.118971
+[CalculateTof Finished][0] T23: 427,T3: -2589,classicTof: 214,d: 100.169158,d3: -1214.697753,classicD: 100.403747,trueD: 58.602214
+[CalculateTof]status: 1,T12: 427,Ra: 26714393291,Rb: 5203229810,Da: 5203238709,Db: 26714346874
+[CalculateTof]RaDa: 5.134185,RbDb: 0.194772
+[CalculateTof Finished][1] T23: 58,T3: 2647,classicTof: 59,d: 13.606115,d3: 1241.909912,classicD: 27.681407,trueD: 58.202491
+[CalculateTof]status: 0,T12: 58,Ra: 5203229810,Rb: 26719446873,Da: 26719400334,Db: 5203238709
+[CalculateTof]RaDa: 0.194736,RbDb: 5.135156
+[CalculateTof Finished][0] T23: 152,T3: -2495,classicTof: 68,d: 35.657405,d3: -1170.595092,classicD: 31.903995,trueD: 35.806842
+[CalculateTof]status: 1,T12: 152,Ra: 26719446873,Rb: 5188545599,Da: 5188554407,Db: 26719400334
+[CalculateTof]RaDa: 5.149690,RbDb: 0.194186
+[CalculateTof Finished][1] T23: 199,T3: 2694,classicTof: 95,d: 46.683052,d3: 1263.961181,classicD: 44.571758,trueD: 6552.270019
+[CalculateTof]status: 0,T12: 199,Ra: 5188545599,Rb: 26740628931,Da: 26740582337,Db: 5188554407
+[CalculateTof]RaDa: 0.194032,RbDb: 5.153772
+[CalculateTof Finished][0] T23: 194,T3: -2500,classicTof: 97,d: 45.510108,d3: -1172.941040,classicD: 45.510108,trueD: 6551.922851
+[CalculateTof]status: 1,T12: 194,Ra: 26740628931,Rb: 5173678443,Da: 5173687357,Db: 26740582337
+[CalculateTof]RaDa: 5.168582,RbDb: 0.193476
+[CalculateTof Finished][1] T23: 63,T3: 2563,classicTof: 42,d: 14.779056,d3: 1202.499145,classicD: 19.705408,trueD: 6551.636230
+[CalculateTof]status: 0,T12: 63,Ra: 5173678443,Rb: 26758911150,Da: 26758864533,Db: 5173687357
+[CalculateTof]RaDa: 0.193344,RbDb: 5.172116
+[CalculateTof Finished][0] T23: 86,T3: -2477,classicTof: 41,d: 20.174585,d3: -1162.149902,classicD: 19.236232,trueD: 6550.900878
+[CalculateTof]status: 1,T12: 86,Ra: 26758911150,Rb: 5152713947,Da: 5152722258,Db: 26758864533
+[CalculateTof]RaDa: 5.193160,RbDb: 0.192561
+[CalculateTof Finished][1] T23: 649,T3: 3126,classicTof: 279,d: 152.247741,d3: 1466.645385,classicD: 130.900207,trueD: 6551.655761
+[CalculateTof]status: 0,T12: 649,Ra: 5152713947,Rb: 26773105685,Da: 26773058853,Db: 5152722258
+[CalculateTof]RaDa: 0.192458,RbDb: 5.195914
+[CalculateTof Finished][0] T23: 577,T3: -2549,classicTof: 294,d: 135.357391,d3: -1195.930664,classicD: 137.937866,trueD: 164.004425
+[CalculateTof]status: 1,T12: 577,Ra: 26773105685,Rb: 5145332882,Da: 5145340907,Db: 26773058853
+[CalculateTof]RaDa: 5.203368,RbDb: 0.192183
+[CalculateTof Finished][1] T23: 864,T3: 3413,classicTof: 409,d: 202.684204,d3: 1601.299072,classicD: 191.893142,trueD: 168.105743
+[CalculateTof]status: 0,T12: 864,Ra: 5145332882,Rb: 26785383033,Da: 26785336174,Db: 5145340907
+[CalculateTof]RaDa: 0.192095,RbDb: 5.205754
+[CalculateTof Finished][0] T23: 810,T3: -2603,classicTof: 409,d: 190.016433,d3: -1221.266113,classicD: 191.893142,trueD: 164.805618
+[CalculateTof]status: 1,T12: 810,Ra: 26785383033,Rb: 5122544684,Da: 5122552711,Db: 26785336174
+[CalculateTof]RaDa: 5.228912,RbDb: 0.191244
+[CalculateTof Finished][1] T23: 779,T3: 3382,classicTof: 392,d: 182.744201,d3: 1586.754516,classicD: 183.917144,trueD: 6553.970214
+[CalculateTof]status: 0,T12: 779,Ra: 5122544684,Rb: 26813470325,Da: 26813423572,Db: 5122552711
+[CalculateTof]RaDa: 0.191044,RbDb: 5.234395
+[CalculateTof Finished][0] T23: 756,T3: -2626,classicTof: 379,d: 177.348678,d3: -1232.057250,classicD: 177.817855,trueD: 6550.857421
+[CalculateTof]status: 1,T12: 756,Ra: 26813470325,Rb: 5101046588,Da: 5101054859,Db: 26813423572
+[CalculateTof]RaDa: 5.256455,RbDb: 0.190242
+[CalculateTof Finished][1] T23: 479,T3: 3105,classicTof: 261,d: 112.367744,d3: 1456.792724,classicD: 122.455039,trueD: 6550.645996
+[CalculateTof]status: 0,T12: 479,Ra: 5101046588,Rb: 26820180336,Da: 26820134084,Db: 5101054859
+[CalculateTof]RaDa: 0.190194,RbDb: 5.257771
+[CalculateTof Finished][0] T23: 434,T3: -2671,classicTof: 220,d: 101.811279,d3: -1253.170166,classicD: 103.218811,trueD: 6550.625976
+[CalculateTof]status: 1,T12: 434,Ra: 26820180336,Rb: 5090809611,Da: 5090818192,Db: 26820134084
+[CalculateTof]RaDa: 5.268343,RbDb: 0.189812
+[CalculateTof Finished][1] T23: 115,T3: 2786,classicTof: 83,d: 26.977642,d3: 1307.125488,classicD: 38.941642,trueD: 6551.660644
+[CalculateTof]status: 0,T12: 115,Ra: 5090809611,Rb: 26838272783,Da: 26838226677,Db: 5090818192
+[CalculateTof]RaDa: 0.189685,RbDb: 5.271897
+[CalculateTof Finished][0] T23: 142,T3: -2644,classicTof: 69,d: 33.311523,d3: -1240.502441,classicD: 32.373172,trueD: 15.602563
+[CalculateTof]status: 1,T12: 142,Ra: 26838272783,Rb: 5081853814,Da: 5081862385,Db: 26838226677
+[CalculateTof]RaDa: 5.281188,RbDb: 0.189351
+[CalculateTof Finished][1] T23: 132,T3: 2776,classicTof: 66,d: 30.965642,d3: 1302.433715,classicD: 30.965642,trueD: 17.300577
+[CalculateTof]status: 0,T12: 132,Ra: 5081853814,Rb: 26854051027,Da: 26854004874,Db: 5081862385
+[CalculateTof]RaDa: 0.189240,RbDb: 5.284293
+[CalculateTof Finished][0] T23: 138,T3: -2638,classicTof: 68,d: 32.373172,d3: -1237.687377,classicD: 31.903995,trueD: 6551.634765
+[CalculateTof]status: 1,T12: 138,Ra: 26854051027,Rb: 5052973437,Da: 5052981549,Db: 26854004874
+[CalculateTof]RaDa: 5.314496,RbDb: 0.188164
+[CalculateTof Finished][1] T23: 546,T3: 3184,classicTof: 240,d: 128.085159,d3: 1493.857666,classicD: 112.602333,trueD: 6551.578613
+[CalculateTof]status: 0,T12: 546,Ra: 5052973437,Rb: 26869111935,Da: 26869065859,Db: 5052981549
+[CalculateTof]RaDa: 0.188059,RbDb: 5.317476
+[CalculateTof Finished][0] T23: 450,T3: -2734,classicTof: 232,d: 105.564689,d3: -1282.728271,classicD: 108.848922,trueD: 137.601928
+[CalculateTof]status: 1,T12: 450,Ra: 26869111935,Rb: 5046944551,Da: 5046952321,Db: 26869065859
+[CalculateTof]RaDa: 5.323829,RbDb: 0.187834
+[CalculateTof Finished][1] T23: 800,T3: 3534,classicTof: 372,d: 187.670562,d3: 1658.069335,classicD: 174.533615,trueD: 144.300994
+[CalculateTof]status: 0,T12: 800,Ra: 5046944551,Rb: 26886701260,Da: 26886655193,Db: 5046952321
+[CalculateTof]RaDa: 0.187711,RbDb: 5.327313
+[CalculateTof Finished][0] T23: 727,T3: -2807,classicTof: 369,d: 170.545623,d3: -1316.978149,classicD: 173.126083,trueD: 6553.231445
+[CalculateTof]status: 1,T12: 727,Ra: 26886701260,Rb: 5022274376,Da: 5022282036,Db: 26886655193
+[CalculateTof]RaDa: 5.353482,RbDb: 0.186794
+[CalculateTof Finished][1] T23: 809,T3: 3616,classicTof: 398,d: 189.781860,d3: 1696.541870,classicD: 186.732208,trueD: 6553.242187
+[CalculateTof]status: 0,T12: 809,Ra: 5022274376,Rb: 26902639804,Da: 26902593720,Db: 5022282036
+[CalculateTof]RaDa: 0.186683,RbDb: 5.356656
+[CalculateTof Finished][0] T23: 792,T3: -2824,classicTof: 397,d: 185.793853,d3: -1324.954101,classicD: 186.263031,trueD: 6553.951660
+[CalculateTof]status: 1,T12: 792,Ra: 26902639804,Rb: 5009734346,Da: 5009742148,Db: 26902593720
+[CalculateTof]RaDa: 5.370064,RbDb: 0.186217
+[CalculateTof Finished][1] T23: 632,T3: 3456,classicTof: 328,d: 148.259735,d3: 1621.473632,classicD: 153.889862,trueD: 6552.669921
+[CalculateTof]status: 0,T12: 632,Ra: 5009734346,Rb: 26920685117,Da: 26920639286,Db: 5009742148
+[CalculateTof]RaDa: 0.186092,RbDb: 5.373666
+[CalculateTof Finished][0] T23: 609,T3: -2847,classicTof: 306,d: 142.864212,d3: -1335.745239,classicD: 143.567977,trueD: 63.309635
+[CalculateTof]status: 1,T12: 609,Ra: 26920685117,Rb: 4996844078,Da: 4996852163,Db: 26920639286
+[CalculateTof]RaDa: 5.387528,RbDb: 0.185613
+[CalculateTof Finished][1] T23: 308,T3: 3155,classicTof: 177,d: 72.253166,d3: 1480.251586,classicD: 83.044219,trueD: 54.304512
+[CalculateTof]status: 0,T12: 308,Ra: 4996844078,Rb: 26930616285,Da: 26930570706,Db: 4996852163
+[CalculateTof]RaDa: 0.185545,RbDb: 5.389516
+[CalculateTof Finished][0] T23: 314,T3: -2841,classicTof: 156,d: 73.660697,d3: -1332.930175,classicD: 73.191520,trueD: 14.318519
+[CalculateTof]status: 1,T12: 314,Ra: 26930616285,Rb: 4982761418,Da: 4982769699,Db: 26930570706
+[CalculateTof]RaDa: 5.404748,RbDb: 0.185022
+[CalculateTof Finished][1] T23: 94,T3: 2935,classicTof: 64,d: 22.051290,d3: 1377.032714,classicD: 30.027290,trueD: 13.709120
+[CalculateTof]status: 0,T12: 94,Ra: 4982761418,Rb: 26952690581,Da: 26952645174,Db: 4982769699
+[CalculateTof]RaDa: 0.184870,RbDb: 5.409178
+[CalculateTof Finished][0] T23: 96,T3: -2839,classicTof: 47,d: 22.520467,d3: -1331.991821,classicD: 22.051290,trueD: 6552.395019
+[CalculateTof]status: 1,T12: 96,Ra: 26952690581,Rb: 4956941465,Da: 4956949611,Db: 26952645174
+[CalculateTof]RaDa: 5.437354,RbDb: 0.183912
+[CalculateTof Finished][1] T23: 187,T3: 3026,classicTof: 86,d: 43.867992,d3: 1419.727783,classicD: 40.349170,trueD: 6551.577148
+[CalculateTof]status: 0,T12: 187,Ra: 4956941465,Rb: 26967475434,Da: 26967429991,Db: 4956949611
+[CalculateTof]RaDa: 0.183812,RbDb: 5.440337
+[CalculateTof Finished][0] T23: 172,T3: -2854,classicTof: 87,d: 40.349170,d3: -1339.029418,classicD: 40.818347,trueD: 6551.157714
+[CalculateTof]status: 1,T12: 172,Ra: 26967475434,Rb: 4944557051,Da: 4944564502,Db: 26967429991
+[CalculateTof]RaDa: 5.453963,RbDb: 0.183352
+[CalculateTof Finished][1] T23: 849,T3: 3703,classicTof: 372,d: 199.165374,d3: 1737.360229,classicD: 174.533615,trueD: 6551.625000
+[CalculateTof]status: 0,T12: 849,Ra: 4944557051,Rb: 26986376604,Da: 26986331141,Db: 4944564502
+[CalculateTof]RaDa: 0.183224,RbDb: 5.457786
+[CalculateTof Finished][0] T23: 723,T3: -2980,classicTof: 371,d: 169.607269,d3: -1398.145629,classicD: 174.064437,trueD: 170.504608
+[CalculateTof]status: 1,T12: 723,Ra: 26986376604,Rb: 4932460986,Da: 4932468324,Db: 26986331141
+[CalculateTof]RaDa: 5.471170,RbDb: 0.182776
+[CalculateTof Finished][1] T23: 839,T3: 3819,classicTof: 410,d: 196.819503,d3: 1791.784668,classicD: 192.362319,trueD: 172.104217
+[CalculateTof]status: 0,T12: 839,Ra: 4932460986,Rb: 26994036239,Da: 26993990726,Db: 4932468324
+[CalculateTof]RaDa: 0.182724,RbDb: 5.472723
+[CalculateTof Finished][0] T23: 825,T3: -2994,classicTof: 413,d: 193.535263,d3: -1404.714111,classicD: 193.769851,trueD: 6554.338378
+[CalculateTof]status: 1,T12: 825,Ra: 26994036239,Rb: 4912606904,Da: 4912614385,Db: 26993990726
+[CalculateTof]RaDa: 5.494841,RbDb: 0.181988
+[CalculateTof Finished][1] T23: 651,T3: 3645,classicTof: 339,d: 152.716918,d3: 1710.147949,classicD: 159.050796,trueD: 6553.544433
+[CalculateTof]status: 0,T12: 651,Ra: 4912606904,Rb: 27016275086,Da: 27016229704,Db: 4912614385
+[CalculateTof]RaDa: 0.181839,RbDb: 5.499368
+[CalculateTof Finished][0] T23: 652,T3: -2993,classicTof: 326,d: 152.951507,d3: -1404.244995,classicD: 152.951507,trueD: 6551.594726
+[CalculateTof]status: 1,T12: 652,Ra: 27016275086,Rb: 4896759085,Da: 4896766834,Db: 27016229704
+[CalculateTof]RaDa: 5.517166,RbDb: 0.181252
+[CalculateTof Finished][1] T23: 358,T3: 3351,classicTof: 201,d: 83.982574,d3: 1572.210083,classicD: 94.304458,trueD: 6552.178710
+[CalculateTof]status: 0,T12: 358,Ra: 4896759085,Rb: 27036245615,Da: 27036200659,Db: 4896766834
+[CalculateTof]RaDa: 0.181118,RbDb: 5.521244
+[CalculateTof Finished][0] T23: 328,T3: -3023,classicTof: 166,d: 76.944931,d3: -1418.320190,classicD: 77.883285,trueD: 29.206335
+[CalculateTof]status: 1,T12: 328,Ra: 27036245615,Rb: 4878165145,Da: 4878173073,Db: 27036200659
+[CalculateTof]RaDa: 5.542289,RbDb: 0.180430
+[CalculateTof Finished][1] T23: 124,T3: 3147,classicTof: 77,d: 29.088935,d3: 1476.498168,classicD: 36.126583,trueD: 24.816324
+[CalculateTof]status: 0,T12: 124,Ra: 4878165145,Rb: 27046804677,Da: 27046759783,Db: 4878173073
+[CalculateTof]RaDa: 0.180360,RbDb: 5.544453
+[CalculateTof Finished][0] T23: 146,T3: -3001,classicTof: 71,d: 34.249877,d3: -1407.998413,classicD: 33.311523,trueD: 17.428710
+[CalculateTof]status: 1,T12: 146,Ra: 27046804677,Rb: 4868893305,Da: 4868901179,Db: 27046759783
+[CalculateTof]RaDa: 5.555011,RbDb: 0.180017
+[CalculateTof Finished][1] T23: 181,T3: 3182,classicTof: 88,d: 42.460464,d3: 1492.919311,classicD: 41.287521,trueD: 6552.248046
+[CalculateTof]status: 0,T12: 181,Ra: 4868893305,Rb: 27062079659,Da: 27062034823,Db: 4868901179
+[CalculateTof]RaDa: 0.179916,RbDb: 5.558148
+[CalculateTof Finished][0] T23: 160,T3: -3022,classicTof: 81,d: 37.534111,d3: -1417.851074,classicD: 38.003288,trueD: 6551.358398
+[CalculateTof]status: 1,T12: 160,Ra: 27062079659,Rb: 4846715456,Da: 4846722901,Db: 27062034823
+[CalculateTof]RaDa: 5.583582,RbDb: 0.179096
+[CalculateTof Finished][1] T23: 556,T3: 3578,classicTof: 248,d: 130.431045,d3: 1678.713134,classicD: 116.355743,trueD: 6551.856445
+[CalculateTof]status: 0,T12: 556,Ra: 4846715456,Rb: 27088752805,Da: 27088708032,Db: 4846722901
+[CalculateTof]RaDa: 0.178920,RbDb: 5.589086
+[CalculateTof Finished][0] T23: 466,T3: -3112,classicTof: 239,d: 109.318099,d3: -1460.076904,classicD: 112.133155,trueD: 6553.962402
+[CalculateTof]status: 1,T12: 466,Ra: 27088752805,Rb: 4825224683,Da: 4825231707,Db: 27088708032
+[CalculateTof]RaDa: 5.613979,RbDb: 0.178126
+[CalculateTof Finished][1] T23: 868,T3: 3980,classicTof: 403,d: 203.622558,d3: 1867.322021,classicD: 189.078094,trueD: 160.503402
+[CalculateTof]status: 0,T12: 868,Ra: 4825224683,Rb: 27096119688,Da: 27096074773,Db: 4825231707
+[CalculateTof]RaDa: 0.178078,RbDb: 5.615506
+[CalculateTof Finished][0] T23: 819,T3: -3161,classicTof: 413,d: 192.127731,d3: -1483.066650,classicD: 193.769851,trueD: 6554.662109
+[CalculateTof]status: 1,T12: 819,Ra: 27096119688,Rb: 4815672088,Da: 4815679096,Db: 27096074773
+[CalculateTof]RaDa: 5.626645,RbDb: 0.177725
+[CalculateTof Finished][1] T23: 828,T3: 3989,classicTof: 413,d: 194.239028,d3: 1871.544677,classicD: 193.769851,trueD: 170.305938
+[CalculateTof]status: 0,T12: 828,Ra: 4815672088,Rb: 27115912270,Da: 27115867368,Db: 4815679096
+[CalculateTof]RaDa: 0.177596,RbDb: 5.630755
+[CalculateTof Finished][0] T23: 819,T3: -3170,classicTof: 410,d: 192.127731,d3: -1487.289184,classicD: 192.362319,trueD: 128.505340
+[CalculateTof]status: 1,T12: 819,Ra: 27115912270,Rb: 4804142970,Da: 4804150194,Db: 27115867368
+[CalculateTof]RaDa: 5.644268,RbDb: 0.177170
+[CalculateTof Finished][1] T23: 586,T3: 3756,classicTof: 310,d: 137.468688,d3: 1762.226562,classicD: 145.444686,trueD: 116.306755
+[CalculateTof]status: 0,T12: 586,Ra: 4804142970,Rb: 27132240198,Da: 27132195462,Db: 4804150194
+[CalculateTof]RaDa: 0.177064,RbDb: 5.647666
+[CalculateTof Finished][0] T23: 593,T3: -3163,classicTof: 296,d: 139.110809,d3: -1484.005004,classicD: 138.876220,trueD: 58.002933
+[CalculateTof]status: 1,T12: 593,Ra: 27132240198,Rb: 4773795754,Da: 4773803194,Db: 27132195462
+[CalculateTof]RaDa: 5.683569,RbDb: 0.175945
+[CalculateTof Finished][1] T23: 326,T3: 3489,classicTof: 183,d: 76.475753,d3: 1636.956420,classicD: 85.859283,trueD: 50.400993
+[CalculateTof]status: 0,T12: 326,Ra: 4773795754,Rb: 27145735086,Da: 27145690710,Db: 4773803194
+[CalculateTof]RaDa: 0.175858,RbDb: 5.686396
+[CalculateTof Finished][0] T23: 306,T3: -3183,classicTof: 154,d: 71.783988,d3: -1493.388427,classicD: 72.253166,trueD: 14.728882
+[CalculateTof]status: 1,T12: 306,Ra: 27145735086,Rb: 4771357796,Da: 4771365458,Db: 27145690710
+[CalculateTof]RaDa: 5.689301,RbDb: 0.175768
+[CalculateTof Finished][1] T23: 84,T3: 3267,classicTof: 58,d: 19.705408,d3: 1532.799316,classicD: 27.212230,trueD: 14.529280
+[CalculateTof]status: 0,T12: 84,Ra: 4771357796,Rb: 27164144823,Da: 27164100508,Db: 4771365458
+[CalculateTof]RaDa: 0.175649,RbDb: 5.693160
+[CalculateTof Finished][0] T23: 107,T3: -3160,classicTof: 51,d: 25.100936,d3: -1482.597412,classicD: 23.927995,trueD: 35.906265
+[CalculateTof]status: 1,T12: 107,Ra: 27164144823,Rb: 4744781295,Da: 4744788809,Db: 27164100508
+[CalculateTof]RaDa: 5.725048,RbDb: 0.174671
+[CalculateTof Finished][1] T23: 207,T3: 3367,classicTof: 96,d: 48.559757,d3: 1579.716918,classicD: 45.040935,trueD: 49.305881
+[CalculateTof]status: 0,T12: 207,Ra: 4744781295,Rb: 27179195031,Da: 27179150865,Db: 4744788809
+[CalculateTof]RaDa: 0.174574,RbDb: 5.728220
+[CalculateTof Finished][0] T23: 160,T3: -3207,classicTof: 83,d: 37.534111,d3: -1504.648681,classicD: 38.941642,trueD: 108.706298
+[CalculateTof]status: 1,T12: 160,Ra: 27179195031,Rb: 4733323281,Da: 4733330281,Db: 27179150865
+[CalculateTof]RaDa: 5.742086,RbDb: 0.174152
+[CalculateTof Finished][1] T23: 663,T3: 3870,classicTof: 294,d: 155.531982,d3: 1815.712646,classicD: 137.937866,trueD: 117.103630
+[CalculateTof]status: 0,T12: 663,Ra: 4733323281,Rb: 27194390663,Da: 27194346479,Db: 4733330281
+[CalculateTof]RaDa: 0.174055,RbDb: 5.745297
+[CalculateTof Finished][0] T23: 575,T3: -3295,classicTof: 294,d: 134.888214,d3: -1545.936279,classicD: 137.937866,trueD: 170.202407
+[CalculateTof]status: 1,T12: 575,Ra: 27194390663,Rb: 4723392771,Da: 4723399545,Db: 27194346479
+[CalculateTof]RaDa: 5.757376,RbDb: 0.173690
+[CalculateTof Finished][1] T23: 800,T3: 4095,classicTof: 383,d: 187.670562,d3: 1921.277343,classicD: 179.694564,trueD: 172.306045
+[CalculateTof]status: 0,T12: 800,Ra: 4723392771,Rb: 27207060054,Da: 27207015677,Db: 4723399545
+[CalculateTof]RaDa: 0.173609,RbDb: 5.760058
+[CalculateTof Finished][0] T23: 791,T3: -3304,classicTof: 396,d: 185.559265,d3: -1550.158813,classicD: 185.793853,trueD: 152.707229
+[CalculateTof]status: 1,T12: 791,Ra: 27207060054,Rb: 4701128494,Da: 4701135274,Db: 27207015677
+[CalculateTof]RaDa: 5.787338,RbDb: 0.172791
+[CalculateTof Finished][1] T23: 751,T3: 4055,classicTof: 378,d: 176.175735,d3: 1902.510253,classicD: 177.348678,trueD: 6553.730957
+[CalculateTof]status: 0,T12: 751,Ra: 4701128494,Rb: 27234465224,Da: 27234420946,Db: 4701135274
+[CalculateTof]RaDa: 0.172617,RbDb: 5.793167
+[CalculateTof Finished][0] T23: 733,T3: -3322,classicTof: 368,d: 171.953155,d3: -1558.604003,classicD: 172.656921,trueD: 83.407493
+[CalculateTof]status: 1,T12: 733,Ra: 27234465224,Rb: 4679935229,Da: 4679942200,Db: 27234420946
+[CalculateTof]RaDa: 5.819402,RbDb: 0.171838
+[CalculateTof Finished][1] T23: 511,T3: 3833,classicTof: 272,d: 119.874572,d3: 1798.353149,classicD: 127.615982,trueD: 74.007164
+[CalculateTof]status: 0,T12: 511,Ra: 4679935229,Rb: 27244831943,Da: 27244787971,Db: 4679942200
+[CalculateTof]RaDa: 0.171773,RbDb: 5.821617
+[CalculateTof Finished][0] T23: 494,T3: -3339,classicTof: 248,d: 115.886573,d3: -1566.579956,classicD: 116.355743,trueD: 21.000951
+[CalculateTof]status: 1,T12: 494,Ra: 27244831943,Rb: 4667652727,Da: 4667660089,Db: 27244787971
+[CalculateTof]RaDa: 5.836935,RbDb: 0.171322
+[CalculateTof Finished][1] T23: 86,T3: 3425,classicTof: 73,d: 20.174585,d3: 1606.929199,classicD: 34.249877,trueD: 16.911829
+[CalculateTof]status: 0,T12: 86,Ra: 4667652727,Rb: 27263944778,Da: 27263901065,Db: 4667660089
+[CalculateTof]RaDa: 0.171202,RbDb: 5.841030
+[CalculateTof Finished][0] T23: 107,T3: -3318,classicTof: 51,d: 25.100936,d3: -1556.727294,classicD: 23.927995,trueD: 32.912464
+[CalculateTof]status: 1,T12: 107,Ra: 27263944778,Rb: 4651387637,Da: 4651394998,Db: 27263901065
+[CalculateTof]RaDa: 5.861455,RbDb: 0.170606
+[CalculateTof Finished][1] T23: 78,T3: 3396,classicTof: 41,d: 18.297880,d3: 1593.322998,classicD: 19.236232,trueD: 38.315921
+[CalculateTof]status: 0,T12: 78,Ra: 4651387637,Rb: 27272239015,Da: 27272195339,Db: 4651394998
+[CalculateTof]RaDa: 0.170554,RbDb: 5.863238
+[CalculateTof Finished][0] T23: 74,T3: -3322,classicTof: 37,d: 17.359527,d3: -1558.604003,classicD: 17.359527,trueD: 6551.701660
+[CalculateTof]status: 1,T12: 74,Ra: 27272239015,Rb: 4637295624,Da: 4637302361,Db: 27272195339
+[CalculateTof]RaDa: 5.881057,RbDb: 0.170037
+[CalculateTof Finished][1] T23: 676,T3: 3998,classicTof: 294,d: 158.581619,d3: 1875.767211,classicD: 137.937866,trueD: 6551.743164
+[CalculateTof]status: 0,T12: 676,Ra: 4637295624,Rb: 27291936878,Da: 27291893240,Db: 4637302361
+[CalculateTof]RaDa: 0.169914,RbDb: 5.885304
+[CalculateTof Finished][0] T23: 562,T3: -3436,classicTof: 289,d: 131.838562,d3: -1612.090087,classicD: 135.591980,trueD: 162.406799
+[CalculateTof]status: 1,T12: 562,Ra: 27291936878,Rb: 4622286910,Da: 4622293394,Db: 27291893240
+[CalculateTof]RaDa: 5.904414,RbDb: 0.169364
+[CalculateTof Finished][1] T23: 811,T3: 4247,classicTof: 387,d: 190.251022,d3: 1992.592163,classicD: 181.571258,trueD: 169.405960
+[CalculateTof]status: 0,T12: 811,Ra: 4622286910,Rb: 27313090260,Da: 27313046466,Db: 4622293394
+[CalculateTof]RaDa: 0.169233,RbDb: 5.908990
+[CalculateTof Finished][0] T23: 790,T3: -3457,classicTof: 396,d: 185.324676,d3: -1621.942749,classicD: 185.793853,trueD: 6553.624511
+[CalculateTof]status: 1,T12: 790,Ra: 27313090260,Rb: 4598525348,Da: 4598531884,Db: 27313046466
+[CalculateTof]RaDa: 5.939523,RbDb: 0.168363
+[CalculateTof Finished][1] T23: 704,T3: 4161,classicTof: 358,d: 165.150085,d3: 1952.243042,classicD: 167.965148,trueD: 6553.604980
+[CalculateTof]status: 0,T12: 704,Ra: 4598525348,Rb: 27324030724,Da: 27323987036,Db: 4598531884
+[CalculateTof]RaDa: 0.168296,RbDb: 5.941902
+[CalculateTof Finished][0] T23: 698,T3: -3463,classicTof: 349,d: 163.742569,d3: -1624.757812,classicD: 163.742569,trueD: 6551.884765
+[CalculateTof]status: 1,T12: 698,Ra: 27324030724,Rb: 4594581617,Da: 4594588412,Db: 27323987036
+[CalculateTof]RaDa: 5.947003,RbDb: 0.168151
+[CalculateTof Finished][1] T23: 433,T3: 3896,classicTof: 235,d: 101.576690,d3: 1827.911254,classicD: 110.256454,trueD: 6552.569335
+[CalculateTof]status: 0,T12: 433,Ra: 4594581617,Rb: 27338364167,Da: 27338320783,Db: 4594588412
+[CalculateTof]RaDa: 0.168063,RbDb: 5.950122
+[CalculateTof Finished][0] T23: 423,T3: -3473,classicTof: 212,d: 99.230804,d3: -1629.449584,classicD: 99.465393,trueD: 31.403182
+[CalculateTof]status: 1,T12: 423,Ra: 27338364167,Rb: 4569294650,Da: 4569301753,Db: 27338320783
+[CalculateTof]RaDa: 5.983051,RbDb: 0.167138
+[CalculateTof Finished][1] T23: 77,T3: 3550,classicTof: 63,d: 18.063291,d3: 1665.576171,classicD: 29.558113,trueD: 26.303230
+[CalculateTof]status: 0,T12: 77,Ra: 4569294650,Rb: 27357542745,Da: 27357499590,Db: 4569301753
+[CalculateTof]RaDa: 0.167021,RbDb: 5.987248
+[CalculateTof Finished][0] T23: 91,T3: -3459,classicTof: 44,d: 21.347526,d3: -1622.881103,classicD: 20.643760,trueD: 19.002632
+[CalculateTof]status: 1,T12: 91,Ra: 27357542745,Rb: 4559239383,Da: 4559246503,Db: 27357499590
+[CalculateTof]RaDa: 6.000452,RbDb: 0.166654
+[CalculateTof Finished][1] T23: 56,T3: 3515,classicTof: 30,d: 13.136939,d3: 1649.155029,classicD: 14.075291,trueD: 21.508602
+[CalculateTof]status: 0,T12: 56,Ra: 4559239383,Rb: 27368538644,Da: 27368495401,Db: 4559246503
+[CalculateTof]RaDa: 0.166587,RbDb: 6.002864
+[CalculateTof Finished][0] T23: 74,T3: -3441,classicTof: 35,d: 17.359527,d3: -1614.436035,classicD: 16.421173,trueD: 6551.252441
+[CalculateTof]status: 1,T12: 74,Ra: 27368538644,Rb: 4540304343,Da: 4540311020,Db: 27368495401
+[CalculateTof]RaDa: 6.027899,RbDb: 0.165895
+[CalculateTof Finished][1] T23: 484,T3: 3925,classicTof: 213,d: 113.540687,d3: 1841.517334,classicD: 99.934570,trueD: 6550.060546
+[CalculateTof]status: 0,T12: 484,Ra: 4540304343,Rb: 27388475644,Da: 27388432425,Db: 4540311020
+[CalculateTof]RaDa: 0.165774,RbDb: 6.032290
+[CalculateTof Finished][0] T23: 407,T3: -3518,classicTof: 209,d: 95.477394,d3: -1650.562622,classicD: 98.057868,trueD: 6550.545410
+[CalculateTof]status: 1,T12: 407,Ra: 27388475644,Rb: 4525533180,Da: 4525539588,Db: 27388432425
+[CalculateTof]RaDa: 6.051979,RbDb: 0.165235
+[CalculateTof Finished][1] T23: 666,T3: 4184,classicTof: 314,d: 156.235733,d3: 1963.034057,classicD: 147.321395,trueD: 6551.563964
+[CalculateTof]status: 0,T12: 666,Ra: 4525533180,Rb: 27415973197,Da: 27415929860,Db: 4525539588
+[CalculateTof]RaDa: 0.165069,RbDb: 6.058055
+[CalculateTof Finished][0] T23: 635,T3: -3549,classicTof: 319,d: 148.963501,d3: -1665.107055,classicD: 149.667266,trueD: 172.503067
+[CalculateTof]status: 1,T12: 635,Ra: 27415973197,Rb: 4497368697,Da: 4497374899,Db: 27415929860
+[CalculateTof]RaDa: 6.095994,RbDb: 0.164042
+[CalculateTof Finished][1] T23: 802,T3: 4351,classicTof: 389,d: 188.139739,d3: 2041.386474,classicD: 182.509613,trueD: 173.807022
+[CalculateTof]status: 0,T12: 802,Ra: 4497368697,Rb: 27420709124,Da: 27420665735,Db: 4497374899
+[CalculateTof]RaDa: 0.164013,RbDb: 6.097047
+[CalculateTof Finished][0] T23: 782,T3: -3569,classicTof: 392,d: 183.447967,d3: -1674.490600,classicD: 183.917144,trueD: 151.204925
+[CalculateTof]status: 1,T12: 782,Ra: 27420709124,Rb: 4496706614,Da: 4496712956,Db: 27420665735
+[CalculateTof]RaDa: 6.097945,RbDb: 0.163989
+[CalculateTof Finished][1] T23: 645,T3: 4214,classicTof: 332,d: 151.309387,d3: 1977.109375,classicD: 155.766571,trueD: 6553.569824
+[CalculateTof]status: 0,T12: 645,Ra: 4496706614,Rb: 27437359294,Da: 27437316042,Db: 4496712956
+[CalculateTof]RaDa: 0.163890,RbDb: 6.101648
+[CalculateTof Finished][0] T23: 640,T3: -3574,classicTof: 320,d: 150.136444,d3: -1676.836425,classicD: 150.136444,trueD: 80.905250
+[CalculateTof]status: 1,T12: 640,Ra: 27437359294,Rb: 4470351348,Da: 4470357826,Db: 27437316042
+[CalculateTof]RaDa: 6.137619,RbDb: 0.162929
+[CalculateTof Finished][1] T23: 464,T3: 4038,classicTof: 244,d: 108.848922,d3: 1894.534301,classicD: 114.479042,trueD: 73.905548
+[CalculateTof]status: 0,T12: 464,Ra: 4470351348,Rb: 27452494734,Da: 27452451852,Db: 4470357826
+[CalculateTof]RaDa: 0.162839,RbDb: 6.141005
+[CalculateTof Finished][0] T23: 429,T3: -3609,classicTof: 217,d: 100.638336,d3: -1693.257568,classicD: 101.811279,trueD: 24.505916
+[CalculateTof]status: 1,T12: 429,Ra: 27452494734,Rb: 4459902415,Da: 4459909234,Db: 27452451852
+[CalculateTof]RaDa: 6.155393,RbDb: 0.162459
+[CalculateTof Finished][1] T23: 77,T3: 3686,classicTof: 63,d: 18.063291,d3: 1729.384155,classicD: 29.558113,trueD: 17.635475
+[CalculateTof]status: 0,T12: 77,Ra: 4459902415,Rb: 27470030740,Da: 27469987889,Db: 4459909234
+[CalculateTof]RaDa: 0.162355,RbDb: 6.159325
+[CalculateTof Finished][0] T23: 125,T3: -3561,classicTof: 59,d: 29.323524,d3: -1670.737182,classicD: 27.681407,trueD: 24.025403
+[CalculateTof]status: 1,T12: 125,Ra: 27470030740,Rb: 4450258029,Da: 4450264684,Db: 27469987889
+[CalculateTof]RaDa: 6.172673,RbDb: 0.162004
+[CalculateTof Finished][1] T23: 266,T3: 3827,classicTof: 123,d: 62.400459,d3: 1795.538085,classicD: 57.708698,trueD: 35.001144
+[CalculateTof]status: 0,T12: 266,Ra: 4450258029,Rb: 27480693922,Da: 27480651155,Db: 4450264684
+[CalculateTof]RaDa: 0.161941,RbDb: 6.175069
+[CalculateTof Finished][0] T23: 227,T3: -3600,classicTof: 116,d: 53.251522,d3: -1689.035034,classicD: 54.424461,trueD: 6552.982421
+[CalculateTof]status: 1,T12: 227,Ra: 27480693922,Rb: 4428509421,Da: 4428515678,Db: 27480651155
+[CalculateTof]RaDa: 6.205396,RbDb: 0.161150
+[CalculateTof Finished][1] T23: 598,T3: 4198,classicTof: 273,d: 140.283737,d3: 1969.602539,classicD: 128.085159,trueD: 6552.906738
+[CalculateTof]status: 0,T12: 598,Ra: 4428509421,Rb: 27498166670,Da: 27498124051,Db: 4428515678
+[CalculateTof]RaDa: 0.161047,RbDb: 6.209341
+[CalculateTof Finished][0] T23: 510,T3: -3688,classicTof: 261,d: 119.639984,d3: -1730.322509,classicD: 122.455039,trueD: 165.201965
+[CalculateTof]status: 1,T12: 510,Ra: 27498166670,Rb: 4411683147,Da: 4411689074,Db: 27498124051
+[CalculateTof]RaDa: 6.233024,RbDb: 0.160435
+[CalculateTof Finished][1] T23: 828,T3: 4516,classicTof: 392,d: 194.239028,d3: 2118.800537,classicD: 183.917144,trueD: 170.704467
+[CalculateTof]status: 0,T12: 828,Ra: 4411683147,Rb: 27524182026,Da: 27524139189,Db: 4411689074
+[CalculateTof]RaDa: 0.160284,RbDb: 6.238921
+[CalculateTof Finished][0] T23: 806,T3: -3710,classicTof: 404,d: 189.078094,d3: -1740.644409,classicD: 189.547271,trueD: 158.505844
+[CalculateTof]status: 1,T12: 806,Ra: 27524182026,Rb: 4388127412,Da: 4388133366,Db: 27524139189
+[CalculateTof]RaDa: 6.272412,RbDb: 0.159428
+[CalculateTof Finished][1] T23: 746,T3: 4456,classicTof: 377,d: 175.002792,d3: 2090.650146,classicD: 176.879501,trueD: 153.305557
+[CalculateTof]status: 0,T12: 746,Ra: 4388127412,Rb: 27541948513,Da: 27541905740,Db: 4388133366
+[CalculateTof]RaDa: 0.159325,RbDb: 6.276461
+[CalculateTof Finished][0] T23: 741,T3: -3715,classicTof: 371,d: 173.829849,d3: -1742.990356,classicD: 174.064437,trueD: 6551.855957
+[CalculateTof]status: 1,T12: 741,Ra: 27541948513,Rb: 4378469289,Da: 4378475423,Db: 27541905740
+[CalculateTof]RaDa: 6.290305,RbDb: 0.158974
+[CalculateTof Finished][1] T23: 548,T3: 4263,classicTof: 287,d: 128.554336,d3: 2000.098999,classicD: 134.653625,trueD: 6551.932128
+[CalculateTof]status: 0,T12: 548,Ra: 4378469289,Rb: 27544857168,Da: 27544814679,Db: 4378475423
+[CalculateTof]RaDa: 0.158958,RbDb: 6.290969
+[CalculateTof Finished][0] T23: 532,T3: -3731,classicTof: 267,d: 124.800918,d3: -1750.497192,classicD: 125.270095,trueD: 6552.357421
+[CalculateTof]status: 1,T12: 532,Ra: 27544857168,Rb: 4360438775,Da: 4360445360,Db: 27544814679
+[CalculateTof]RaDa: 6.316982,RbDb: 0.158303
+[CalculateTof Finished][1] T23: 56,T3: 3787,classicTof: 60,d: 13.136939,d3: 1776.770996,classicD: 28.150583,trueD: 23.321662
+[CalculateTof]status: 0,T12: 56,Ra: 4360438775,Rb: 27566551802,Da: 27566509577,Db: 4360445360
+[CalculateTof]RaDa: 0.158178,RbDb: 6.321957
+[CalculateTof Finished][0] T23: 85,T3: -3702,classicTof: 40,d: 19.939996,d3: -1736.890991,classicD: 18.767055,trueD: 28.401584
+[CalculateTof]status: 1,T12: 85,Ra: 27566551802,Rb: 4348424091,Da: 4348430598,Db: 27566509577
+[CalculateTof]RaDa: 6.339425,RbDb: 0.157743
+[CalculateTof Finished][1] T23: 140,T3: 3842,classicTof: 66,d: 32.842346,d3: 1802.575683,classicD: 30.965642,trueD: 33.903835
+[CalculateTof]status: 0,T12: 140,Ra: 4348424091,Rb: 27587268969,Da: 27587226725,Db: 4348430598
+[CalculateTof]RaDa: 0.157624,RbDb: 6.344189
+[CalculateTof Finished][0] T23: 129,T3: -3713,classicTof: 65,d: 30.261877,d3: -1742.052001,classicD: 30.496465,trueD: 6551.784668
+[CalculateTof]status: 1,T12: 129,Ra: 27587268969,Rb: 4323018102,Da: 4323024023,Db: 27587226725
+[CalculateTof]RaDa: 6.381474,RbDb: 0.156703
+[CalculateTof Finished][1] T23: 678,T3: 4391,classicTof: 302,d: 159.050796,d3: 2060.153564,classicD: 141.691268,trueD: 6551.798828
+[CalculateTof]status: 0,T12: 678,Ra: 4323018102,Rb: 27600525685,Da: 27600483466,Db: 4323024023
+[CalculateTof]RaDa: 0.156628,RbDb: 6.384541
+[CalculateTof Finished][0] T23: 585,T3: -3806,classicTof: 299,d: 137.234100,d3: -1785.685424,classicD: 140.283737,trueD: 164.900756
+[CalculateTof]status: 1,T12: 585,Ra: 27600525685,Rb: 4313815117,Da: 4313820811,Db: 27600483466
+[CalculateTof]RaDa: 6.398162,RbDb: 0.156294
+[CalculateTof Finished][1] T23: 813,T3: 4619,classicTof: 391,d: 190.720199,d3: 2167.125732,classicD: 183.447967,trueD: 171.606353
+[CalculateTof]status: 0,T12: 813,Ra: 4313815117,Rb: 27621122788,Da: 27621080499,Db: 4313820811
+[CalculateTof]RaDa: 0.156178,RbDb: 6.402936
+[CalculateTof Finished][0] T23: 783,T3: -3836,classicTof: 393,d: 183.682556,d3: -1799.760620,classicD: 184.386322,trueD: 6553.740234
+[CalculateTof]status: 1,T12: 783,Ra: 27621122788,Rb: 4291978359,Da: 4291984156,Db: 27621080499
+[CalculateTof]RaDa: 6.435513,RbDb: 0.155387
+[CalculateTof Finished][1] T23: 652,T3: 4488,classicTof: 335,d: 152.951507,d3: 2105.663574,classicD: 157.174087,trueD: 6553.208007
+[CalculateTof]status: 0,T12: 652,Ra: 4291978359,Rb: 27631394709,Da: 27631352713,Db: 4291984156
+[CalculateTof]RaDa: 0.155330,RbDb: 6.437907
+[CalculateTof Finished][0] T23: 624,T3: -3864,classicTof: 314,d: 146.383041,d3: -1812.897583,classicD: 147.321395,trueD: 6552.972168
+[CalculateTof]status: 1,T12: 624,Ra: 27631394709,Rb: 4287472690,Da: 4287478891,Db: 27631352713
+[CalculateTof]RaDa: 6.444672,RbDb: 0.155166
+[CalculateTof Finished][1] T23: 218,T3: 4082,classicTof: 136,d: 51.140228,d3: 1915.178100,classicD: 63.807991,trueD: 6552.676269
+[CalculateTof]status: 0,T12: 218,Ra: 4287472690,Rb: 27641643201,Da: 27641601486,Db: 4287478891
+[CalculateTof]RaDa: 0.155109,RbDb: 6.447062
+[CalculateTof Finished][0] T23: 235,T3: -3847,classicTof: 116,d: 55.128227,d3: -1804.921630,classicD: 54.424461,trueD: 23.410680
+[CalculateTof]status: 1,T12: 235,Ra: 27641643201,Rb: 4265637535,Da: 4265643839,Db: 27641601486
+[CalculateTof]RaDa: 6.480063,RbDb: 0.154319
+[CalculateTof Finished][1] T23: 97,T3: 3944,classicTof: 57,d: 22.755054,d3: 1850.431762,classicD: 26.743055,trueD: 16.008123
+[CalculateTof]status: 0,T12: 97,Ra: 4265637535,Rb: 27663178751,Da: 27663137121,Db: 4265643839
+[CalculateTof]RaDa: 0.154199,RbDb: 6.485112
+[CalculateTof Finished][0] T23: 100,T3: -3844,classicTof: 49,d: 23.458820,d3: -1803.514038,classicD: 22.989643,trueD: 30.900808
+[CalculateTof]status: 1,T12: 100,Ra: 27663178751,Rb: 4249395555,Da: 4249401857,Db: 27663137121
+[CalculateTof]RaDa: 6.509899,RbDb: 0.153612
+[CalculateTof Finished][1] T23: 77,T3: 3921,classicTof: 40,d: 18.063291,d3: 1839.640625,classicD: 18.767055,trueD: 36.807201
+[CalculateTof]status: 0,T12: 77,Ra: 4249395555,Rb: 27679671054,Da: 27679629469,Db: 4249401857
+[CalculateTof]RaDa: 0.153520,RbDb: 6.513780
+[CalculateTof Finished][0] T23: 70,T3: -3851,classicTof: 35,d: 16.421173,d3: -1806.798339,classicD: 16.421173,trueD: 6550.624023
+[CalculateTof]status: 1,T12: 70,Ra: 27679671054,Rb: 4237248218,Da: 4237253874,Db: 27679629469
+[CalculateTof]RaDa: 6.532454,RbDb: 0.153081
+[CalculateTof Finished][1] T23: 699,T3: 4550,classicTof: 307,d: 163.977157,d3: 2134.752685,classicD: 144.037155,trueD: 6550.911132
+[CalculateTof]status: 0,T12: 699,Ra: 4237248218,Rb: 27693536599,Da: 27693495078,Db: 4237253874
+[CalculateTof]RaDa: 0.153005,RbDb: 6.535727
+[CalculateTof Finished][0] T23: 589,T3: -3961,classicTof: 302,d: 138.172454,d3: -1858.407714,classicD: 141.691268,trueD: 172.705581
+[CalculateTof]status: 1,T12: 589,Ra: 27693536599,Rb: 4213793130,Da: 4213798569,Db: 27693495078
+[CalculateTof]RaDa: 6.572107,RbDb: 0.152158
+[CalculateTof Finished][1] T23: 789,T3: 4750,classicTof: 381,d: 185.090087,d3: 2228.587890,classicD: 178.756210,trueD: 172.707672
+[CalculateTof]status: 0,T12: 789,Ra: 4213793130,Rb: 27721808234,Da: 27721766550,Db: 4213798569
+[CalculateTof]RaDa: 0.152003,RbDb: 6.578816
+[CalculateTof Finished][0] T23: 777,T3: -3973,classicTof: 389,d: 182.275024,d3: -1864.037841,classicD: 182.509613,trueD: 6553.366699
+[CalculateTof]status: 1,T12: 777,Ra: 27721808234,Rb: 4193590010,Da: 4193595542,Db: 27721766550
+[CalculateTof]RaDa: 6.610510,RbDb: 0.151274
+[CalculateTof Finished][1] T23: 656,T3: 4629,classicTof: 336,d: 153.889862,d3: 2171.817626,classicD: 157.643264,trueD: 6553.138671
+[CalculateTof]status: 0,T12: 656,Ra: 4193590010,Rb: 27728977699,Da: 27728936198,Db: 4193595542
+[CalculateTof]RaDa: 0.151235,RbDb: 6.612220
+[CalculateTof Finished][0] T23: 645,T3: -3984,classicTof: 323,d: 151.309387,d3: -1869.198730,classicD: 151.543975,trueD: 6550.571777
