@@ -11,7 +11,8 @@
         "queue.h": "c",
         "modified_ranging.h": "c",
         "swarm_ranging.h": "c",
-        "ranging_table.h": "c"
+        "ranging_table.h": "c",
+        "freertos.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "python.analysis.typeCheckingMode": "basic"

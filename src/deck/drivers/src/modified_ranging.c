@@ -25,6 +25,10 @@
 #define DEBUG_PRINT
 #endif
 
+#define INIT_OFFSETX 10000
+#define INIT_OFFSETY 10000
+#define INIT_OFFSETZ 10000
+
 static QueueHandle_t rxRangingQueue;
 // static QueueHandle_t rxAmendQueue;
 static UWB_Message_Listener_t listener;
@@ -39,6 +43,9 @@ static RangingMODE ranging_mode = CLASSIC_MODE; // 测距模式
 
 static RangingTableSet_t* rangingTableSet; // 测距表集合
 static int loopIndex = 0; // 遍历邻居测距表下标
+
+// 初始抛弃报文数，等待设备预热
+static int discardCount = 20;
 
 static SemaphoreHandle_t rangingSeqNumberMutex = NULL; // 测距序号互斥量,防止多线程同时修改
 static uint16_t rangingSeqNumber = 1; // 本地测距处理序号
@@ -321,6 +328,11 @@ static Time_t generateRangingMessage(Ranging_Message_t *rangingMessage) {
 }
 
 static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangingMessageWithAdditionalInfo) {
+    if(discardCount > 0){
+        DEBUG_PRINT("processRangingMessage: Discarding message, discardCount:%d\n",discardCount);
+        discardCount--;
+        return;
+    }
     Ranging_Message_t *rangingMessage = &rangingMessageWithAdditionalInfo->rangingMessage;
     uint16_t neighborAddress = rangingMessage->header.srcAddress;
     table_index_t neighborIndex = findRangingTable(neighborAddress);
@@ -491,6 +503,7 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
 static void uwbRangingTxTask(void *parameters) {
     systemWaitStart();
 
+    vTaskDelay(M2T(3000));
     /* velocity log variable id */
 
     UWB_Packet_t txPacketCache;
@@ -514,6 +527,8 @@ static void uwbRangingTxTask(void *parameters) {
 
 static void uwbRangingRxTask(void *parameters) {
     systemWaitStart();
+
+    vTaskDelay(M2T(3000));
 
     Ranging_Message_With_Additional_Info_t rxPacketCache;
 
@@ -697,10 +712,15 @@ void modifiedRangingTxCallback(void *parameters) {
 
 void modifiedRangingInit() {
     MY_UWB_ADDRESS = uwbGetAddress();
+
+    DEBUG_PRINT("rangingMessage Length:%d\n",sizeof(Ranging_Message_t));
+    DEBUG_PRINT("UWBPacket MTU:%d\n",UWB_PAYLOAD_SIZE_MAX);
+
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
-    viconFX = 11.17914;
-    viconFY = 12.84513;
-    viconFZ = 33.04726;
+    // -0.01004913,-1.15510881,0.03032922
+    viconFX = 58.2154 + INIT_OFFSETX;
+    viconFY = -1301.5998 + INIT_OFFSETX;
+    viconFZ = 658.592 + INIT_OFFSETX;
     uint64_t viconX = (uint64_t)(roundf(viconFX));
     uint64_t viconY = (uint64_t)(roundf(viconFY));
     uint64_t viconZ = (uint64_t)(roundf(viconFZ));

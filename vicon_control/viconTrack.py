@@ -8,7 +8,7 @@ if __name__ == "__main__":
     desired_interval = 0.05
     mc = motioncapture.connect("vicon", {"hostname": "172.20.10.7"})
     
-    with open("result/log.txt", "w") as f_vicon:
+    with open("vicon_control/result/log.txt", "w") as f_vicon:
         for i in range(2000):
             start = time.time()
             mc.waitForNextFrame()

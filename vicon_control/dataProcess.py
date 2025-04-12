@@ -107,7 +107,7 @@ class uwbRangingData:
 
         print("数据清洗长度变化:{}->{}".format(originLen, len(self.d)))
         
-    def getViconOffset(self,left=0,right=-1):
+    def getViconMeanAndOffset(self,left=0,right=-1):
         if(right == -1):
             right = len(self.d)
         
@@ -116,17 +116,26 @@ class uwbRangingData:
         
         if(left < 0 or right > len(self.d)):
             print("left or right out of range")
-            return
+            return -1,-1
         
         for i in range(left,right):
             offset += (self.d[i]-self.trueD[i])
             length += 1
         
-        return offset/length
+        mean = np.mean(self.trueD[left:right])
+        offset = offset/length
+
+        return mean,offset
      
-    def dataAddViconOffset(self,offset):
+    def dataAddViconOffset(self,offsetlow,meanlow,meanhigh,offsethigh):
+        if meanlow == meanhigh:
+            k = 0
+        else:
+            k = (offsethigh - offsetlow)/(meanhigh-meanlow)
+        b = offsetlow - k*meanlow
+            
         for i in range(1,len(self.trueD)):
-            self.trueD[i] += offset
+            self.trueD[i] += (k*self.trueD[i] + b)
     
     def dataAlign_1(self):
         # 查找d数据波峰和波谷
@@ -347,8 +356,27 @@ class uwbRangingData:
         print("DDS-TWR标准差: ", std_error_D)
         print("DS-TWR平均误差: ", mean_error_ClassicD)
         print("DS-TWR标准差: ", std_error_ClassicD)
+        
+    def calMeanandStd(self,left=0,right=-1):
+        if(right == -1):
+            right = len(self.d)
+        
+        if(left < 0 or right > len(self.d)):
+            print("left or right out of range")
+            return
+        
+        mean_d = np.mean(self.d[left:right])
+        std_d = np.std(self.d[left:right])
+        
+        mean_classicD = np.mean(self.classicD[left:right])
+        std_classicD = np.std(self.classicD[left:right])
+        
+        print("DDS-TWR平均值: ", mean_d)
+        print("DDS-TWR标准差: ", std_d)
+        print("DS-TWR平均值: ", mean_classicD)
+        print("DS-TWR标准差: ", std_classicD)
     
-    def visualize(self,left=0,right=-1):
+    def visualize(self,left=0,right=-1,ylimList = None):
         if(right == -1):
             right = len(self.d)
         
@@ -366,7 +394,8 @@ class uwbRangingData:
         plt.plot(D, label='DDS-TWR', color='blue', marker='*')
         plt.plot(classicD, label='DS-TWR', color='red', marker='*')
         plt.plot(trueD, label='True Distance', color='green', marker='*')
-        # plt.ylim(0,200)
+        if(ylimList != None):
+            plt.ylim(ylimList[0], ylimList[1])
         plt.xlabel('Time')
         plt.ylabel('Distance (cm)')
         plt.title('Distance Measurement')
@@ -376,24 +405,29 @@ class uwbRangingData:
         
 if __name__ == "__main__":
     
-    date = "4-1"
-    id = "1"
+    date = "4-8"
+    id = "2"
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/console_log.txt"
     # originFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/origin.txt"
     # pathFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/vicon_log.txt" 
     
-    consoleFile = "result/console_log.txt"
+    consoleFile = "vicon_control/result/console_log.txt"
 
-    originFile = "result/log.txt"
+    originFile = "vicon_control/result/log.txt"
     
     data = uwbRangingData()
     data.processConsoleLog(consoleFile)
     # data.processOrigin(originFile)
     # data.processPath(pathFile)
     # data.dataAlign_2()
-    data.dataClean()
-    offset = data.getViconOffset(0,65)
-    print("offset: ", offset)
-    data.dataAddViconOffset(offset)
-    data.calErrorAndStd()
+    # data.dataClean()
+    meanlow,offsetlow = data.getViconMeanAndOffset(2,45)
+    meanhigh,offsethigh = data.getViconMeanAndOffset(60,80)
+    print("low offset: ", offsetlow)
+    print("high offset: ", offsethigh)
+    data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
+    # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsethigh)
+    data.calErrorAndStd(120,500)
+    data.calMeanandStd(0,40)
+    # data.visualize(0,-1,[75,150])
     data.visualize()
