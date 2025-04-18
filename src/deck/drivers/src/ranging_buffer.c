@@ -160,7 +160,7 @@ double calculateTof(RangingBuffer *buffer, TableNode_t* tableNode, uint16_t chec
     else if(status == RECEIVER){
         node = &buffer->sendBuffer[index];
     }
-    // DEBUG_PRINT("[CalculateTof]nodePreLocalSeq:%d,nodelocalSeq:%d,localSeq:%d\n",node->preLocalSeq,node->localSeq,localSeq);
+    DEBUG_PRINT("[CalculateTof]nodePreLocalSeq:%d,nodelocalSeq:%d,localSeq:%d\n",node->preLocalSeq,node->localSeq,localSeq);
     int64_t Ra=0,Rb=0,Da=0,Db=0;
     /*
         本次通信是发送方,通信次序从左到右如下:
@@ -209,7 +209,7 @@ double calculateTof(RangingBuffer *buffer, TableNode_t* tableNode, uint16_t chec
                 return calculateTof(buffer, tableNode, node->localSeq, status, false);
             }
             else{
-                DEBUG_PRINT("Warning: The latest record in the ranging buffer failed, and an attempt to recalculate the Tof using the next most recent valid record failed.\n");
+                DEBUG_PRINT("Warning: calculateTof failed.\n");
                 return -1;
             }
         #endif

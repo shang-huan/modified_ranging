@@ -9,7 +9,7 @@
 
 #define MAX_RANGING_BUFFER_SIZE 6
 
-#define CONVERGENCE_THRESHOLD 1 // 收敛阈值
+#define CONVERGENCE_THRESHOLD 0.7 // 收敛阈值
 
 typedef enum
 {

@@ -10,9 +10,19 @@
 #define MAX_NEIGHBOR_NUM 10
 
 /* Ranging Constants */
-#define RANGING_PERIOD 500     // default in 200ms
+#define RANGING_PERIOD 1000     // default in 200ms
 #define RANGING_PERIOD_MIN 50  // default 50ms
-#define RANGING_PERIOD_MAX 500 // default 500ms
+#define RANGING_PERIOD_MAX 1200 // default 500ms
+
+// 测距周期随机波动范围
+#define RANGING_PERIOD_RAND_RANGE 250
+
+#if RANGING_PERIOD - RANGING_PERIOD_RAND_RANGE/2 < RANGING_PERIOD_MIN || RANGING_PERIOD + RANGING_PERIOD_RAND_RANGE/2 > RANGING_PERIOD_MAX
+    #error "RANGING_PERIOD_RAND_RANGE is out of range!"
+#endif
+
+// 预热时间
+#define RANGING_WARM_UP_TIME 10000 // default 1000ms
 
 /* Queue Constants */
 #define RANGING_RX_QUEUE_SIZE 5
@@ -134,20 +144,27 @@ typedef struct
     #endif
 } __attribute__((packed)) Amend_Message_With_Additional_Info_t;
 
+typedef struct 
+{
+    dwTime_t timestamp;  // 时间戳                    
+    uint16_t seqNumber;  // 全局序列号
+    uint16_t sendId; // 发送序列号
+    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
+    Coordinate16_Tuple_t TxCoordinate; // 发送坐标
+    #endif
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
+    uint16_t ukfBufferId; // UKF缓冲区ID
+    #endif
+}localSendBufferNode_t;
+
+
 typedef struct
 {
     int size;                     // 邻居数量
     SemaphoreHandle_t mu;         // 互斥量
 
     table_index_t sendBufferTop; // 缓冲区头索引
-    Timestamp_Tuple_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的时间戳
-    uint16_t sendBufferSendId[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的次序ID
-    #ifdef UKF_RELATIVE_POSITION_ENABLE
-    uint16_t ukfBufferId_Send[TABLE_BUFFER_SIZE]; 
-    #endif
-    #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
-    Coordinate16_Tuple_t sendCoordinateBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的坐标
-    #endif
+    localSendBufferNode_t sendBuffer[TABLE_BUFFER_SIZE]; // 发送缓冲区，用于存储发送消息的时间戳
     RangingTable_t neighbor[MAX_NEIGHBOR_NUM];      // 邻居测距表
 } RangingTableSet_t;
 

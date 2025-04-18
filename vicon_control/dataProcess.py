@@ -4,12 +4,14 @@ import re
 
 THRESHOLD = 50
 
+NOISE_THRESHOLD = 30
+
 class uwbRangingData:
     T23 = []
     classicTof = []
     T3 = []
     
-    d = []  #DDS-TWR 测距结果
+    d = []  #DSR 测距结果
     classicD = [] #DS-TWR 测距结果
     d3 = [] #T3测距结果
     
@@ -97,8 +99,21 @@ class uwbRangingData:
     def dataClean(self):
         originLen = len(self.d)
         top = 0
-        for i in range(len(self.trueD)):
-            if self.trueD[top] < 0 or self.trueD[top] > 1000:
+        for i in range(len(self.d)):
+            if abs(self.trueD[top] - self.d[top]) > NOISE_THRESHOLD:
+                self.trueD.pop(top)
+                self.d.pop(top)
+                self.classicD.pop(top)
+                top -= 1
+            top += 1
+
+        print("数据清洗长度变化:{}->{}".format(originLen, len(self.d)))
+        
+    def dataClean_justMove(self,low,high):
+        originLen = len(self.d)
+        top = 0
+        for i in range(len(self.d)):
+            if self.trueD[top] < low or self.trueD[top] > high:
                 self.trueD.pop(top)
                 self.d.pop(top)
                 self.classicD.pop(top)
@@ -352,8 +367,8 @@ class uwbRangingData:
         
         mean_error_ClassicD = np.mean(error_ClassicD)
         std_error_ClassicD = np.std(error_ClassicD)
-        print("DDS-TWR平均误差: ", mean_error_D)
-        print("DDS-TWR标准差: ", std_error_D)
+        print("DSR平均误差: ", mean_error_D)
+        print("DSR标准差: ", std_error_D)
         print("DS-TWR平均误差: ", mean_error_ClassicD)
         print("DS-TWR标准差: ", std_error_ClassicD)
         
@@ -371,8 +386,8 @@ class uwbRangingData:
         mean_classicD = np.mean(self.classicD[left:right])
         std_classicD = np.std(self.classicD[left:right])
         
-        print("DDS-TWR平均值: ", mean_d)
-        print("DDS-TWR标准差: ", std_d)
+        print("DSR平均值: ", mean_d)
+        print("DSR标准差: ", std_d)
         print("DS-TWR平均值: ", mean_classicD)
         print("DS-TWR标准差: ", std_classicD)
     
@@ -391,7 +406,7 @@ class uwbRangingData:
         print(len(self.d), len(self.classicD), len(self.trueD))
         # 画图
         plt.figure(figsize=(10, 6))
-        plt.plot(D, label='DDS-TWR', color='blue', marker='*')
+        plt.plot(D, label='DSR', color='blue', marker='*')
         plt.plot(classicD, label='DS-TWR', color='red', marker='*')
         plt.plot(trueD, label='True Distance', color='green', marker='*')
         if(ylimList != None):
@@ -402,32 +417,43 @@ class uwbRangingData:
         plt.legend()
         plt.grid()
         plt.show()
-        
-if __name__ == "__main__":
-    
-    date = "4-8"
-    id = "2"
-    # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/console_log.txt"
-    # originFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/origin.txt"
-    # pathFile = "/Users/ou/Desktop/Vicon-UWB测距数据/"+date+"/"+id+"/vicon_log.txt" 
-    
-    consoleFile = "vicon_control/result/console_log.txt"
 
+def showOrigin():
     originFile = "vicon_control/result/log.txt"
-    
+    data = uwbRangingData()
+    data.processOrigin(originFile)
+
+def showLog():
+    consoleFile = "vicon_control/result/console_log.txt"
     data = uwbRangingData()
     data.processConsoleLog(consoleFile)
-    # data.processOrigin(originFile)
-    # data.processPath(pathFile)
-    # data.dataAlign_2()
-    # data.dataClean()
-    meanlow,offsetlow = data.getViconMeanAndOffset(2,45)
-    meanhigh,offsethigh = data.getViconMeanAndOffset(60,80)
-    print("low offset: ", offsetlow)
-    print("high offset: ", offsethigh)
-    data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
-    # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsethigh)
-    data.calErrorAndStd(120,500)
-    data.calMeanandStd(0,40)
-    # data.visualize(0,-1,[75,150])
     data.visualize()
+
+def showAftLog():
+    date = "4-17"
+    distance = "1"
+    
+    # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-17/静态实验/0.5/console_log.txt"
+    # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/" + date + "/静态实验/" + distance + "/console_log.txt"
+    consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-11/7"+ "/console_log.txt"
+    
+    # consoleFile = "vicon_control/result/console_log.txt"
+
+    data = uwbRangingData()
+    data.processConsoleLog(consoleFile)
+    # data.dataClean()
+    # data.dataClean_justMove(100, 300)
+    # meanlow,offsetlow = data.getViconMeanAndOffset(10,70)
+    # meanhigh,offsethigh = data.getViconMeanAndOffset(155,180)
+    # print("low offset: ", offsetlow)
+    # print("high offset: ", offsethigh)
+    # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
+    # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsethigh)
+    # data.calErrorAndStd()
+    # data.calMeanandStd()
+    # data.visualize(0,-1,[75,150])
+    data.visualize(200,300)
+
+if __name__ == "__main__":
+    # showLog()
+    showAftLog()

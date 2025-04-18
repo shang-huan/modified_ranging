@@ -70,7 +70,7 @@ if __name__ == "__main__":
                         y = (int)(positon[1]*1000) + offsetY
                         z = (int)(positon[2]*1000) + offsetZ
                         xyz = (x << 32 | y << 16 | z << 0)
-                        print(x, y, z, "=>", xyz)
+                        print(i, x, y, z, "=>", xyz)
                         scf.cf.param.set_value(param_name_XYZ, xyz)
                         f_vicon.write("{},[{:.8f},{:.8f},{:.8f}],{:.8f}\n".format(name,positon[0], positon[1], positon[2], rotation.z))
                     end = time.time()
