@@ -2,6 +2,7 @@
 #define BASE_STRUCT_H
 
 #include "modified_ranging_config.h"
+#include "adhocdeck.h"
 
 /*
     该文件用于临时解决文件间的循环引用问题

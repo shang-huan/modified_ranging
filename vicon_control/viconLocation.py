@@ -47,7 +47,7 @@ if __name__ == "__main__":
     param_name_XYZ = "vicon.viconXYZ"
     hostname = "172.20.10.7"
     
-    desired_interval = 0.05
+    desired_interval = 0.001
     mc = motioncapture.connect("vicon", {"hostname": hostname})
     print("Connected to Vicon {}".format(hostname))
     
@@ -59,7 +59,7 @@ if __name__ == "__main__":
                 #                            cb=param_stab_est_callback)
                 print("Connected to {}".format(scf.cf.link_uri))
                 scf.cf.console.receivedChar.add_callback(log_console_callback)
-                for i in range(3000):
+                for i in range(150000):
                     start = time.time()
                     mc.waitForNextFrame()
                     for name, obj in mc.rigidBodies.items():

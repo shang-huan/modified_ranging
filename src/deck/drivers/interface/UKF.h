@@ -29,20 +29,12 @@ typedef struct
 //卡尔曼滤波初始化
 void UKFInit();
 
+uint16_t GetUKFBufferId();
+
 void UKFBufferNodeInit(UKFBufferNode_t* bufferNode);
 void UKFBufferArrayInit(UKFBufferNode_t* bufferArray, uint16_t length);
 bool addUKFBufferMeasurementRecord_FixedPosition(int positionId,double d,uint16_t bufferId);
 bool addUKFBufferMeasurementRecord(double x,double y,double z,double d,uint16_t bufferId);
-
-double GaussianNormalRand();
-double GaussianRand(double mu, double sigma);
-
-bool equationsOfMotion(Coordinate *newP, Coordinate* oldP, Velocity* V);//动力学方程
-double equationsOfMeasurement(Coordinate *coordinateA, Coordinate *coordinateB);//量测方程
-
-bool KUpdate(Matrix_t* K, Matrix_t* sigmaXZ, Matrix_t* sigmaZZ);//更新卡尔曼增益
-bool stateUpdate(Coordinate* newP, Coordinate* oldP, Matrix_t* K, Measurement *z, Measurement *zMean);//状态更新
-bool covarianceUpdate(Matrix_t *sigmaNew, Matrix_t* sigmaP, Matrix_t* K, Matrix_t* sigmaZ);//协方差更新
 
 void getCurrentCoordinate(Coordinate* result);//获取当前坐标
 

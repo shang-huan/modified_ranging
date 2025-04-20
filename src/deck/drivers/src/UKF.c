@@ -55,6 +55,10 @@ void UKFBufferNodeInit(UKFBufferNode_t* bufferNode){
     }
 }
 
+uint16_t GetUKFBufferId(){
+    return UKFBufferId;
+}
+
 void UKFBufferArrayInit(UKFBufferNode_t* bufferArray, uint16_t length){
     for (int i = 0; i < length; i++)
     {

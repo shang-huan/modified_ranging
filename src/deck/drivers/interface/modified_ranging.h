@@ -10,15 +10,15 @@
 #define MAX_NEIGHBOR_NUM 10
 
 /* Ranging Constants */
-#define RANGING_PERIOD 1000     // default in 200ms
-#define RANGING_PERIOD_MIN 50  // default 50ms
-#define RANGING_PERIOD_MAX 1200 // default 500ms
+#define RANGING_PERIOD 200     
+#define RANGING_PERIOD_MIN 50  
+#define RANGING_PERIOD_MAX 1200 
 
 // 测距周期随机波动范围
-#define RANGING_PERIOD_RAND_RANGE 250
+#define RANGING_PERIOD_RAND_RANGE 50
 
-#if RANGING_PERIOD - RANGING_PERIOD_RAND_RANGE/2 < RANGING_PERIOD_MIN || RANGING_PERIOD + RANGING_PERIOD_RAND_RANGE/2 > RANGING_PERIOD_MAX
-    #error "RANGING_PERIOD_RAND_RANGE is out of range!"
+#if (RANGING_PERIOD - RANGING_PERIOD_RAND_RANGE/2 < RANGING_PERIOD_MIN) || (RANGING_PERIOD + RANGING_PERIOD_RAND_RANGE/2 > RANGING_PERIOD_MAX)
+    #error "RANGING_PERIOD_RAND_RANGE is out of range!" 
 #endif
 
 // 预热时间
@@ -109,6 +109,9 @@ typedef struct
     uint16_t rxSeqNumber;
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
         Coordinate16_Tuple_t rxCoordinate;
+    #endif
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
+        uint16_t ukfBufferId;
     #endif
 } __attribute__((packed)) Ranging_Message_With_Additional_Info_t;
 

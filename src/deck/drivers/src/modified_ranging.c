@@ -361,6 +361,9 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
     node.RxCoordinate.y = rangingMessageWithAdditionalInfo->rxCoordinate.y;
     node.RxCoordinate.z = rangingMessageWithAdditionalInfo->rxCoordinate.z;
     #endif
+    #ifdef UKF_RELATIVE_POSITION_ENABLE
+    node.ukfBufferId = rangingMessageWithAdditionalInfo->ukfBufferId;
+    #endif
     node.Tf = NULL_TF;
     node.localSeq = curSeq;
     node.remoteSeq = rangingMessage->header.msgSequence;
@@ -630,6 +633,9 @@ void modifiedRangingRxCallback(void *parameters) {
         // DEBUG_PRINT("modifiedRangingRxCallback: coordinate:(%u,%u,%u)\n",rxMessageWithAdditionalInfo.rxCoordinate.x,
         //     rxMessageWithAdditionalInfo.rxCoordinate.y, rxMessageWithAdditionalInfo.rxCoordinate.z);
         #endif
+        #ifdef UKF_RELATIVE_POSITION_ENABLE
+        rxMessageWithAdditionalInfo.ukfBufferId = GetUKFBufferId();
+        #endif
         
         xQueueSendFromISR(rxRangingQueue, &rxMessageWithAdditionalInfo, &xHigherPriorityTaskWoken);
     }
@@ -675,7 +681,7 @@ void modifiedRangingTxCallback(void *parameters) {
     rangingTableSet->sendBuffer[sendBufferIndex].seqNumber = curSeq; 
     rangingTableSet->sendBuffer[sendBufferIndex].timestamp = txTime;
     #ifdef UKF_RELATIVE_POSITION_ENABLE
-    rangingTableSet->sendBuffer[sendBufferIndex].ukfBufferId = UKFBufferId;
+    rangingTableSet->sendBuffer[sendBufferIndex].ukfBufferId = GetUKFBufferId();
     #endif
     Ranging_Message_t *rangingMessage = (Ranging_Message_t *) packet->payload;
     if(rangingMessage->header.packetType == RANGING_PACKET){
@@ -721,9 +727,9 @@ void modifiedRangingInit() {
 
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
     // -0.01004913,-1.15510881,0.03032922
-    viconFX = 143.370 + INIT_OFFSETX;
-    viconFY = -1146.1774 + INIT_OFFSETX;
-    viconFZ = 680.17 + INIT_OFFSETX;
+    viconFX = 73.128 + INIT_OFFSETX;
+    viconFY = -1096.484+ INIT_OFFSETX;
+    viconFZ = 681.606 + INIT_OFFSETX;
     uint64_t viconX = (uint64_t)(roundf(viconFX));
     uint64_t viconY = (uint64_t)(roundf(viconFY));
     uint64_t viconZ = (uint64_t)(roundf(viconFZ));

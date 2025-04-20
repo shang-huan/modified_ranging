@@ -4,7 +4,7 @@ import re
 
 THRESHOLD = 50
 
-NOISE_THRESHOLD = 30
+NOISE_THRESHOLD = 60
 
 class uwbRangingData:
     T23 = []
@@ -96,11 +96,31 @@ class uwbRangingData:
         for i in range(len(self.path)):
             self.trueD.append(np.linalg.norm(np.array(self.path[i]) - np.array(self.origin[0])))
     
-    def dataClean(self):
+    def dataClean(self,left=0,right=-1,delNoise = False):
+        if right == -1:
+            right = len(self.d)
+        self.d = self.d[left:right]
+        self.classicD = self.classicD[left:right]
+        self.trueD = self.trueD[left:right]
+        
+        if(delNoise):
+            originLen = len(self.d)
+            top = 0
+            for i in range(len(self.d)):
+                if abs(self.trueD[top] - self.d[top]) > NOISE_THRESHOLD:
+                    self.trueD.pop(top)
+                    self.d.pop(top)
+                    self.classicD.pop(top)
+                    top -= 1
+                top += 1
+
+            print("数据清洗长度变化:{}->{}".format(originLen, len(self.d)))
+        
+    def dataClean_justMove(self,low,high):
         originLen = len(self.d)
         top = 0
         for i in range(len(self.d)):
-            if abs(self.trueD[top] - self.d[top]) > NOISE_THRESHOLD:
+            if self.trueD[top] < low or self.trueD[top] > high:
                 self.trueD.pop(top)
                 self.d.pop(top)
                 self.classicD.pop(top)
@@ -109,11 +129,11 @@ class uwbRangingData:
 
         print("数据清洗长度变化:{}->{}".format(originLen, len(self.d)))
         
-    def dataClean_justMove(self,low,high):
+    def dataClean_justSide(self,low,high):
         originLen = len(self.d)
         top = 0
         for i in range(len(self.d)):
-            if self.trueD[top] < low or self.trueD[top] > high:
+            if self.trueD[top] > low and self.trueD[top] < high:
                 self.trueD.pop(top)
                 self.d.pop(top)
                 self.classicD.pop(top)
@@ -391,6 +411,108 @@ class uwbRangingData:
         print("DS-TWR平均值: ", mean_classicD)
         print("DS-TWR标准差: ", std_classicD)
     
+    def showPeakAndTrough(self):
+        dPeak = []
+        dTrough = []
+        classicDPeak = []
+        classicDTrough = []
+        viconPeak = []
+        viconTrough = []
+        
+        changeThreshold = 120
+        
+        curMaxD = self.d[0]
+        curMinD = self.d[0]
+        curMaxClassicD = self.classicD[0]
+        curMinClassicD = self.classicD[0]
+        curMaxViconD = self.trueD[0]
+        curMinViconD = self.trueD[0]
+        
+        isRisingD = False  
+        isRisingClassicD = False
+        isRisingViconD = False
+
+        for i in range(1, len(self.d)):
+            if self.d[i] > curMaxD:
+                curMaxD = self.d[i]
+            if self.d[i] < curMinD:
+                curMinD = self.d[i]
+            
+            # 判断是否是从波峰开始下降，意味着波峰结束
+            if isRisingD and (curMaxD - self.d[i]) > changeThreshold:
+                dPeak.append(curMaxD)
+                curMaxD = self.d[i]
+                isRisingD = False
+            
+            # 判断是否是从波谷开始上升，意味着波谷结束
+            elif not isRisingD and (self.d[i] - curMinD) > changeThreshold:
+                dTrough.append(curMinD)
+                curMinD = self.d[i]
+                isRisingD = True
+                
+            if isRisingClassicD:
+                if self.classicD[i] > curMaxClassicD:
+                    curMaxClassicD = self.classicD[i]
+                elif curMaxClassicD - self.classicD[i] > changeThreshold:
+                    classicDPeak.append(curMaxClassicD)
+                    print("classicDPeak:", curMaxClassicD)
+                    curMinClassicD = self.classicD[i]
+                    isRisingClassicD = False
+            else:
+                if self.classicD[i] < curMinClassicD:
+                    curMinClassicD = self.classicD[i]
+                elif self.classicD[i] - curMinClassicD > changeThreshold:
+                    classicDTrough.append(curMinClassicD)
+                    print("classicDTrough:", curMinClassicD)
+                    curMaxClassicD = self.classicD[i]
+                    isRisingClassicD = True
+            
+            if self.trueD[i] > curMaxViconD:
+                curMaxViconD = self.trueD[i]
+            if self.trueD[i] < curMinViconD:
+                curMinViconD = self.trueD[i]
+            # 判断是否是从波峰开始下降，意味着波峰结束
+            if isRisingViconD and (curMaxViconD - self.trueD[i]) > changeThreshold:
+                viconPeak.append(curMaxViconD)
+                curMaxViconD = self.trueD[i]
+                isRisingViconD = False
+            # 判断是否是从波谷开始上升，意味着波谷结束
+            elif not isRisingViconD and (self.trueD[i] - curMinViconD) > changeThreshold:
+                viconTrough.append(curMinViconD)
+                curMinViconD = self.trueD[i]
+                isRisingViconD = True
+
+        errorD = []
+        errorClassicD = []
+        for i in range(len(dPeak)):
+            errorD.append(abs(dPeak[i] - viconPeak[i]))
+            errorClassicD.append(abs(classicDPeak[i] - viconPeak[i]))
+        for i in range(len(dTrough)):
+            errorD.append(abs(dTrough[i] - viconTrough[i]))
+            errorClassicD.append(abs(classicDTrough[i] - viconTrough[i]))
+        # 计算平均误差和标准差
+        mean_error_D = np.mean(errorD)
+        std_error_D = np.std(errorD)
+        mean_error_ClassicD = np.mean(errorClassicD)
+        std_error_ClassicD = np.std(errorClassicD)
+        print("DSR平均误差: ", mean_error_D)
+        print("DSR标准差: ", std_error_D)
+        print("DS-TWR平均误差: ", mean_error_ClassicD)
+        print("DS-TWR标准差: ", std_error_ClassicD)
+                
+        plt.figure(figsize=(10, 6))
+        plt.plot(dPeak, label='DSR Peak', color='blue', marker='*')
+        plt.plot(dTrough, label='DSR Trough', color='blue', marker='o')
+        plt.plot(classicDPeak, label='DS-TWR Peak', color='red', marker='*')
+        plt.plot(classicDTrough, label='DS-TWR Trough', color='red', marker='o')
+        plt.plot(viconPeak, label='Vicon Peak', color='green', marker='*')
+        plt.plot(viconTrough, label='Vicon Trough', color='green', marker='o')
+        
+        plt.legend()
+        plt.ylabel('Distance (cm)')
+        plt.title('Peak and Trough of DSR, DS-TWR and Vicon')
+        plt.show()
+    
     def visualize(self,left=0,right=-1,ylimList = None):
         if(right == -1):
             right = len(self.d)
@@ -408,7 +530,7 @@ class uwbRangingData:
         plt.figure(figsize=(10, 6))
         plt.plot(D, label='DSR', color='blue', marker='*')
         plt.plot(classicD, label='DS-TWR', color='red', marker='*')
-        plt.plot(trueD, label='True Distance', color='green', marker='*')
+        plt.plot(trueD, label='Vicon', color='green', marker='*')
         if(ylimList != None):
             plt.ylim(ylimList[0], ylimList[1])
         plt.xlabel('Time')
@@ -427,6 +549,7 @@ def showLog():
     consoleFile = "vicon_control/result/console_log.txt"
     data = uwbRangingData()
     data.processConsoleLog(consoleFile)
+    data.calMeanandStd()
     data.visualize()
 
 def showAftLog():
@@ -435,25 +558,33 @@ def showAftLog():
     
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-17/静态实验/0.5/console_log.txt"
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/" + date + "/静态实验/" + distance + "/console_log.txt"
-    consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-11/7"+ "/console_log.txt"
+    # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-11/7"+ "/console_log.txt"
     
-    # consoleFile = "vicon_control/result/console_log.txt"
+    consoleFile = "vicon_control/result/console_log.txt"
 
     data = uwbRangingData()
     data.processConsoleLog(consoleFile)
-    # data.dataClean()
-    # data.dataClean_justMove(100, 300)
+    data.dataClean(1493,1574)
+    # lenTrueD = len(data.trueD)
+    # data.trueD = data.trueD[0:lenTrueD-1]
+    # data.d = data.d[1:lenTrueD]
+    # data.classicD = data.classicD[1:lenTrueD]
+    
     # meanlow,offsetlow = data.getViconMeanAndOffset(10,70)
-    # meanhigh,offsethigh = data.getViconMeanAndOffset(155,180)
+    # meanhigh,offsethigh = data.getViconMeanAndOffset(160,210)
     # print("low offset: ", offsetlow)
     # print("high offset: ", offsethigh)
-    # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
+    # # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
     # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsethigh)
+    # data.dataClean_justMove(100, 160)
+    # data.dataClean_justSide(100, 240)
+    data.showPeakAndTrough()
     # data.calErrorAndStd()
     # data.calMeanandStd()
     # data.visualize(0,-1,[75,150])
-    data.visualize(200,300)
+    data.visualize()
 
 if __name__ == "__main__":
     # showLog()
     showAftLog()
+    # showOrigin()
