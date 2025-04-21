@@ -11,7 +11,7 @@
 //#define UWB_RAFT_ENABLE
 //#define UWB_FLOODING_ENABLE
 #define UWB_MODIFIED_RANGING_ENABLE
-// #define UKF_RELATIVE_POSITION_ENABLE
+#define UKF_RELATIVE_POSITION_ENABLE
 
 /* Function Switch */
 //#define UWB_ENABLE_PHR_EXT_MODE
@@ -32,7 +32,7 @@
 #endif
 
 // #define UWB_TASK_STACK_SIZE (2 * UWB_FRAME_LEN_MAX)
-#define UWB_TASK_STACK_SIZE (2 * 512)
+#define UWB_TASK_STACK_SIZE 512
 
 /* Queue Constants */
 #define UWB_TX_QUEUE_SIZE 10

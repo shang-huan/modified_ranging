@@ -1,11 +1,16 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include "debug.h"
 #include "read_write_lock.h"
 
 // 创建模拟读写锁
 void CreateReadWriteLock(ReadWriteLock_t *lock) {
     lock->mutex = xSemaphoreCreateMutex();
     lock->writeMutex = xSemaphoreCreateMutex();
+    if(lock->mutex == NULL || lock->writeMutex == NULL) {
+        DEBUG_PRINT("[CreateReadWriteLock]Create mutex failed\n");
+        return;
+    }
     lock->readers = 0;
 }
 

@@ -3,6 +3,7 @@
 #include "task.h"
 #include "debug.h"
 #include "semphr.h"
+#include "string.h"
 
 #include "UKF.h"
 #include "stdlib.h"
@@ -12,100 +13,37 @@
 #include "read_write_lock.h"
 
 static TaskHandle_t ukfTaskHandle;
-static Coordinate* currentCoordinate;
+Coordinate* currentCoordinate;
+Velocity* currentVelocity;
 
-static Measurement* zValue;
-static Measurement* zMean;
-static Measurement* zTrue;
+Coordinate** currentMeasurementPoint;
+Measurement* zValue;
+Measurement* zMean;
+Measurement* zTrue;
 
-static Matrix_t *covX;
-static Matrix_t *covZ;
-static Matrix_t *covXZ;
+Matrix_t *covX;
+Matrix_t *covZ;
+Matrix_t *covXZ;
 
-static Matrix_t *K;
+Matrix_t *K;
 
 /*
 UKFTask 所用数据
 */
 uint16_t UKFBufferId;
+// 测距缓冲区
+MeasurementBufferNode_t* measurementBuffer;
+SemaphoreHandle_t measurementBufferMutex; 
+bool hasNewMeasurement = false;
 
-static ReadWriteLock_t oldBufferReadWriteLock;
-static uint16_t oldBufferStartSeq;
-static uint16_t oldBufferTopIndex;
-static UKFBufferNode_t* oldBuffer;
-
-static ReadWriteLock_t newBufferReadWriteLock;
-static uint16_t newBufferStartSeq;
-static uint16_t newBufferTopIndex;
-static UKFBufferNode_t* newBuffer;
-
-static bool oldBufferIsModified = false;
-static bool newBufferIsModified = false;
-
-void UKFBufferNodeInit(UKFBufferNode_t* bufferNode){
-    bufferNode->mutex = xSemaphoreCreateMutex();
-    bufferNode->coordinate = createCoordinate(0,0,0);
-    bufferNode->velocity = createVelocity(0,0,0);
-    bufferNode->covX = createMatrix_t(3, 3);
-    bufferNode->measurementBufferLen = 0;
-    for (int i = 0; i < N_MEAS; i++)
-    {
-        bufferNode->measurementBuffer[i].coordinate = createCoordinate(0,0,0);
-        bufferNode->measurementBuffer[i].d = 0;
-    }
-}
+// 边缘坐标
+uint16_t* edgerAdr;
+Coordinate** edgerCoordinate;
 
 uint16_t GetUKFBufferId(){
     return UKFBufferId;
 }
 
-void UKFBufferArrayInit(UKFBufferNode_t* bufferArray, uint16_t length){
-    for (int i = 0; i < length; i++)
-    {
-        UKFBufferNodeInit(&bufferArray[i]);
-    }
-}
-
-bool addUKFBufferMeasurementRecord(double x,double y,double z,double d,uint16_t bufferId){
-    if(bufferId < oldBufferStartSeq || bufferId >= newBufferStartSeq + newBufferTopIndex){
-        DEBUG_PRINT("Measurement record is invaild\n");
-        return false;
-    }
-    UKFBufferNode_t* target;
-    if(bufferId >= newBufferStartSeq && bufferId - newBufferStartSeq < newBufferTopIndex){
-        target = &newBuffer[bufferId - newBufferStartSeq];
-    }else{
-        target = &oldBuffer[bufferId - oldBufferStartSeq];
-    }
-    if(target->measurementBufferLen >= N_MEAS){
-        DEBUG_PRINT("Measurement buffer is full\n");
-        return false;
-    }
-    xSemaphoreTake(target->mutex, portMAX_DELAY);
-    setCoordinate(target->measurementBuffer[target->measurementBufferLen].coordinate, x, y, z);
-    target->measurementBufferLen++;
-    xSemaphoreGive(target->mutex);
-}
-
-bool addUKFBufferMeasurementRecord_FixedPosition(int positionId,double d,uint16_t bufferId){
-    static Coordinate** positions;
-    if(positions == NULL){
-        positions = (Coordinate**)malloc(sizeof(Coordinate*) * N_MEAS);
-        for (int i = 0; i < N_MEAS; i++)
-        {
-            positions[i] = createCoordinate(0,0,0);
-        }
-        setCoordinate(positions[0],0,0,0);
-        setCoordinate(positions[1],100,0,0);
-        setCoordinate(positions[2],0,100,0);
-        setCoordinate(positions[3],100,100,0);
-    }
-    if(positionId >= N_MEAS){
-        DEBUG_PRINT("Position id is invaild\n");
-        return false;
-    }
-    return addUKFBufferMeasurementRecord(positions[positionId]->coordinateXYZ->data[0][0],positions[positionId]->coordinateXYZ->data[1][0],positions[positionId]->coordinateXYZ->data[2][0],d,bufferId);
-}
 // 获取当前速度
 void getCurrentVelocity(Velocity* velocity)
 {
@@ -113,6 +51,7 @@ void getCurrentVelocity(Velocity* velocity)
     double vx = logGetFloat(logGetVarId("stateEstimate", "vx")) * 100; 
     double vy = logGetFloat(logGetVarId("stateEstimate", "vy")) * 100;
     double vz = logGetFloat(logGetVarId("stateEstimate", "vz")) * 100;
+    DEBUG_PRINT("vx = %f, vy = %f, vz = %f\n", vx, vy, vz);
     setVelocity(velocity, vx, vy, vz);
 }
 
@@ -217,246 +156,196 @@ void getCurrentCoordinate(Coordinate *result)
     Matrix_t_copy(result->coordinateXYZ, currentCoordinate->coordinateXYZ);
 }
 
-void UKFProcess(Coordinate* oldCoordinate,Velocity* oldVelocity,Matrix_t* oldCovX,UKFBufferNode_t* node,Coordinate* newCoordinate,Matrix_t* newCovX){
-    if(node->measurementBufferLen == 0){
-        // 动力学估计当前坐标
-        equationsOfMotion(newCoordinate,oldCoordinate,oldVelocity);
-        // 更新协方差
-        Matrix_t_add(newCovX,oldCovX,Q);
-    }else{
-        // Sigma点采样
-        sigmaPointsUpdate(oldCoordinate, oldCovX);
-        // 动力学方程预测
-        for (int j = 0; j < 2 * N_STATE + 1; j++)
-        {
-            equationsOfMotion(sigmaPoints[j], sigmaPoints[j], oldVelocity);
-        }
-        // 状态量均值和协方差更新
-        meanOfPoints(oldCoordinate, sigmaPoints, weightM, 2 * N_STATE + 1);
-        covarianceOfPoints(oldCovX, sigmaPoints, oldCoordinate, weightC, 2 * N_STATE + 1);
-        // DEBUG_PRINT("currentCoordinate1 = \n");
-        // Matrix_t_print(currentCoordinate->coordinateXYZ);
-
-        sigmaPointsUpdate(oldCoordinate, oldCovX);
-        //量测方程更新
-        for (int j = 0; j < 2 * N_STATE + 1; j++)
-        {
-            for (int k = 0; k < node->measurementBufferLen; k++)
-            {
-                zValue->measurement->data[k][j] = equationsOfMeasurement(oldCoordinate,&node->measurementBuffer[k].coordinate);
-                zTrue->measurement->data[k][0] = node->measurementBuffer->d;
-            }
-            for (int k = node->measurementBufferLen; k < N_MEAS; k++){
-                zValue->measurement->data[k][j] = 0;
-                zTrue->measurement->data[k][0] = 0;
-            }
-        }
-        // 观测值均值和协方差更新
-        meanOfMeasurements(zMean, zValue, weightM, 2 * N_STATE + 1);
-        covarianceOfMeasurements(covZ, zValue, zMean, weightC, 2 * N_STATE + 1);
-        
-        // DEBUG_PRINT("zValue = \n");
-        // Matrix_t_print(zValue->measurement);
-        // DEBUG_PRINT("zMean = \n");
-        // Matrix_t_print(zMean->measurement);
-        // DEBUG_PRINT("covZ = \n");
-        // Matrix_t_print(covZ);
-
-        // 计算状态量和观测量的协方差
-        covarianceOfPointsAndMeasurements(covXZ, sigmaPoints, oldCoordinate, zValue, zMean, weightC, 2 * N_STATE + 1);
-        // DEBUG_PRINT("covXZ = \n");
-        // Matrix_t_print(covXZ);
-
-        // 更新卡尔曼滤波增益
-        KUpdate(K, covXZ, covZ);
-        // DEBUG_PRINT("K = \n");
-        // Matrix_t_print(K);
-
-        // 状态量及协方差更新
-        stateUpdate(newCoordinate, oldCoordinate, K, zTrue, zMean);
-        covarianceUpdate(newCovX, oldCovX, K, covZ);
+void addMeasurementRecord(uint16_t sourceAdr,double d,uint16_t bufferId){
+    xSemaphoreTake(measurementBufferMutex, portMAX_DELAY);
+    if(bufferId < UKFBufferId){
+        // 测距信息过期了
+        DEBUG_PRINT("Measurement record is invaild\n");
+        xSemaphoreGive(measurementBufferMutex);
+        return;
     }
+    // 查找positionId
+    int positionId = -1;
+    for (int i = 0; i < N_MEAS; i++)
+    {
+        if(edgerAdr[i] == sourceAdr){
+            positionId = i;
+            break;
+        }
+    }
+    if(positionId == -1){
+        DEBUG_PRINT("Position id is invaild\n");
+        xSemaphoreGive(measurementBufferMutex);
+        return;
+    }
+    // 添加测距信息
+    measurementBuffer[positionId].coordinate->coordinateXYZ->data[0][0] = edgerCoordinate[positionId]->coordinateXYZ->data[0][0];
+    measurementBuffer[positionId].coordinate->coordinateXYZ->data[1][0] = edgerCoordinate[positionId]->coordinateXYZ->data[1][0];
+    measurementBuffer[positionId].coordinate->coordinateXYZ->data[2][0] = edgerCoordinate[positionId]->coordinateXYZ->data[2][0];
+    measurementBuffer[positionId].d = d;
+    hasNewMeasurement = true;
+    xSemaphoreGive(measurementBufferMutex);
 }
 
 void UKFInit(){
-    oldBuffer = (UKFBufferNode_t*)malloc(sizeof(UKFBufferNode_t)*MAX_UKF_BUFFER_LENGTH);
-    newBuffer = (UKFBufferNode_t*)malloc(sizeof(UKFBufferNode_t)*MAX_UKF_BUFFER_LENGTH);
-    UKFBufferArrayInit(oldBuffer,MAX_UKF_BUFFER_LENGTH);
-    UKFBufferArrayInit(newBuffer,MAX_UKF_BUFFER_LENGTH);
+    measurementBuffer = (MeasurementBufferNode_t*)malloc(sizeof(MeasurementBufferNode_t)*N_MEAS);
+    edgerCoordinate = (Coordinate**)malloc(sizeof(Coordinate*)*N_MEAS);
+    edgerAdr = (uint16_t*)malloc(sizeof(uint16_t)*N_MEAS);
+    measurementBufferMutex = xSemaphoreCreateMutex();
 
-    CreateReadWriteLock(&oldBufferReadWriteLock);
-    CreateReadWriteLock(&newBufferReadWriteLock);
+    if(measurementBuffer == NULL || edgerCoordinate == NULL || measurementBufferMutex == NULL || edgerAdr == NULL){
+        DEBUG_PRINT("UKF初始化失败\n");
+        return;
+    }
 
-    oldBufferStartSeq = 0;
-    oldBufferTopIndex = 0;
+    for (int i = 0; i < N_MEAS; i++)
+    {
+        edgerCoordinate[i] = createCoordinate(0,0,0);
+    }
+    edgerAdr[0] = 0x01;
+    setCoordinate(edgerCoordinate[0],0,0,0);
+    edgerAdr[1] = 0x02;
+    setCoordinate(edgerCoordinate[1],100,0,0);
+    edgerAdr[2] = 0x03;
+    setCoordinate(edgerCoordinate[2],0,100,0);
+    edgerAdr[3] = 0x04;
+    setCoordinate(edgerCoordinate[3],100,100,0);
+    
+    for (int i = 0; i < N_MEAS; i++)
+    {
+        measurementBuffer[i].coordinate = createCoordinate(0,0,0);
+        measurementBuffer[i].d = 0;
+    }
+    DEBUG_PRINT("[UKFInit] 测量值缓冲区初始化成功\n");
 
-    newBufferStartSeq = MAX_UKF_BUFFER_LENGTH;
-    newBufferTopIndex = 0;
+    // 初始化UKF
+    currentCoordinate = createCoordinate(0, 0, 0);
+    currentVelocity = createVelocity(0, 0, 0);
+    DEBUG_PRINT("[UKFInit] 当前坐标和速度初始化成功\n");
 
-    UKFBufferId = -1;
+    currentMeasurementPoint = (Coordinate**)malloc(sizeof(Coordinate*)*N_MEAS);
+    for (int i = 0; i < N_MEAS; i++)
+    {
+        currentMeasurementPoint[i] = createCoordinate(0,0,0);
+    }
+    zValue = createMeasurement(N_MEAS,2*N_STATE+1);
+    zMean = createMeasurement(N_MEAS,1);
+    zTrue = createMeasurement(N_MEAS,1);
+    for(int i = 0;i<N_MEAS;++i){
+        for(int j = 0;j<2*N_STATE+1;++j){
+            zValue->measurement->data[i][j] = 0;
+        }
+    }
+    for(int i = 0;i<N_MEAS;++i){
+        zMean->measurement->data[i][0] = 0;
+    }
+    for(int i = 0;i<N_MEAS;++i){
+        zTrue->measurement->data[i][0] = 0;
+    }
+    DEBUG_PRINT("[UKFInit] 测量值初始化成功\n");
+
+    covX = createMatrix_t(N_STATE, N_STATE);
+    covZ = createMatrix_t(N_MEAS, N_MEAS);
+    covXZ = createMatrix_t(N_STATE, N_MEAS);
+    K = createMatrix_t(N_STATE, N_MEAS);
+    // 状态量方差矩阵初始化
+    for(int i = 0;i<N_STATE;++i){
+        Matrix_t_set(covX,i,i,10000);
+    }
+    DEBUG_PRINT("[UKFInit] 状态量方差矩阵初始化成功\n");
 
     // UT初始化
     sigmaPointInit();
     weightInit();
     noiseInit();
-    // 当前坐标初始化
-    if(currentCoordinate == NULL){
-        currentCoordinate = createCoordinate(0, 0, 0);
-    }
-    // 状态量方差矩阵初始化
-    if (covX == NULL)
-    {
-        covX = createMatrix_t(N_STATE, N_STATE);
-        for(int i = 0;i<N_STATE;++i){
-            Matrix_t_set(covX,i,i,5*5);
-        }
-    }
-    // 观测值初始化
-    if(zValue == NULL){
-        zValue = createMeasurement(N_MEAS,2*N_STATE+1);
-        zMean = createMeasurement(N_MEAS,1);
-        zTrue = createMeasurement(N_MEAS,1);
-        covZ = createMatrix_t(N_MEAS,N_MEAS);
-    }
-    // 协方差矩阵初始化
-    if(covXZ == NULL){
-        covXZ = createMatrix_t(N_STATE,N_MEAS);
-    }
-    // 卡尔曼增益初始化
-    if (K == NULL)
-    {
-        K = createMatrix_t(N_STATE, N_MEAS);
-    }
-    // 初值缓存
-    Matrix_t_copy(newBuffer[0].coordinate->coordinateXYZ ,currentCoordinate->coordinateXYZ);
-    Matrix_t_copy(&newBuffer[0].covX,covX);
-    newBufferTopIndex++;
+    DEBUG_PRINT("[UKFInit] UT初始化成功\n");
+
+    DEBUG_PRINT("[UKFInit] UKF初始化成功\n");
 }
 
 void UKFTask(){
+    systemWaitStart();
+
+    vTaskDelay(M2T(1000));
+
     UKFInit();
     // 状态估计
     while (1)
     {
-        // 获取锁
-        xSemaphoreTake(newBuffer[newBufferTopIndex].mutex, portMAX_DELAY);
-        Velocity* lastVelocity;
-        Coordinate* lastCoordinate;
-        Matrix_t* lastCovX;
-        if(newBufferTopIndex != 0){
-            lastVelocity = newBuffer[newBufferTopIndex-1].velocity;
-            lastCoordinate = newBuffer[newBufferTopIndex-1].coordinate;
-            lastCovX = newBuffer[newBufferTopIndex-1].covX;
-        }else{
-            lastVelocity = oldBuffer[MAX_UKF_BUFFER_LENGTH-1].velocity;
-            lastCoordinate = oldBuffer[MAX_UKF_BUFFER_LENGTH-1].coordinate;
-            lastCovX = oldBuffer[MAX_UKF_BUFFER_LENGTH-1].covX;
-        }
-        Coordinate* currentCoordinate = newBuffer[newBufferTopIndex].coordinate;
-        Matrix_t* currentCovX = newBuffer[newBufferTopIndex].covX;
-        // 获取速度
-        getCurrentVelocity(lastVelocity);
-        // 动力学估计当前坐标
-        equationsOfMotion(currentCoordinate,lastCoordinate,lastVelocity);
-        // 更新协方差
-        Matrix_t_add(currentCovX,lastCovX,Q);
-        // 释放锁
-        xSemaphoreGive(newBuffer[newBufferTopIndex].mutex);
+        xSemaphoreTake(measurementBufferMutex, portMAX_DELAY);
+        if(hasNewMeasurement){
+            // 存在测距信息，则进行更新
+            // sigma点采样
+            sigmaPointsUpdate(currentCoordinate, covX);
 
-        newBufferTopIndex++;
+            // 量测值更新
+            int top = 0;
+            for (int i = 0; i < N_MEAS; i++){
+                if(measurementBuffer[i].d == 0){
+                    continue;
+                }
+                zTrue->measurement->data[top][0] = measurementBuffer[i].d;
+                currentMeasurementPoint[top]->coordinateXYZ->data[0][0] = measurementBuffer[i].coordinate->coordinateXYZ->data[0][0];
+                currentMeasurementPoint[top]->coordinateXYZ->data[1][0] = measurementBuffer[i].coordinate->coordinateXYZ->data[1][0];
+                currentMeasurementPoint[top]->coordinateXYZ->data[2][0] = measurementBuffer[i].coordinate->coordinateXYZ->data[2][0];
+                top++;
+            }
+
+            for (int i = 0; i < 2 * N_STATE + 1; i++)
+            {
+                for (int j = 0; j < top; j++)
+                {
+                    zValue->measurement->data[j][i] = equationsOfMeasurement(sigmaPoints[i],currentMeasurementPoint[j]);    
+                }
+                for(int j = top; j < N_MEAS; j++){
+                    zTrue->measurement->data[j][0] = 0;
+                    zValue->measurement->data[j][i] = 0;
+                }
+            }
+            // 观测值均值和协方差更新
+            meanOfMeasurements(zMean, zValue, weightM, 2 * N_STATE + 1);
+            covarianceOfMeasurements(covZ, zValue, zMean, weightC, 2 * N_STATE + 1);
+
+            // 计算状态量和观测量的协方差
+            covarianceOfPointsAndMeasurements(covXZ, sigmaPoints, currentCoordinate, zValue, zMean, weightC, 2 * N_STATE + 1);
+
+            // 更新卡尔曼滤波增益
+            KUpdate(K, covXZ, covZ);
+
+            // 状态量及协方差更新
+            stateUpdate(currentCoordinate, currentCoordinate, K, zValue, zMean);
+            covarianceUpdate(covX, covX, K, covZ);
+        }
+        // 获取当前速度
+        getCurrentVelocity(currentVelocity);
         UKFBufferId++;
-        if(newBufferTopIndex == MAX_UKF_BUFFER_LENGTH){
-            // 缓存满，批量处理量测数据
-            // 旧缓存有新更新
-            if(oldBufferIsModified){
-                int i = 0;
-                // 找到第一个具备观测信息数据
-                for(i = 0;i<MAX_UKF_BUFFER_LENGTH;++i){
-                    if(oldBuffer[i].measurementBufferLen != 0){
-                        break;
-                    }
-                }
-                for(;i<MAX_UKF_BUFFER_LENGTH;++i){
-                    xSemaphoreTake(oldBuffer[i].mutex, portMAX_DELAY);
-                    Velocity* historyVelocity = oldBuffer[i].velocity;
-                    Coordinate* historyCoordinate = oldBuffer[i].coordinate;
-                    Matrix_t* historyCovX = oldBuffer[i].covX;
-
-                    Coordinate* nextCoodinate;
-                    Matrix_t* nextCovX;
-                    if(i == MAX_UKF_BUFFER_LENGTH-1){
-                        xSemaphoreTake(newBuffer[0].mutex, portMAX_DELAY);
-                        nextCoodinate = newBuffer[0].coordinate;
-                        nextCovX = newBuffer[0].covX;
-                    }else{
-                        xSemaphoreTake(oldBuffer[i+1].mutex, portMAX_DELAY);
-                        nextCoodinate = oldBuffer[i+1].coordinate;
-                        nextCovX = oldBuffer[i+1].covX;    
-                    }
-                    // UKF
-                    UKFProcess(historyCoordinate,historyVelocity,historyCovX,&(oldBuffer[i]),nextCoodinate,nextCovX);
-                    // 释放锁
-                    if(i == MAX_UKF_BUFFER_LENGTH-1){
-                        xSemaphoreGive(newBuffer[0].mutex);
-                    }else{
-                        xSemaphoreGive(oldBuffer[i+1].mutex);
-                    }
-                    xSemaphoreGive(oldBuffer[i].mutex);
-                }
-            }
-            // 处理新缓存区数据
-            int i = 0;
-            if(!oldBufferIsModified && !newBufferIsModified){
-                for(i = 0;i<MAX_UKF_BUFFER_LENGTH;++i){
-                    if(newBuffer[i].measurementBufferLen != 0){
-                        break;
-                    }
-                }
-            }
-            for(;i<MAX_UKF_BUFFER_LENGTH-1;++i){
-                xSemaphoreTake(newBuffer[i].mutex, portMAX_DELAY);
-                Velocity* historyVelocity = newBuffer[i].velocity;
-                Coordinate* historyCoordinate = newBuffer[i].coordinate;
-                Matrix_t* historyCovX = newBuffer[i].covX;
-
-                xSemaphoreTake(newBuffer[i+1].mutex, portMAX_DELAY);
-                Coordinate* nextCoodinate = newBuffer[i+1].coordinate;
-                Matrix_t* nextCovX = newBuffer[i+1].covX;
-
-                // UKF处理
-                UKFProcess(historyCoordinate,historyVelocity,historyCovX,&newBuffer[i],nextCoodinate,nextCovX);
-
-                // 释放锁
-                xSemaphoreGive(newBuffer[i+1].mutex);
-                xSemaphoreGive(newBuffer[i].mutex);
-            }
-            // 新旧缓存区更替
-            // 获取写锁
-            TakeWriteLock(&newBufferReadWriteLock, portMAX_DELAY);
-            TakeWriteLock(&oldBufferReadWriteLock, portMAX_DELAY);
-            oldBufferStartSeq = newBufferStartSeq;
-            newBufferStartSeq += MAX_UKF_BUFFER_LENGTH;
-            UKFBufferNode_t* item = oldBuffer;
-            oldBuffer = newBuffer;
-            newBuffer = oldBuffer;
-            // 逻辑清空
-            newBufferTopIndex = 0;
-            for(int j = 0;j<MAX_UKF_BUFFER_LENGTH;++j){
-                oldBuffer[j].measurementBufferLen = 0;
-                newBuffer[j].measurementBufferLen = 0;
-            }
-            // 修改修正标识
-            oldBufferIsModified = false;
-            newBufferIsModified = false;
-            GiveWriteLock(&oldBufferReadWriteLock);
-            GiveWriteLock(&newBufferReadWriteLock);
+        // 清空测距信息
+        for (int i = 0; i < N_MEAS; i++)
+        {
+            // d=0,即代表数据无效
+            measurementBuffer[i].d = 0;
         }
+        // 释放锁，及时更新MeasurementBuffer    
+        xSemaphoreGive(measurementBufferMutex);
+
+        // 基于当前坐标和速度进行动力学估计
+
+        sigmaPointsUpdate(currentCoordinate, covX);
+        // 动力学方程预测
+        for (int i = 0; i < 2 * N_STATE + 1; i++)
+        {
+            equationsOfMotion(sigmaPoints[i], sigmaPoints[i], currentVelocity);
+        }
+        // 状态量均值和协方差更新
+        meanOfPoints(currentCoordinate, sigmaPoints, weightM, 2 * N_STATE + 1);
+        covarianceOfPoints(covX, sigmaPoints, currentCoordinate, weightC, 2 * N_STATE + 1);
         vTaskDelay(M2T(MOTION_ESTIMATE_INTERVAL));
     }
 }
 
 void UKFRelativePositionInit(){
     DEBUG_PRINT("[UKFRelativePositionInit]\n");
+
     xTaskCreate(UKFTask, UKF_TASK_NAME, UKF_TASK_STACKSIZE, NULL,
         UKF_TASK_PRI, &ukfTaskHandle);
     

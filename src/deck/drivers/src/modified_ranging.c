@@ -415,7 +415,7 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
                     DEBUG_PRINT("Warning: Failed to calculate TOF.\n");
                 }else{
                     #ifdef UKF_RELATIVE_POSITION_ENABLE
-                        addUKFBufferMeasurementRecord_FixedPosition(neighborAddress,d,neighborRangingTable->receiveBuffer.tableBuffer[receiveBufferIndex].ukfBufferId);
+                        addMeasurementRecord(neighborAddress,d,neighborRangingTable->receiveBuffer.tableBuffer[receiveBufferIndex].ukfBufferId);
                     #endif 
                 }
                 // printRangingBuffer(&neighborRangingTable->rangingBuffer);
@@ -495,7 +495,7 @@ static void processRangingMessage(Ranging_Message_With_Additional_Info_t *rangin
                             DEBUG_PRINT("Warning: Failed to calculate TOF.\n");
                         }else{
                             #ifdef UKF_RELATIVE_POSITION_ENABLE
-                                addUKFBufferMeasurementRecord_FixedPosition(neighborAddress,d,neighborRangingTable->sendBuffer.tableBuffer[insertIndex].ukfBufferId);
+                                addMeasurementRecord(neighborAddress,d,neighborRangingTable->sendBuffer.tableBuffer[insertIndex].ukfBufferId);
                             #endif
                         }
                     }

@@ -22,6 +22,8 @@ void noiseInit();
 // 无迹变换权重打印
 void weightPrint();
 
+void setQ(double sigmaX, double sigmaY, double sigmaZ);
+
 // sigma采样
 bool sigmaPointsUpdate(Coordinate *X, Matrix_t *P);
 

@@ -1,3 +1,6 @@
+#include "FreeRTOS.h"
+#include "debug.h"
+
 #include "UKFstructure.h"
 #include "MatrixTool.h"
 #include "stdlib.h"
@@ -6,6 +9,11 @@
 Coordinate *createCoordinate(double x, double y, double z)
 {
     Coordinate *coordinate = (Coordinate *)malloc(sizeof(Coordinate));
+    if(coordinate == NULL)
+    {
+        DEBUG_PRINT("createCoordinate malloc failed\n");
+        return NULL;
+    }
     coordinate->coordinateXYZ = createMatrix_t(3, 1);
     coordinate->coordinateXYZ->data[0][0] = x;
     coordinate->coordinateXYZ->data[1][0] = y;
@@ -21,6 +29,11 @@ void deleteCoordinate(Coordinate* point){
 Velocity *createVelocity(double vx, double vy, double vz)
 {
     Velocity *velocity = (Velocity *)malloc(sizeof(Velocity));
+    if(velocity == NULL)
+    {
+        DEBUG_PRINT("createVelocity malloc failed\n");
+        return NULL;
+    }
     velocity->velocityXYZ = createMatrix_t(3, 1);
     velocity->velocityXYZ->data[0][0] = vx;
     velocity->velocityXYZ->data[1][0] = vy;
@@ -36,6 +49,11 @@ void deleteVelocity(Velocity* velocity){
 Posture *createPosture(double pitch, double roll, double yaw)
 {
     Posture *posture = (Posture *)malloc(sizeof(Posture));
+    if(posture == NULL)
+    {
+        DEBUG_PRINT("createPosture malloc failed\n");
+        return NULL;
+    }
     posture->posturePRY = createMatrix_t(3, 1);
     posture->posturePRY->data[0][0] = pitch;
     posture->posturePRY->data[1][0] = roll;
@@ -66,6 +84,11 @@ void deleteState(State* state){
 
 Measurement *createMeasurement(double row,double col){
     Measurement *measurement = (Measurement *)malloc(sizeof(Measurement));
+    if(measurement == NULL)
+    {
+        DEBUG_PRINT("createMeasurement malloc failed\n");
+        return NULL;
+    }
     measurement->measurement = createMatrix_t(row, col);
     return measurement;
 }

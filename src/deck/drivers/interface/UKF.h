@@ -7,7 +7,9 @@
 #include "UnscentedTransform.h"
 #include "UKFconfig.h"
 
-extern uint16_t UKFBufferId;
+#define UKF_TASK_NAME "UKF"
+#define UKF_TASK_STACKSIZE 512
+#define UKF_TASK_PRI 3
 
 typedef struct 
 {
@@ -28,14 +30,9 @@ typedef struct
 
 //卡尔曼滤波初始化
 void UKFInit();
-
 uint16_t GetUKFBufferId();
 
-void UKFBufferNodeInit(UKFBufferNode_t* bufferNode);
-void UKFBufferArrayInit(UKFBufferNode_t* bufferArray, uint16_t length);
-bool addUKFBufferMeasurementRecord_FixedPosition(int positionId,double d,uint16_t bufferId);
-bool addUKFBufferMeasurementRecord(double x,double y,double z,double d,uint16_t bufferId);
-
+void addMeasurementRecord(uint16_t sourceAdr,double d,uint16_t bufferId);
 void getCurrentCoordinate(Coordinate* result);//获取当前坐标
 
 void UKFRelativePositionInit();

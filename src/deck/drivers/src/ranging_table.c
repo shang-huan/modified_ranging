@@ -137,7 +137,7 @@ table_index_t addRecord(TableLinkedList_t *list, TableNode_t *node)
     list->tableBuffer[index].localSeq = node->localSeq;
     list->tableBuffer[index].remoteSeq = node->remoteSeq;
     #ifdef UKF_RELATIVE_POSITION_ENABLE
-        list->tableBuffer[index].ukfBufferId = UKFBufferId;
+        list->tableBuffer[index].ukfBufferId = node->ukfBufferId;
     #endif
     // 添加到链表
     if (list->head == NULL_INDEX)

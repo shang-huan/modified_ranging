@@ -63,13 +63,20 @@ void noiseInit(){
     Q = createMatrix_t(N_STATE,N_STATE);
     R = createMatrix_t(N_MEAS,N_MEAS);
 
-    double value = (SIGMA_U*T*SIGMA_U*T);
-    for(int i = 0;i<N_STATE;++i){
-        Matrix_t_set(Q,i,i,value);
-    }
+    setQ(SIGMA_U,SIGMA_U,SIGMA_U);
+
     for(int i = 0;i<N_MEAS;++i){
         Matrix_t_set(R,i,i,SIGMA_Z*SIGMA_Z);
     }
+}
+
+void setQ(double sigmaX, double sigmaY, double sigmaZ){
+    if(Q == NULL){
+        Q = createMatrix_t(N_STATE,N_STATE);
+    }
+    Matrix_t_set(Q,0,0,sigmaX*T*sigmaX*T);
+    Matrix_t_set(Q,1,1,sigmaY*T*sigmaY*T);
+    Matrix_t_set(Q,2,2,sigmaZ*T*sigmaZ*T);
 }
 
 //打印权重
