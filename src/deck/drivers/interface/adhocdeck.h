@@ -32,7 +32,7 @@
 #endif
 
 // #define UWB_TASK_STACK_SIZE (2 * UWB_FRAME_LEN_MAX)
-#define UWB_TASK_STACK_SIZE (2 * 512)
+#define UWB_TASK_STACK_SIZE 512
 
 /* Queue Constants */
 #define UWB_TX_QUEUE_SIZE 10

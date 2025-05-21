@@ -7,7 +7,7 @@
 #include "adhocdeck.h"
 #include "modified_ranging_config.h"
 
-#define MAX_NEIGHBOR_NUM 10
+#define MAX_NEIGHBOR_NUM 3
 
 /* Ranging Constants */
 #define RANGING_PERIOD 200     

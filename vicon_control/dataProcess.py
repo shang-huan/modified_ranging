@@ -411,7 +411,7 @@ class uwbRangingData:
         print("DS-TWR平均值: ", mean_classicD)
         print("DS-TWR标准差: ", std_classicD)
     
-    def showPeakAndTrough(self):
+    def showPeakAndTrough(self,fontsize = 18):
         dPeak = []
         dTrough = []
         classicDPeak = []
@@ -484,10 +484,10 @@ class uwbRangingData:
 
         errorD = []
         errorClassicD = []
-        for i in range(len(dPeak)):
+        for i in range(min(min(len(dPeak),len(classicDPeak)), len(viconPeak))):
             errorD.append(abs(dPeak[i] - viconPeak[i]))
             errorClassicD.append(abs(classicDPeak[i] - viconPeak[i]))
-        for i in range(len(dTrough)):
+        for i in range(min(min(len(dTrough),len(viconTrough)), len(classicDTrough))):
             errorD.append(abs(dTrough[i] - viconTrough[i]))
             errorClassicD.append(abs(classicDTrough[i] - viconTrough[i]))
         # 计算平均误差和标准差
@@ -508,36 +508,44 @@ class uwbRangingData:
         plt.plot(viconPeak, label='Vicon Peak', color='green', marker='*')
         plt.plot(viconTrough, label='Vicon Trough', color='green', marker='o')
         
-        plt.legend()
-        plt.ylabel('Distance (cm)')
-        plt.title('Peak and Trough of DSR, DS-TWR and Vicon')
+        plt.ylabel('Distance (cm)', fontsize=fontsize)
+        plt.title('Peak and Trough of DSR, DS-TWR and Vicon', fontsize=fontsize)
+        plt.legend(fontsize=fontsize)
+        plt.grid()
+        plt.xticks(fontsize=fontsize)
+        plt.yticks(fontsize=fontsize)
         plt.show()
     
-    def visualize(self,left=0,right=-1,ylimList = None):
-        if(right == -1):
+    def visualize(self, left=0, right=-1, ylimList=None, fontsize=18):
+        if right == -1:
             right = len(self.d)
-        
-        if(left < 0 or right > len(self.d)):
+
+        if left < 0 or right > len(self.d):
             print("left or right out of range")
             return
-        
+
         D = self.d[left:right]
         classicD = self.classicD[left:right]
         trueD = self.trueD[left:right]
-        
+
         print(len(self.d), len(self.classicD), len(self.trueD))
-        # 画图
+
         plt.figure(figsize=(10, 6))
         plt.plot(D, label='DSR', color='blue', marker='*')
-        plt.plot(classicD, label='DS-TWR', color='red', marker='*')
-        plt.plot(trueD, label='Vicon', color='green', marker='*')
-        if(ylimList != None):
+        # plt.plot(classicD, label='DS-TWR', color='red', marker='*')
+        # plt.plot(trueD, label='Vicon', color='green', marker='*')
+
+        if ylimList is not None:
             plt.ylim(ylimList[0], ylimList[1])
-        plt.xlabel('Time')
-        plt.ylabel('Distance (cm)')
-        plt.title('Distance Measurement')
-        plt.legend()
+
+        plt.xlabel('Time', fontsize=fontsize)
+        plt.ylabel('Distance (cm)', fontsize=fontsize)
+        plt.title('Distance Measurement', fontsize=fontsize)
+        plt.legend(fontsize=fontsize, loc='upper right')
         plt.grid()
+        plt.xticks(fontsize=fontsize)
+        plt.yticks(fontsize=fontsize)
+        plt.tight_layout()
         plt.show()
 
 def showOrigin():
@@ -554,17 +562,19 @@ def showLog():
 
 def showAftLog():
     date = "4-17"
-    distance = "1"
+    distance = "3.5"
     
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-17/静态实验/0.5/console_log.txt"
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/" + date + "/静态实验/" + distance + "/console_log.txt"
     # consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/4-11/7"+ "/console_log.txt"
+    consoleFile = "/Users/ou/Desktop/Vicon-UWB测距数据/飞行数据"+ "/console_log.txt"
     
-    consoleFile = "vicon_control/result/console_log.txt"
+    # consoleFile = "vicon_control/result/console_log.txt"
 
     data = uwbRangingData()
     data.processConsoleLog(consoleFile)
-    data.dataClean(1493,1574)
+    # data.dataClean(1493,1574)
+    # data.dataClean(1000,1600)
     # lenTrueD = len(data.trueD)
     # data.trueD = data.trueD[0:lenTrueD-1]
     # data.d = data.d[1:lenTrueD]
@@ -574,15 +584,18 @@ def showAftLog():
     # meanhigh,offsethigh = data.getViconMeanAndOffset(160,210)
     # print("low offset: ", offsetlow)
     # print("high offset: ", offsethigh)
-    # # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsetlow)
+    # data.dataAddViconOffset(offsetlow,meanlow,meanlow,offsetlow)
     # data.dataAddViconOffset(offsetlow,meanlow,meanhigh,offsethigh)
     # data.dataClean_justMove(100, 160)
     # data.dataClean_justSide(100, 240)
-    data.showPeakAndTrough()
+    # data.showPeakAndTrough()
     # data.calErrorAndStd()
     # data.calMeanandStd()
     # data.visualize(0,-1,[75,150])
-    data.visualize()
+    # distance_float = float(distance)  # 将字符串转换为浮动数
+    # ylim = [distance_float * 100 - 50, distance_float * 100 + 50]
+    # data.visualize(0,-1,ylim,24)
+    data.visualize(0,-1,None,24)
 
 if __name__ == "__main__":
     # showLog()

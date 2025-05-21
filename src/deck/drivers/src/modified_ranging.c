@@ -727,9 +727,9 @@ void modifiedRangingInit() {
 
     #ifdef UWB_COMMUNICATION_SEND_POSITION_ENABLE
     // -0.01004913,-1.15510881,0.03032922
-    viconFX = 73.128 + INIT_OFFSETX;
-    viconFY = -1096.484+ INIT_OFFSETX;
-    viconFZ = 681.606 + INIT_OFFSETX;
+    viconFX = 29.234 + INIT_OFFSETX;
+    viconFY = -597.38+ INIT_OFFSETX;
+    viconFZ = 673.62 + INIT_OFFSETX;
     uint64_t viconX = (uint64_t)(roundf(viconFX));
     uint64_t viconY = (uint64_t)(roundf(viconFY));
     uint64_t viconZ = (uint64_t)(roundf(viconFZ));
